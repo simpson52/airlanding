@@ -166,7 +166,7 @@ export default function UserFlowSection() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleTogglePause}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
               aria-label={isPaused ? "재생" : "일시정지"}
             >
               {isPaused ? (
@@ -177,14 +177,14 @@ export default function UserFlowSection() {
             </button>
             <button
               onClick={() => sliderRef.current?.goToPrevious()}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
               aria-label="이전 슬라이드"
             >
               <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
             </button>
             <button
               onClick={() => sliderRef.current?.goToNext()}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
               aria-label="다음 슬라이드"
             >
               <ChevronRight className="w-5 h-5" strokeWidth={2.5} />

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
 import Image from "next/image";
 import Slider, { SliderRef } from "@/components/ui/Slider";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface NewsArticle {
   id: number;
@@ -19,7 +19,6 @@ interface NewsArticle {
 
 export default function PressSection() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const sliderRef = useRef<SliderRef>(null);
@@ -88,13 +87,6 @@ export default function PressSection() {
     return slides;
   }, [sortedArticles]);
 
-  const handleTogglePause = () => {
-    sliderRef.current?.togglePause();
-    // 상태 업데이트를 위해 약간의 지연 후 확인
-    setTimeout(() => {
-      setIsPaused(sliderRef.current?.isPaused() ?? false);
-    }, 0);
-  };
 
   return (
     <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-base relative overflow-hidden">
@@ -136,43 +128,34 @@ export default function PressSection() {
             </p>
           </div>
         ) : (
-          <div className="w-full overflow-hidden">
-            <Slider
-              ref={sliderRef}
-              items={articleSlides.map((slideArticles, slideIndex) => (
-                <div key={slideIndex} className="w-full">
-                  <div className="bg-bg-surface rounded-card p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-0 divide-x-0 md:divide-x divide-bg-input relative">
-                    {/* 우측 상단 네비게이션 버튼 (카드 내부) */}
-                    {articleSlides.length > 1 && (
-                      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-                        <button
-                          onClick={handleTogglePause}
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
-                          aria-label={isPaused ? "재생" : "일시정지"}
-                        >
-                          {isPaused ? (
-                            <Play className="w-5 h-5" strokeWidth={2.5} />
-                          ) : (
-                            <Pause className="w-5 h-5" strokeWidth={2.5} />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => sliderRef.current?.goToPrevious()}
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
-                          aria-label="이전 기사"
-                        >
-                          <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
-                        </button>
-                        <button
-                          onClick={() => sliderRef.current?.goToNext()}
-                          className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
-                          aria-label="다음 기사"
-                        >
-                          <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
-                        </button>
-                      </div>
-                    )}
-                    {slideArticles.map((article, articleIndex) => (
+          <div className="w-full overflow-hidden relative">
+            {/* 우측 상단 네비게이션 버튼 (카드 외부) */}
+            {articleSlides.length > 1 && (
+              <div className="absolute top-0 right-0 z-10 flex items-center gap-2 mb-4">
+                <button
+                  onClick={() => sliderRef.current?.goToPrevious()}
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+                  aria-label="이전 기사"
+                >
+                  <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+                </button>
+                <button
+                  onClick={() => sliderRef.current?.goToNext()}
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+                  aria-label="다음 기사"
+                >
+                  <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+                </button>
+              </div>
+            )}
+            {/* 카드 섹션에 상단 패딩 추가 (버튼 영역 확보) */}
+            <div className={articleSlides.length > 1 ? "pt-14" : ""}>
+              <Slider
+                ref={sliderRef}
+                items={articleSlides.map((slideArticles, slideIndex) => (
+                  <div key={slideIndex} className="w-full">
+                    <div className="bg-bg-surface rounded-card p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-0 divide-x-0 md:divide-x divide-bg-input">
+                      {slideArticles.map((article, articleIndex) => (
                       <motion.a
                         key={article.id}
                         href={article.articleUrl}
@@ -248,16 +231,16 @@ export default function PressSection() {
                           </span>
                         </div>
                       </motion.a>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-              autoPlay={true}
-              autoPlayInterval={8000}
-              showIndicators={true}
-              showArrows={false}
-              onSlideChange={setCurrentSlideIndex}
-            />
+                ))}
+                autoPlay={false}
+                showIndicators={true}
+                showArrows={false}
+                onSlideChange={setCurrentSlideIndex}
+              />
+            </div>
           </div>
         )}
       </div>
