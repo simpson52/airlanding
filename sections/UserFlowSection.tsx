@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
 import Slider, { SliderRef } from "@/components/ui/Slider";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 
 const userFlowSteps = [
   {
@@ -17,7 +17,7 @@ const userFlowSteps = [
   {
     id: 2,
     title: "MISO AI 기반 위험요인 자동 식별",
-    description: "MISO AI가 작업 내용을 기반으로 KOSHA Guide 기반 9가지 위험요인 중 적합한 위험요인을 선정합니다",
+    description: "MISO AI가 작업 내용을 기반으로 한국산업안전보건공단 지침 기반 9가지 위험요인 중 적합한 위험요인을 선정합니다",
     image: "/userflow-2.webp",
   },
   {
@@ -42,7 +42,16 @@ const userFlowSteps = [
 
 export default function UserFlowSection() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const sliderRef = useRef<SliderRef>(null);
+
+  const handleTogglePause = () => {
+    sliderRef.current?.togglePause();
+    // 상태 업데이트를 위해 약간의 지연 후 확인
+    setTimeout(() => {
+      setIsPaused(sliderRef.current?.isPaused() ?? false);
+    }, 0);
+  };
 
   const slides = userFlowSteps.map((step, index) => (
     <div key={step.id} className="w-full">
@@ -104,7 +113,7 @@ export default function UserFlowSection() {
             <div className="inline-block bg-brand-blue-light text-brand-blue text-[14px] font-semibold px-4 py-2 rounded-full mb-6">
               Step {step.id}
             </div>
-            <h3 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-6 flex items-center gap-2 flex-wrap">
+            <h3 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-4 flex items-center gap-2 flex-wrap">
               {step.id === 2 ? (
                 <>
                   <Image
@@ -114,12 +123,18 @@ export default function UserFlowSection() {
                     height={32}
                     className="inline-block"
                   />
+                  <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
                   <span>기반 위험요인 자동 식별</span>
                 </>
               ) : (
                 step.title
               )}
             </h3>
+            {step.id === 2 && (
+              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 leading-relaxed">
+                <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
+              </p>
+            )}
             <p className="text-[17px] md:text-[18px] font-medium text-text-secondary leading-relaxed">
               {step.description}
             </p>
@@ -130,11 +145,36 @@ export default function UserFlowSection() {
   ));
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-surface relative overflow-hidden">
+    <section id="user-flow" className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-surface relative overflow-hidden">
       <div className="max-w-7xl mx-auto w-full">
+        {/* 섹션 제목 */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeInUp}
+          className="text-center mb-0"
+        >
+          <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-bold text-text-primary mb-0 leading-tight">
+            어떻게 AI가 위험성평가서를 작성하나요?
+          </h2>
+        </motion.div>
+
         {/* 우측 상단 네비게이션 버튼 */}
-        <div className="flex justify-end mb-6 md:mb-8">
+        <div className="flex justify-end items-center mb-6 md:mb-8">
+          {/* 네비게이션 버튼 */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleTogglePause}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+              aria-label={isPaused ? "재생" : "일시정지"}
+            >
+              {isPaused ? (
+                <Play className="w-5 h-5" strokeWidth={2.5} />
+              ) : (
+                <Pause className="w-5 h-5" strokeWidth={2.5} />
+              )}
+            </button>
             <button
               onClick={() => sliderRef.current?.goToPrevious()}
               className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
@@ -157,7 +197,7 @@ export default function UserFlowSection() {
           ref={sliderRef}
           items={slides}
           autoPlay={true}
-          autoPlayInterval={5000}
+          autoPlayInterval={8000}
           showIndicators={true}
           showArrows={false}
           onSlideChange={setCurrentSlideIndex}

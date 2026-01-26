@@ -19,6 +19,10 @@ export interface SliderRef {
   goToPrevious: () => void;
   goToNext: () => void;
   goToSlide: (index: number) => void;
+  pause: () => void;
+  resume: () => void;
+  togglePause: () => void;
+  isPaused: () => boolean;
 }
 
 const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
@@ -33,7 +37,9 @@ const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
 }, ref) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const currentIndexRef = useRef(currentIndex);
+  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // currentIndex가 변경될 때마다 ref 업데이트 및 콜백 호출
   useEffect(() => {
@@ -41,7 +47,16 @@ const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
     onSlideChange?.(currentIndex);
   }, [currentIndex, onSlideChange]);
 
-  const goToSlide = useCallback((index: number) => {
+  // 자동 재생 타이머 리셋 함수
+  const resetAutoPlay = useCallback(() => {
+    if (autoPlayIntervalRef.current) {
+      clearInterval(autoPlayIntervalRef.current);
+      autoPlayIntervalRef.current = null;
+    }
+  }, []);
+
+  // 슬라이드 변경 로직 (direction 계산 및 상태 업데이트)
+  const changeSlide = useCallback((index: number, resetTimer: boolean = false) => {
     // 순환형을 고려한 direction 계산
     const current = currentIndexRef.current;
     let direction = 1;
@@ -62,7 +77,21 @@ const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
     setDirection(direction);
     setCurrentIndex(index);
     onSlideChange?.(index);
-  }, [onSlideChange, items.length]);
+    
+    // 수동으로 슬라이드를 변경했으므로 자동 재생 타이머 리셋
+    if (resetTimer && autoPlay && !isPaused) {
+      resetAutoPlay();
+      // 타이머 재시작
+      autoPlayIntervalRef.current = setInterval(() => {
+        const newIndex = currentIndexRef.current === items.length - 1 ? 0 : currentIndexRef.current + 1;
+        changeSlide(newIndex, false); // 자동 재생은 타이머 리셋하지 않음
+      }, autoPlayInterval);
+    }
+  }, [onSlideChange, items.length, autoPlay, autoPlayInterval, resetAutoPlay, isPaused]);
+
+  const goToSlide = useCallback((index: number) => {
+    changeSlide(index, true); // 수동 변경이므로 타이머 리셋
+  }, [changeSlide]);
 
 
   const goToNext = useCallback(() => {
@@ -77,12 +106,45 @@ const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
     goToSlide(newIndex);
   }, [items.length, goToSlide]);
 
+  // 일시정지/재개 함수
+  const pause = useCallback(() => {
+    setIsPaused(true);
+    resetAutoPlay();
+  }, [resetAutoPlay]);
+
+  const resume = useCallback(() => {
+    setIsPaused(false);
+    if (autoPlay) {
+      resetAutoPlay();
+      autoPlayIntervalRef.current = setInterval(() => {
+        const newIndex = currentIndexRef.current === items.length - 1 ? 0 : currentIndexRef.current + 1;
+        changeSlide(newIndex, false);
+      }, autoPlayInterval);
+    }
+  }, [autoPlay, autoPlayInterval, items.length, changeSlide, resetAutoPlay]);
+
+  const togglePause = useCallback(() => {
+    if (isPaused) {
+      resume();
+    } else {
+      pause();
+    }
+  }, [isPaused, pause, resume]);
+
+  const getIsPaused = useCallback(() => {
+    return isPaused;
+  }, [isPaused]);
+
   // 외부에서 제어할 수 있도록 ref 노출
   useImperativeHandle(ref, () => ({
     goToPrevious: goToPreviousCallback,
     goToNext,
     goToSlide,
-  }), [goToPreviousCallback, goToNext, goToSlide]);
+    pause,
+    resume,
+    togglePause,
+    isPaused: getIsPaused,
+  }), [goToPreviousCallback, goToNext, goToSlide, pause, resume, togglePause, getIsPaused]);
 
   // 키보드 네비게이션 (순환형)
   useEffect(() => {
@@ -98,17 +160,29 @@ const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToPreviousCallback, goToNext]);
 
-  // 자동 재생
+  // 자동 재생 초기화
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay) {
+      resetAutoPlay();
+      return;
+    }
 
-    const interval = setInterval(() => {
+    if (isPaused) {
+      resetAutoPlay();
+      return;
+    }
+
+    // 초기 자동 재생 시작
+    resetAutoPlay(); // 기존 타이머 정리
+    autoPlayIntervalRef.current = setInterval(() => {
       const newIndex = currentIndexRef.current === items.length - 1 ? 0 : currentIndexRef.current + 1;
-      goToSlide(newIndex);
+      changeSlide(newIndex, false); // 자동 재생은 타이머 리셋하지 않음
     }, autoPlayInterval);
 
-    return () => clearInterval(interval);
-  }, [autoPlay, autoPlayInterval, items.length, goToSlide]);
+    return () => {
+      resetAutoPlay();
+    };
+  }, [autoPlay, autoPlayInterval, items.length, changeSlide, resetAutoPlay, isPaused]);
 
   // 스와이프 제스처 (모바일) 및 드래그 (데스크톱)
   const [touchStart, setTouchStart] = useState(0);

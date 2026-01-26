@@ -140,7 +140,7 @@ export default function NavigationBar() {
               variant="primary" 
               className="ml-5 !px-4 !py-1.5 text-[14px] !h-auto"
             >
-              시작하기
+              무료 데모 신청하기
             </Button>
           </div>
 
@@ -232,7 +232,7 @@ export default function NavigationBar() {
             })}
             <div className="mt-4">
               <Button variant="primary" fullWidth>
-                시작하기
+                무료 데모 신청하기
               </Button>
             </div>
           </motion.div>

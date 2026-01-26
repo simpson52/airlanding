@@ -4,6 +4,35 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
 
+// 간단한 마크다운 파싱 함수 (Bold 처리)
+const parseMarkdown = (text: string): React.ReactNode => {
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  const boldRegex = /\*\*(.*?)\*\*/g;
+  let match;
+
+  while ((match = boldRegex.exec(text)) !== null) {
+    // Bold 이전의 일반 텍스트
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    // Bold 텍스트
+    parts.push(
+      <strong key={match.index} className="font-bold text-text-primary">
+        {match[1]}
+      </strong>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  // 마지막 일반 텍스트
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 interface FAQ {
   id: number;
   question: string;
@@ -186,9 +215,9 @@ export default function FAQContactSection() {
                 <h3 className="text-[18px] md:text-[20px] font-semibold text-text-primary mb-4">
                   {faq.question}
                 </h3>
-                <p className="text-[16px] md:text-[17px] font-medium text-text-secondary leading-relaxed whitespace-pre-line">
-                  {faq.answer}
-                </p>
+                <div className="text-[16px] md:text-[17px] font-medium text-text-secondary leading-relaxed whitespace-pre-line">
+                  {parseMarkdown(faq.answer)}
+                </div>
               </div>
             ))}
           </motion.div>

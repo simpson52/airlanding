@@ -2,8 +2,9 @@
 
 import NavigationBar from "@/components/layout/NavigationBar";
 import Footer from "@/components/layout/Footer";
+import StickyCTA from "@/components/ui/StickyCTA";
 import {
-  HeroVideoSection,
+  HeroSection,
   UserFlowSection,
   FeaturesShowcaseSection,
   FAQContactSection,
@@ -48,7 +49,7 @@ export default function Home() {
           </TabletFrame>
         ) : (
           <>
-            <HeroVideoSection />
+            <HeroSection />
             <UserFlowSection />
             <FeaturesShowcaseSection />
             <FAQContactSection />
@@ -56,6 +57,7 @@ export default function Home() {
         )}
       </div>
       <Footer />
+      <StickyCTA />
     </main>
   );
 }
