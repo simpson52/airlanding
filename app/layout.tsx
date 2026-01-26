@@ -1,0 +1,30 @@
+import type { Metadata } from "next";
+import "./globals.css";
+import { Providers } from "@/components/providers/ContentViewProvider";
+
+export const metadata: Metadata = {
+  title: "MISO AIR 위험성평가서",
+  description:
+    "JSA + KRAS + SIF를 결합한 국내 유일의 현장 데이터 기반 지능형 안전관리 시스템",
+  icons: {
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="ko">
+      <body className="antialiased">
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}

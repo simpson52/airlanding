@@ -1,0 +1,547 @@
+# AIR Landing Page Project
+
+> 현장 데이터 기반의 지능형 안전관리 솔루션 'AIR'의 고전환율 랜딩페이지 프로젝트
+
+---
+
+## 📋 프로젝트 개요
+
+**프로젝트명**: AIR 랜딩페이지  
+**목적**: 현장 데이터 기반의 지능형 안전관리 솔루션 'AIR'를 소개하는 고전환율 랜딩페이지 구축  
+**타겟**: 산업 현장 안전 관리 담당자, 안전 관리자, 기업 의사결정자  
+**핵심 가치 제안**: JSA + KRAS + SIF를 결합한 국내 유일의 현장 데이터 기반 지능형 안전관리 시스템  
+**디자인 철학**: Toss 스타일의 Extreme Minimalism + Content First 원칙 적용
+
+---
+
+## 🛠 기술 스택
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Animation**: Framer Motion
+- **Icons**: Lucide React
+- **Video**: HTML5 Video API
+- **Form**: React Hook Form (설문조사용)
+- **Validation**: Zod (폼 검증)
+- **Font**: Pretendard (CDN 로드)
+- **State Management**: React Context API (ContentViewContext)
+
+---
+
+## 🎨 디자인 시스템
+
+### 컬러 팔레트
+- **Primary**: `#5542F6` (MISO Brand Color - 보라색)
+- **Primary Light**: `#E8E5FF`
+- **Background**: `#F2F4F6` (Base), `#FFFFFF` (Surface)
+- **Text**: `#191F28` (Primary), `#4E5968` (Secondary), `#8B95A1` (Tertiary)
+
+### 타이포그래피
+- **H1 (Display)**: 28px~36px, Bold (700)
+- **H2 (Title)**: 22px~24px, Bold (700)
+- **H3 (Subtitle)**: 18px~20px, SemiBold (600)
+- **Body (Main)**: 16px~17px, Medium (500)
+- **Caption**: 13px~14px, Regular (400)
+
+### UI 컴포넌트 원칙
+- **Cards**: 테두리 없음, 흰색 배경, `rounded-[24px]`
+- **Buttons**: Primary (꽉찬 스타일), Secondary (연한 배경), Ghost (배경 없음)
+- **Inputs**: 테두리 없이 배경색으로 구분, `rounded-[16px]`
+- **Interaction**: `active:scale-[0.96]` 클릭 피드백 필수
+- **Extreme Minimalism**: 불필요한 장식 제거
+- **Content First**: 콘텐츠 중심 레이아웃
+- **Super Ellipse**: 둥근 모서리 (`rounded-[24px]`)
+
+---
+
+## 📐 페이지 구조 (4개 섹션)
+
+### Section 1: 소개 영상 (Hero Video)
+
+**목적**: 첫 인상을 강하게 전달하고 서비스의 핵심 가치를 시각적으로 전달
+
+**요구사항**:
+- 전체 화면 비디오 배경 (16:9 비율)
+- 텍스트 오버레이 없음 (순수 비디오만)
+- 자동 재생, 무음, 반복 재생
+- 모바일 대응: 비디오가 화면을 가득 채우도록 조정
+- 로딩 상태 처리 (비디오 로딩 중 플레이스홀더)
+
+**기술 사양**:
+- YouTube 비디오 임베드 사용
+- 환경 변수: `.env` 파일에 `NEXT_PUBLIC_YOUTUBE_URL`에 YouTube 링크 붙여넣기
+  - 지원 형식: `https://www.youtube.com/watch?v=VIDEO_ID`, `https://youtu.be/VIDEO_ID` 등
+  - 또는 비디오 ID만 입력 가능
+- 자동 재생, 무음, 반복 재생 설정
+- 전체 화면 배경으로 표시 (16:9 비율 유지)
+- YouTube URL에서 자동으로 비디오 ID 추출
+
+---
+
+### Section 2: User Flow 갤러리 (작업 흐름)
+
+**목적**: 사용자가 AIR를 사용하는 실제 작업 흐름을 단계별로 시각화
+
+**요구사항**:
+- 슬라이드/갤러리 형태로 여러 화면을 넘기며 볼 수 있음
+- 각 슬라이드: AIR 대시보드 화면 캡처 또는 목업
+- 좌우 네비게이션 화살표 또는 인디케이터
+- 키보드 네비게이션 지원 (← →)
+- 모바일: 스와이프 제스처 지원
+
+**User Flow 단계**:
+1. **작업 내용 입력**: 어떤 작업을 계획하고 계신가요? (작업 내용, 사용 장비, 인원 등을 자유롭게 설명해주시면 MISO AI 기반의 AIR가 위험성평가서를 작성합니다)
+2. **MISO AI 기반 위험요인 자동 식별**: MISO AI가 작업 내용을 기반으로 KOSHA Guide 기반 위험요인을 선정합니다
+3. **고위험요인(SIF) 사례 기반 작성**: 작업과 관련된 유사 재해 사례를 참조하여 위험성평가에 반영하세요. *고용노동부에서 제공한 고위험요인(SIF) 사례 자료
+4. **MISO AI 기반 위험성 평가서 작성**: MISO AI가 작성한 위험성평가를 검토하고 현장 상황에 맞게 보완하세요
+5. **체크리스트 간편 작성**: MISO AI가 추천한 안전대책을 기반으로 현장에 맞는 체크리스트를 작성해 위험성을 낮추세요
+
+**기술 사항**:
+- 각 단계별 화면 이미지 (16:9 비율)
+- 이미지 최적화 (WebP, Lazy loading)
+- 부드러운 전환 애니메이션
+- 각 슬라이드에 단계 번호 및 간단한 설명
+- 첫 번째 단계: 왼쪽 화살표 숨김
+- 마지막 단계: 오른쪽 화살표 숨김
+- 드래그/스와이프 제스처 지원 (모바일 및 데스크톱)
+- 키보드 네비게이션 (← →)
+
+---
+
+### Section 3: 시스템 강점 카드 섹션 (Features Showcase)
+
+**목적**: AIR의 핵심 강점과 차별화 포인트를 시각적으로 강조
+
+**요구사항**:
+- 카드 그리드 레이아웃 (3열)
+- 3가지 핵심 강점을 카드 형태로 표시 (비개발자/안전담당자 중심)
+- 각 카드 클릭 시 모달로 상세 내용 표시
+- 모달 내부: 16:9 비율 이미지 + 상세 텍스트 설명
+- ESC 키 또는 배경 클릭으로 모달 닫기
+
+**시스템 강점** (3가지 - 비개발자/안전담당자 중심):
+1. **AI Expert**: 비틈없는 위험 발굴 - 440개 사례 기반 AI가 적절한 위험성평가서를 추천하여 누락 없는 위험 발굴을 보장
+2. **Compliance**: 법적 기준 완벽 준수 - KOSHA GUIDE를 완벽히 준수하는 보고서를 자동 생성하여 법규 준수 부담을 줄임
+3. **Action Plan**: 실행 중심 체크리스트 - 조치사항 체크리스트를 즉시 발행하여 현장에서 바로 실행 가능한 계획 수립
+
+**기술 사항**:
+- 카드 그리드: `md:grid-cols-3`
+- 각 카드: 아이콘, 제목, 부제목, 짧은 설명
+- 모달: 16:9 비율 이미지 영역 + 상세 텍스트
+- Framer Motion 모달 애니메이션
+- 접근성: 키보드 네비게이션 (ESC), ARIA labels
+
+---
+
+### Section 4: FAQ & 데모 신청 (Contact & Inquiry)
+
+**목적**: 사용자의 궁금증 해소 및 데모 신청 유도
+
+**요구사항**:
+- FAQ 섹션 (Accordion 스타일)
+- "시작하기" CTA 버튼 (버튼 크기 최적화: 세로 30% 축소, 가로 FAQ 섹션 너비에 맞춤)
+- 버튼 클릭 시 설문조사 페이지로 이동 (`/demo-request`)
+- 부드러운 페이지 전환 애니메이션
+
+**FAQ 항목**:
+1. 데이터 보안은 어떻게 보장되나요?
+2. 구현까지 얼마나 걸리나요?
+3. 기존 안전관리 시스템과 연동이 가능한가요?
+4. 주니어 사원 비율 증가에 대응하는 기능이 있나요?
+
+**데모 신청 설문조사**:
+- 설문조사 내용은 `research.md` 파일에서 관리
+- 설문조사 페이지는 별도 라우트로 구성 (`/demo-request`)
+- 입력 필드: 이름, 이메일, 휴대폰번호 (필수)
+- 추가 필드: 회사명, 부서, 문의사항 (선택)
+- 제출 후 감사 메시지 표시
+
+---
+
+### Contact 페이지 (`/page/contact`)
+
+**목적**: 회사 연락처 정보 및 위치 안내
+
+**요구사항**:
+- 좌우 2열 레이아웃 (데스크톱)
+  - 좌측: 회사 연락처 정보 카드
+  - 우측: Google Maps 지도
+- 모바일: 세로로 쌓이는 레이아웃
+- 연락처 정보: 이메일, 전화번호, 주소
+- 오시는 길 정보: 지하철, 버스 노선 안내
+
+**연락처 정보**:
+- 이메일: contact@miso.ai
+- 전화번호: 02-2000-0000
+- 주소: 서울특별시 강남구 논현로 508 GS강남타워 25층
+- 지하철: 2호선 역삼역 7번 출구 지하 GS타워 연결통로 이용
+- 버스: 간선/순환 (146, 147, 341, 360, 740, 41), 직행/급행 (1100, 1700, 2000, 7007, 8001)
+
+**기술 사항**:
+- Google Maps iframe embed 사용
+- 주소 검색: "서울특별시 강남구 논현로 508 GS강남타워" (건물 단위)
+- 표시 주소: "서울특별시 강남구 논현로 508 GS강남타워 25층" (층수 포함)
+- 아이콘 기반 연락처 정보 표시 (Mail, Phone, MapPin)
+- 반응형 디자인 적용
+
+---
+
+## 📅 작업 계획 (마일스톤)
+
+### Phase 1: 프로젝트 초기 설정 (Foundation) ✅
+- [x] Next.js 프로젝트 초기화
+- [x] Tailwind CSS 설정 및 디자인 시스템 변수 적용
+- [x] Framer Motion 설치 및 기본 애니메이션 유틸리티 구성
+- [x] 프로젝트 폴더 구조 설계 (components, sections, utils, types)
+- [x] 기본 레이아웃 컴포넌트 생성 (NavigationBar, Footer)
+
+### Phase 2: 공통 컴포넌트 개발 (Components) ✅
+- [x] Navigation Bar 컴포넌트 (Sticky, Glassmorphism, MISO 로고, 높이 54px)
+- [x] Button 컴포넌트 (Primary, Secondary, Ghost variants)
+- [x] Card 컴포넌트 (Toss 스타일 적용)
+- [x] Input 컴포넌트 (테두리 없는 스타일)
+- [x] Accordion 컴포넌트 (FAQ용)
+- [x] Icon 시스템 설정 (Lucide React)
+- [x] Slider 컴포넌트 (슬라이드/갤러리, 키보드 네비게이션, 스와이프 제스처, 드래그 지원)
+- [x] Modal 컴포넌트 (모달, ESC 키 지원, 배경 클릭 닫기, UX 개선)
+- [x] MisoLogo 컴포넌트 (이미지 로드 실패 시 폴백 텍스트)
+- [x] ContentViewContext (iframe 전환 기능)
+
+### Phase 3: 섹션별 구현 (Sections) ✅
+- [x] Section 1: 소개 영상 (YouTube 비디오 임베드 구현)
+- [x] Section 2: User Flow 갤러리 구현 (슬라이드/갤러리, 실제 5단계, 드래그/스와이프 지원)
+- [x] Section 3: 시스템 강점 카드 섹션 구현 (카드 그리드 + 모달, 3가지 강점, UX 개선)
+- [x] Section 4: FAQ 및 데모 신청 버튼 (버튼 크기 최적화)
+- [x] Navigation Bar 및 Footer (MISO 로고 통합, iframe 전환 기능)
+  - [x] iframe 통합 (About MISO, with 52g 버튼 클릭 시 태블릿 프레임 스타일로 표시)
+
+### Phase 4: 설문조사 페이지
+- [ ] 설문조사 폼 구현 (`/demo-request`)
+- [ ] React Hook Form + Zod 통합
+- [ ] 폼 검증 및 제출 처리
+- [ ] 감사 메시지 페이지 (`/demo-request/thank-you`)
+
+### Phase 5: 애니메이션 및 인터랙션 ✅ (부분 완료)
+- [x] Scroll-triggered animations (fade-in, slide-up) - 모든 섹션에 적용
+- [x] 갤러리 슬라이드 애니메이션 - Slider 컴포넌트에 구현
+- [x] 키보드 네비게이션 구현 - Slider 컴포넌트 (← →), Modal (ESC)
+- [x] 모바일 스와이프 제스처 구현 - Slider 컴포넌트에 구현
+- [x] 데스크톱 드래그 제스처 구현 - Slider 컴포넌트에 구현
+- [ ] 페이지 전환 애니메이션 (설문조사 페이지 이동 시)
+
+### Phase 6: 반응형 및 최적화
+- [ ] Desktop First 디자인 (PC 우선)
+- [ ] 모바일 반응형 디자인 적용
+- [ ] 비디오 최적화 (Lazy loading, 압축)
+- [ ] 이미지 최적화 (WebP, Next.js Image 컴포넌트)
+- [ ] 성능 최적화 (Lazy loading, Code splitting)
+- [ ] GPU 가속 애니메이션 (transform, opacity)
+
+### Phase 7: 접근성 및 SEO
+- [ ] 키보드 네비게이션 (모든 인터랙티브 요소)
+- [ ] ARIA Labels (스크린 리더 지원)
+- [ ] 색상 대비 (WCAG AA 기준)
+- [ ] 포커스 인디케이터
+- [ ] Meta Tags (title, description)
+- [ ] Open Graph (소셜 미디어 공유)
+- [ ] Structured Data (Schema.org 마크업, 선택적)
+
+### Phase 8: 테스트 및 배포
+- [ ] 크로스 브라우저 테스트
+- [ ] 모바일 디바이스 테스트
+- [ ] 성능 테스트 (Lighthouse)
+- [ ] 접근성 테스트
+- [ ] 배포 환경 설정 (Vercel 권장)
+- [ ] 최종 SEO 최적화
+
+---
+
+## ✅ 액션아이템 (Action Items)
+
+### 🔴 High Priority (우선순위 높음)
+- [x] **A-001**: Next.js 프로젝트 초기화 및 기본 설정 ✅
+- [x] **A-002**: Tailwind CSS 설정 및 디자인 시스템 컬러 변수 정의 ✅
+- [x] **A-003**: Navigation Bar 컴포넌트 개발 (Glassmorphism 적용) ✅
+- [x] **A-004**: Section 1 소개 영상 구현 (YouTube 비디오 임베드) ✅
+- [x] **A-005**: Section 2 User Flow 갤러리 구현 (실제 5단계) ✅
+
+### 🟡 Medium Priority (중간 우선순위)
+- [x] **A-006**: Button 컴포넌트 시스템 구축 (Primary, Secondary, Ghost) ✅
+- [x] **A-007**: Card 컴포넌트 개발 (Toss 스타일) ✅
+- [x] **A-008**: Section 3 시스템 강점 카드 섹션 구현 (카드 그리드 + 모달) ✅
+- [x] **A-009**: Section 4 FAQ 및 데모 신청 구현 ✅
+- [ ] **A-010**: 설문조사 페이지 구현 (`/demo-request`)
+
+### 🟢 Low Priority (우선순위 낮음)
+- [x] **A-011**: FAQ Accordion 컴포넌트 개발 ✅
+- [x] **A-012**: Footer 컴포넌트 구현 ✅
+- [x] **A-013**: Scroll 애니메이션 유틸리티 개발 ✅
+- [x] **A-014**: 키보드 네비게이션 구현 (Slider, Modal) ✅
+- [x] **A-015**: 모바일 스와이프 제스처 구현 (Slider 컴포넌트) ✅
+
+---
+
+## 📝 진행 상황 추적
+
+### 완료된 작업
+- [x] 프로젝트 문서화 (README, Design System, Page Guide, Research)
+- [x] 작업 계획 수립 및 문서 통합 (README.md + PRD.md)
+- [x] **Phase 1 완료**: Next.js 프로젝트 초기 설정
+  - [x] package.json, tsconfig.json, next.config.js 생성
+  - [x] Tailwind CSS 설정 및 디자인 시스템 변수 적용
+  - [x] 프로젝트 폴더 구조 생성 (app, components, sections, utils, types)
+  - [x] 기본 레이아웃 컴포넌트 생성 (NavigationBar, Footer)
+  - [x] 애니메이션 유틸리티 구성 (utils/animations.ts)
+  - [x] YouTube 유틸리티 함수 생성 (utils/youtube.ts)
+  - [x] .env.example 파일 생성
+- [x] **Phase 2 완료**: 공통 컴포넌트 개발
+  - [x] Button 컴포넌트 (Primary, Secondary, Ghost variants)
+  - [x] Card 컴포넌트 (Toss 스타일, 인터랙티브 옵션)
+  - [x] Input 컴포넌트 (테두리 없는 스타일)
+  - [x] Accordion 컴포넌트 (FAQ용, Framer Motion 애니메이션)
+  - [x] NavigationBar 컴포넌트 (Glassmorphism, Sticky, 모바일 메뉴)
+  - [x] Footer 컴포넌트 (소셜 미디어, 링크, Copyright)
+  - [x] Slider 컴포넌트 (슬라이드/갤러리, 키보드 네비게이션, 스와이프 제스처, 드래그 지원)
+  - [x] Modal 컴포넌트 (모달, ESC 키, 배경 클릭 닫기, 스크롤 잠금, UX 개선)
+  - [x] MisoLogo 컴포넌트 (이미지 로드 실패 시 폴백 텍스트)
+  - [x] TabletFrame 컴포넌트 (iframe용 태블릿 프레임, MISO 브랜드 스타일)
+  - [x] ContentViewContext (iframe 전환 기능)
+  - [x] Lucide React 아이콘 시스템 통합
+- [x] **Phase 3 완료**: 새로운 4개 섹션 구현
+  - [x] Section 1: HeroVideoSection (YouTube 비디오 임베드, 전체 화면, URL 파싱 지원)
+  - [x] Section 2: UserFlowSection (슬라이드 갤러리, 실제 5단계 User Flow, 드래그/스와이프 지원, 화살표 경계 처리)
+  - [x] Section 3: FeaturesShowcaseSection (카드 그리드, 3가지 강점, 모달 상세 뷰, UX 개선)
+  - [x] Section 4: FAQContactSection (FAQ Accordion, 시작하기 버튼, 버튼 크기 최적화)
+  - [x] NavigationBar 개선 (MISO 로고, 'AI 위험성 평가서 AIR' 텍스트, 높이 54px, 'About MISO', 'with 52g' 버튼, 항상 고정 표시)
+  - [x] Footer 개선 (MISO 로고, 'AI 위험성 평가서 AIR' 텍스트, 설명 텍스트 변경, 빠른 링크 제거, 소셜 미디어 아이콘 변경)
+  - [x] iframe 통합 (ContentViewContext, 'About MISO'와 'with 52g' 클릭 시 태블릿 프레임 스타일로 표시)
+- [x] **Contact 페이지 구현** (`/page/contact`)
+  - [x] Contact 페이지 생성 및 라우팅 설정
+  - [x] 좌우 2열 레이아웃 (회사 정보 카드 + Google Maps)
+  - [x] 연락처 정보 표시 (이메일, 전화번호, 주소)
+  - [x] Google Maps 통합 (주소 검색 및 표시)
+  - [x] 오시는 길 정보 추가 (지하철, 버스 노선)
+  - [x] 반응형 디자인 적용
+- [x] **Phase 5 부분 완료**: 애니메이션 및 인터랙션
+  - [x] Scroll-triggered animations (모든 섹션 적용)
+  - [x] 갤러리 슬라이드 애니메이션 (Framer Motion)
+  - [x] 키보드 네비게이션 (Slider: ← →, Modal: ESC)
+  - [x] 모바일 스와이프 제스처 (Slider 컴포넌트)
+  - [x] 데스크톱 드래그 제스처 (Slider 컴포넌트)
+  - [x] 모달 애니메이션 (Framer Motion, UX 개선)
+
+### 진행 중인 작업
+- 현재 없음
+
+### 다음 작업
+- **Phase 4**: 설문조사 페이지 구현 (`/demo-request`)
+  - React Hook Form + Zod 통합
+  - 폼 검증 및 제출 처리
+  - 감사 메시지 페이지 (`/demo-request/thank-you`)
+- **Phase 6**: 반응형 및 최적화
+  - 이미지 최적화 (Next.js Image 컴포넌트)
+  - 비디오 최적화
+  - 성능 최적화 (Lazy loading, Code splitting)
+- **Phase 7**: 접근성 및 SEO
+  - Meta Tags 설정
+  - Open Graph 설정
+  - 접근성 개선
+
+---
+
+## 📁 프로젝트 구조
+
+```
+AIR_Landing/
+├── app/                          # Next.js App Router
+│   ├── layout.tsx               # 루트 레이아웃
+│   ├── page.tsx                 # 메인 페이지
+│   ├── page/                    # 추가 페이지
+│   │   └── contact/            # Contact 페이지
+│   │       └── page.tsx        # Contact 페이지 컴포넌트
+│   └── globals.css              # 전역 스타일
+├── components/                  # 재사용 가능한 컴포넌트
+│   ├── layout/                 # 레이아웃 컴포넌트
+│   │   ├── NavigationBar.tsx   # 네비게이션 바
+│   │   └── Footer.tsx          # 푸터
+│   ├── providers/              # Context Providers
+│   │   └── ContentViewProvider.tsx # ContentView Context Provider
+│   └── ui/                      # UI 컴포넌트
+│       ├── Button.tsx          # 버튼 (Primary, Secondary, Ghost)
+│       ├── Card.tsx            # 카드
+│       ├── Input.tsx           # 입력 필드
+│       ├── Accordion.tsx       # 아코디언
+│       ├── Slider.tsx          # 슬라이드/갤러리
+│       ├── Modal.tsx           # 모달
+│       ├── MisoLogo.tsx        # MISO 로고 (폴백 지원)
+│       ├── TabletFrame.tsx     # 태블릿 프레임 (iframe용)
+│       └── index.ts            # Export
+├── contexts/                    # React Context
+│   └── ContentViewContext.tsx  # ContentView 상태 관리
+├── sections/                     # 페이지 섹션 컴포넌트
+│   ├── HeroVideoSection.tsx    # Section 1: 소개 영상
+│   ├── UserFlowSection.tsx     # Section 2: User Flow 갤러리
+│   ├── FeaturesShowcaseSection.tsx # Section 3: 시스템 강점 카드
+│   ├── FAQContactSection.tsx   # Section 4: FAQ & 데모 신청
+│   └── index.ts                # Export
+├── utils/                        # 유틸리티 함수
+│   ├── animations.ts           # Framer Motion 애니메이션
+│   └── youtube.ts              # YouTube URL 파싱 유틸리티
+├── types/                        # TypeScript 타입 정의
+│   └── index.ts
+├── .env.example                  # 환경 변수 예시 파일
+├── research.md                   # 설문조사 관리 문서
+├── package.json
+├── tsconfig.json
+├── tailwind.config.ts           # Tailwind CSS 설정 (디자인 시스템)
+└── next.config.js
+```
+
+---
+
+## 🚀 빠른 시작
+
+### 1. 의존성 설치
+```bash
+npm install
+```
+
+### 2. YouTube 비디오 설정
+```bash
+# .env 파일 생성
+cp .env.example .env
+
+# .env 파일 편집하여 YouTube 링크 붙여넣기
+# NEXT_PUBLIC_YOUTUBE_URL=https://www.youtube.com/watch?v=YOUR_VIDEO_ID
+```
+
+### 3. 개발 서버 실행
+```bash
+npm run dev
+```
+
+브라우저에서 http://localhost:3000 을 열어 확인하세요.
+
+---
+
+## 📚 참고 문서
+
+- **Research**: `research.md` - 데모 신청 설문조사 관리 문서
+- **Design System**: `.cursor/rules/design.mdc` - Toss 스타일 디자인 시스템 가이드
+- **Page Guide**: `.cursor/rules/page.mdc` - 랜딩페이지 설계 가이드라인
+- **Setup Guide**: `SETUP.md` - 프로젝트 설정 가이드
+
+---
+
+## 🔄 업데이트 로그
+
+### 2025-01-23 (Contact 페이지 및 네비게이션 개선)
+- ✅ **Contact 페이지 구현**
+  - Contact 페이지 생성 (`/page/contact`)
+  - 네비게이션바의 FAQ 버튼을 'Contact Us'로 변경하고 `/page/contact` 경로로 연결
+  - 좌우 2열 레이아웃 구현 (좌측: 회사 정보 카드, 우측: Google Maps)
+  - 연락처 정보 표시 (이메일, 전화번호, 주소)
+  - Google Maps iframe 통합 (주소: 서울특별시 강남구 논현로 508 GS강남타워)
+  - 오시는 길 정보 추가 (지하철: 2호선 역삼역 7번 출구, 버스 노선 안내)
+  - 아이콘 크기 최적화 (w-8 h-8, 아이콘 w-4 h-4)
+  - CI 심볼 및 회사명 제거 (연락처 정보만 표시)
+  - 주소 업데이트: 서울특별시 강남구 논현로 508 GS강남타워 25층
+- ✅ **네비게이션바 개선**
+  - HOME 버튼 추가 (About MISO 버튼 왼쪽)
+  - 로고와 서비스명 클릭 시 랜딩페이지로 이동 기능 추가
+  - Security 항목 삭제
+  - FAQ 버튼을 Contact Us로 변경
+- ✅ **디자인 개선**
+  - Contact 페이지 미니멀 디자인 적용
+  - 아이콘 기반 연락처 정보 표시
+  - 반응형 레이아웃 최적화
+
+### 2024-01-XX (최신 업데이트 - 리팩토링 및 코드 정리)
+- ✅ **리팩토링 완료**
+  - 사용되지 않는 섹션 파일 삭제 (HeroSection, FAQSection, CoreFeaturesSection, RiskMatrixSection, SecuritySection, SocialProofSection)
+  - 사용되지 않는 레이아웃 컴포넌트 삭제 (Container, Layout)
+  - 사용되지 않는 애니메이션 함수 정리 (slideInRight, scaleOnClick)
+  - 중복 코드 제거 및 컴포넌트 추출 (TabletFrame 컴포넌트 생성)
+  - NavigationBar 인터페이스 순서 수정 (TypeScript 호환성)
+  - 코드베이스 정리 및 유지보수성 향상
+- ✅ **페이지 타이틀 변경**
+  - 페이지 타이틀: 'MISO AIR 위험성평가서'로 변경 (app/layout.tsx)
+- ✅ **TabletFrame 컴포넌트 생성**
+  - iframe 표시용 태블릿 프레임 컴포넌트 추출
+  - MISO 브랜드 스타일 적용 (그라데이션, Super Ellipse, 베젤 효과)
+  - 코드 중복 제거 및 재사용성 향상
+  - components/ui/index.ts에 export 추가
+
+### 2024-01-XX (태블릿 프레임 스타일 및 iframe 개선)
+- ✅ **태블릿 프레임 스타일 적용**
+  - "About MISO"와 "with 52g" iframe을 MISO 브랜드에 맞춘 태블릿 프레임으로 표시
+  - MISO 브랜드 컬러 그라데이션 프레임 (#E8F3FF → #FFFFFF)
+  - Super Ellipse 스타일 (rounded-[32px] 외부, rounded-[24px] 내부)
+  - 상단/하단 베젤 효과 (브랜드 컬러 기반)
+  - 중앙 정렬 레이아웃 (최대 너비 1200px)
+  - 브랜드 컬러 기반 그림자 효과
+- ✅ **"About MISO" 버튼 추가**
+  - Navigation Bar에 "About MISO" 버튼 추가 (with 52g 왼쪽)
+  - 클릭 시 `https://www.miso.gs` iframe 표시
+  - ContentViewContext에 "miso" 타입 추가
+- ✅ **Navigation Bar 개선**
+  - 항상 고정 표시 (애니메이션 제거)
+  - MISO CI 로고 추가 (MisoLogo 컴포넌트)
+  - 'AI 위험성 평가서 AIR' 텍스트 추가
+  - 높이 54px로 조정
+  - 'Features' 버튼을 'with 52g'로 변경 (iframe 전환 기능)
+  - 'About AIR' 링크 제거
+  - '무료 데모 신청하기' 버튼을 '시작하기'로 변경
+  - 내부 요소 크기 15% 축소 (버튼 크기 유지)
+- ✅ **ContentViewContext 생성**
+  - iframe 전환 기능을 위한 Context API 구현
+  - 'landing', '52g', 'miso' 3가지 뷰 타입 지원
+  - 랜딩 페이지와 iframe 뷰 전환 관리
+- ✅ **Footer 개선**
+  - MISO 로고 추가
+  - 'AI 위험성 평가서 AIR' 텍스트 추가
+  - 설명 텍스트 변경: "GS그룹이 만든<br />MISO AI기반 위험성 평가 솔루션"
+  - "빠른 링크" 섹션 제거
+  - 소셜 미디어 아이콘 변경 (공식 홈페이지, YouTube, 이메일)
+- ✅ **User Flow Section 개선**
+  - 제목/부제목 제거 (깔끔한 디자인)
+  - Step 1 설명 업데이트
+  - 첫 번째 단계에서 왼쪽 화살표 숨김
+  - 마지막 단계에서 오른쪽 화살표 숨김
+  - 드래그/스와이프 제스처 지원 (모바일 및 데스크톱)
+- ✅ **Features Section 개선**
+  - 6개에서 3개로 축소 (AI Expert, Compliance, Action Plan)
+  - 모달 디자인 개선 (30년차 UX 디자이너 관점)
+- ✅ **FAQ Section 개선**
+  - 설명 텍스트 제거
+  - 버튼 크기 조정 (세로 30% 축소, 가로 FAQ 섹션 너비에 맞춤)
+- ✅ **MisoLogo 컴포넌트 생성**
+  - 이미지 로드 실패 시 폴백 텍스트 표시
+  - 재사용 가능한 로고 컴포넌트
+- ✅ **Favicon 설정**
+  - favicon.png 파일 사용
+  - metadata API를 통한 favicon 설정
+
+---
+
+## 📌 주의사항
+
+1. **디자인 원칙 준수**: Toss 스타일의 Extreme Minimalism 원칙을 엄격히 준수
+2. **Desktop First**: PC 접속이 기본이므로 PC 우선 설계 (모바일 대응 필수)
+3. **신뢰감 강조**: 모든 시각적 요소는 'Safety'와 'Trust'를 전달해야 함
+4. **성능 최적화**: 현장 환경을 고려하여 로딩 속도 최적화 필수
+5. **16:9 비율**: 모든 비디오/이미지는 16:9 비율 유지
+6. **YouTube 비디오 설정**: `.env` 파일에 `NEXT_PUBLIC_YOUTUBE_URL` 설정 필수
+
+---
+
+## 🤝 기여 가이드
+
+작업 시작 전:
+1. 해당 섹션의 액션아이템을 확인
+2. 디자인 시스템 가이드라인 준수
+3. 작업 완료 후 README.md의 진행 상황 업데이트
+
+---
+
+**Last Updated**: 2025-01-23 (Contact 페이지 및 네비게이션 개선 완료)
