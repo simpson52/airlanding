@@ -20,7 +20,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full bg-bg-base py-16 md:py-20 lg:py-24 overflow-hidden">
+    <section className="relative w-full bg-white py-16 md:py-20 lg:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* 좌측: 텍스트 영역 */}

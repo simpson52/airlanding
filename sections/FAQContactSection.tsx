@@ -160,7 +160,7 @@ export default function FAQContactSection() {
 
   return (
     <>
-      <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-surface relative overflow-hidden">
+      <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto w-full">
           <motion.div
             initial="hidden"
@@ -225,7 +225,7 @@ export default function FAQContactSection() {
       </section>
 
       {/* Banner Image - Full Width */}
-      <section className="bg-bg-base pt-0 pb-16 md:pb-24">
+      <section className="bg-bg-surface pt-0 pb-16 md:pb-24">
         <motion.div
           initial="hidden"
           whileInView="visible"

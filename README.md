@@ -437,6 +437,21 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2025-01-26 (관련기사 섹션 개선 및 섹션 배경색 수정)
+- ✅ **관련기사 섹션 네비게이션 개선**
+  - 워크플로우 섹션과 동일한 방식으로 네비게이션 구현 (Slider 컴포넌트 사용)
+  - 일시정지/재생 버튼, 이전/다음 버튼 추가
+  - 자동 재생 기능 (8초 간격)
+  - 순환형 네비게이션 및 키보드/스와이프 제스처 지원
+  - 네비게이션 버튼을 카드 섹션 내부 우측 상단으로 이동
+- ✅ **섹션 배경색 수정**
+  - HeroSection: `bg-white` (흰색)
+  - UserFlowSection: `bg-bg-base` (회색 #F2F4F6)
+  - FeaturesShowcaseSection: `bg-white` (흰색)
+  - PressSection: `bg-bg-base` (회색 #F2F4F6)
+  - FAQContactSection: `bg-white` (흰색)
+  - 각 섹션이 번갈아가며 색상 구분되도록 수정
+
 ### 2025-01-26 (Phase 1 완료: Hero Section 재구성 및 CTA 전략 강화)
 - ✅ **Phase 1 완료: Hero Section 재구성**
   - 태블릿 프레임 제거, 전통적인 Hero Section으로 변경

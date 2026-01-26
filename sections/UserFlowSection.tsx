@@ -145,7 +145,7 @@ export default function UserFlowSection() {
   ));
 
   return (
-    <section id="user-flow" className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-surface relative overflow-hidden">
+    <section id="user-flow" className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-base relative overflow-hidden">
       <div className="max-w-7xl mx-auto w-full">
         {/* 섹션 제목 */}
         <motion.div

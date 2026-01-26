@@ -7,6 +7,7 @@ import {
   HeroSection,
   UserFlowSection,
   FeaturesShowcaseSection,
+  PressSection,
   FAQContactSection,
 } from "@/sections";
 import { useContentView } from "@/contexts/ContentViewContext";
@@ -52,6 +53,7 @@ export default function Home() {
             <HeroSection />
             <UserFlowSection />
             <FeaturesShowcaseSection />
+            <PressSection />
             <FAQContactSection />
           </>
         )}
