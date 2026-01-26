@@ -58,21 +58,18 @@ export default function FeaturesShowcaseSection() {
   const [selectedFeature, setSelectedFeature] = useState<Feature | null>(null);
 
   return (
-    <section className="py-24 px-4 md:px-8 bg-bg-surface">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-base relative overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInUp}
-          className="text-center mb-20"
+          className="text-center mb-12"
         >
-          <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-6">
+          <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-0">
             AIR의 핵심 강점
           </h2>
-          <p className="text-[17px] md:text-[18px] font-medium text-text-secondary max-w-2xl mx-auto">
-            현장 안전 관리를 혁신하는 3가지 핵심 강점
-          </p>
         </motion.div>
 
         <motion.div
@@ -80,7 +77,7 @@ export default function FeaturesShowcaseSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInUpStagger}
-          className="grid md:grid-cols-3 gap-6 lg:gap-8"
+          className="grid md:grid-cols-3 gap-6 lg:gap-8 w-full overflow-hidden"
         >
           {features.map((feature) => {
             const Icon = feature.icon;

@@ -1,37 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 import TabletFrame from "@/components/ui/TabletFrame";
 
 export default function HeroVideoSection() {
   const [isLoading, setIsLoading] = useState(true);
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // 스크롤이 일정량 이상 내려가면 인디케이터 숨김
-      if (window.scrollY > 200) {
-        setShowScrollIndicator(false);
-      } else {
-        setShowScrollIndicator(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleScrollDown = () => {
-    const nextSection = document.querySelector("section:nth-of-type(2)");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
-    <section className="relative w-full bg-bg-base">
+    <section className="relative w-full bg-bg-base py-8 md:py-12 lg:py-16 overflow-hidden">
       <TabletFrame>
         <iframe
           src="https://www.youtube.com/embed/BX4_raNiCw0?si=vgpj60Hg0mij6LZP&autoplay=1&mute=1&loop=1&playlist=BX4_raNiCw0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
@@ -43,7 +19,7 @@ export default function HeroVideoSection() {
           style={{
             width: "100%",
             height: "100%",
-            minHeight: "200px",
+            objectFit: "contain",
           }}
           onLoad={() => setIsLoading(false)}
         />
@@ -57,31 +33,6 @@ export default function HeroVideoSection() {
           </div>
         )}
       </TabletFrame>
-
-      {/* Scroll Indicator */}
-      {showScrollIndicator && (
-        <motion.button
-          onClick={handleScrollDown}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 w-14 h-14 bg-bg-surface rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:bg-brand-blue-light transition-all active:scale-[0.96]"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-          aria-label="아래로 스크롤"
-        >
-          <motion.div
-            animate={{
-              y: [0, 6, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <ChevronDown className="w-8 h-8 text-brand-blue" strokeWidth={2.5} />
-          </motion.div>
-        </motion.button>
-      )}
     </section>
   );
 }

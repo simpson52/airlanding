@@ -1,7 +1,7 @@
 "use client";
 
-import { Globe, Youtube, Mail } from "lucide-react";
-import MisoLogo from "@/components/ui/MisoLogo";
+import { Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -11,53 +11,74 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="mb-4 flex items-center gap-2.5">
-              <MisoLogo
-                height="h-[28px] md:h-[32px]"
-                alt="MISO Platform"
-                fallbackText="MISO Platform"
-                className="flex-shrink-0"
+              <Image
+                src="/miso-logo.svg"
+                alt="MISO"
+                width={120}
+                height={32}
+                className="h-[28px] md:h-[32px] w-auto flex-shrink-0"
+                priority
+                unoptimized
+              />
+              <Image
+                src="/air_logo.png"
+                alt="AIR"
+                width={120}
+                height={32}
+                className="h-[28px] md:h-[32px] w-auto flex-shrink-0"
+                priority
               />
               <span className="text-[18px] md:text-[19px] font-semibold text-text-secondary leading-tight whitespace-nowrap">
-                AI 위험성 평가서 <span className="font-bold text-text-primary">AIR</span>
+                AI기반 위험성 평가 시스템
               </span>
             </div>
             <p className="text-[17px] font-medium text-text-secondary">
               GS그룹이 만든<br />
-              MISO AI기반 위험성 평가 솔루션
+              MISO AI기반 위험성 평가 시스템
             </p>
           </div>
 
-          {/* Social */}
+          {/* Contact Information */}
           <div>
             <h4 className="text-[18px] font-semibold text-text-primary mb-6">
-              소셜 미디어
+              Contact Us
             </h4>
-            <div className="flex gap-4">
-              <a
-                href="https://miso.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 bg-bg-input rounded-full flex items-center justify-center text-text-secondary hover:text-brand-blue hover:bg-brand-blue-light transition-colors"
-                aria-label="공식 홈페이지"
-              >
-                <Globe className="w-5 h-5" strokeWidth={2.5} />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 bg-bg-input rounded-full flex items-center justify-center text-text-secondary hover:text-brand-blue hover:bg-brand-blue-light transition-colors"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-5 h-5" strokeWidth={2.5} />
-              </a>
-              <a
-                href="mailto:contact@miso.ai"
-                className="w-12 h-12 bg-bg-input rounded-full flex items-center justify-center text-text-secondary hover:text-brand-blue hover:bg-brand-blue-light transition-colors"
-                aria-label="이메일"
-              >
-                <Mail className="w-5 h-5" strokeWidth={2.5} />
-              </a>
+            <div className="space-y-4">
+              {/* Email and Phone in one line */}
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
+                    <Mail className="w-4 h-4 text-brand-blue" strokeWidth={2} />
+                  </div>
+                  <a
+                    href="mailto:contact@miso.ai"
+                    className="text-[15px] font-medium text-brand-blue hover:underline transition-colors"
+                  >
+                    contact@miso.ai
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
+                    <Phone className="w-4 h-4 text-brand-blue" strokeWidth={2} />
+                  </div>
+                  <a
+                    href="tel:02-2000-0000"
+                    className="text-[15px] font-medium text-text-primary hover:text-brand-blue transition-colors"
+                  >
+                    02-2000-0000
+                  </a>
+                </div>
+              </div>
+
+              {/* Address */}
+              <div className="flex items-center gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-brand-blue" strokeWidth={2} />
+                </div>
+                <p className="text-[15px] font-medium text-text-primary">
+                  서울특별시 강남구 논현로 508 GS강남타워 25층
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -66,11 +87,13 @@ export default function Footer() {
         <div className="border-t border-gray-100 pt-8 text-center">
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <span className="text-[14px] text-text-tertiary">© {new Date().getFullYear()}</span>
-            <MisoLogo
-              height="h-[16px]"
-              alt="MISO Platform"
-              fallbackText="MISO Platform"
-              className="inline-block"
+            <Image
+              src="/miso-logo.svg"
+              alt="MISO"
+              width={80}
+              height={16}
+              className="h-[16px] w-auto inline-block"
+              unoptimized
             />
             <span className="text-[14px] text-text-tertiary">All rights reserved.</span>
           </div>

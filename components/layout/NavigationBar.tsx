@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
-import MisoLogo from "@/components/ui/MisoLogo";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useContentView } from "@/contexts/ContentViewContext";
 
@@ -68,14 +68,16 @@ export default function NavigationBar() {
               onClick={handleHomeClick}
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
-              <MisoLogo
-                height="h-[24px] md:h-[27px]"
-                alt="MISO Platform"
-                fallbackText="MISO Platform"
-                className="flex-shrink-0"
+              <Image
+                src="/air_logo.png"
+                alt="AIR"
+                width={120}
+                height={27}
+                className="h-[24px] md:h-[27px] w-auto flex-shrink-0"
+                priority
               />
               <span className="text-[15px] md:text-[16px] font-semibold text-text-secondary leading-tight whitespace-nowrap">
-                AI 위험성 평가서 <span className="font-bold text-text-primary">AIR</span>
+                AI기반 위험성 평가 시스템
               </span>
             </button>
           </div>

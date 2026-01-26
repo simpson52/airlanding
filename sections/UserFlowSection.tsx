@@ -130,21 +130,21 @@ export default function UserFlowSection() {
   ));
 
   return (
-    <section className="py-16 px-4 md:px-8 bg-bg-base relative">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-surface relative overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full">
         {/* 우측 상단 네비게이션 버튼 */}
-        <div className="flex justify-end mb-6">
+        <div className="flex justify-end mb-6 md:mb-8">
           <div className="flex items-center gap-2">
             <button
               onClick={() => sliderRef.current?.goToPrevious()}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-surface text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
               aria-label="이전 슬라이드"
             >
               <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
             </button>
             <button
               onClick={() => sliderRef.current?.goToNext()}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-surface text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-bg-base text-text-primary hover:bg-brand-blue-light hover:text-brand-blue shadow-sm hover:shadow-md active:scale-[0.96]"
               aria-label="다음 슬라이드"
             >
               <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
@@ -152,7 +152,8 @@ export default function UserFlowSection() {
           </div>
         </div>
 
-        <Slider
+        <div className="w-full overflow-hidden">
+          <Slider
           ref={sliderRef}
           items={slides}
           autoPlay={true}
@@ -161,6 +162,7 @@ export default function UserFlowSection() {
           showArrows={false}
           onSlideChange={setCurrentSlideIndex}
         />
+        </div>
       </div>
     </section>
   );
