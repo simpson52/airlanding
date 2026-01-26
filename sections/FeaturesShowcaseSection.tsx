@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { fadeInUp, fadeInUpStagger } from "@/utils/animations";
 import Card from "@/components/ui/Card";
 import Modal from "@/components/ui/Modal";
-import { Shield, FileCheck, CheckSquare, X } from "lucide-react";
+import { Shield, FileCheck, CheckSquare, X, LucideProps } from "lucide-react";
 
 interface Feature {
   id: number;
@@ -13,7 +13,7 @@ interface Feature {
   subtitle: string;
   shortDescription: string;
   fullDescription: string;
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  icon: React.ComponentType<LucideProps>;
   color: string;
   image: string;
 }

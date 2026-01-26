@@ -1,9 +1,9 @@
 "use client";
 
-import { ButtonHTMLAttributes, ReactNode } from "react";
-import { motion } from "framer-motion";
+import { ReactNode } from "react";
+import { motion, HTMLMotionProps } from "framer-motion";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<HTMLMotionProps<"button">, "onDrag"> {
   variant?: "primary" | "secondary" | "ghost";
   children: ReactNode;
   fullWidth?: boolean;

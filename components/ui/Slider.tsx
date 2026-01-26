@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -25,11 +25,17 @@ export default function Slider({
 }: SliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const currentIndexRef = useRef(currentIndex);
 
-  const goToSlide = (index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
+  // currentIndex가 변경될 때마다 ref 업데이트
+  useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
+
+  const goToSlide = useCallback((index: number) => {
+    setDirection(index > currentIndexRef.current ? 1 : -1);
     setCurrentIndex(index);
-  };
+  }, []);
 
   const goToPrevious = () => {
     if (currentIndex === 0) return; // 첫 번째 슬라이드에서는 이전으로 이동 불가
@@ -47,31 +53,31 @@ export default function Slider({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
-        if (currentIndex > 0) {
-          goToSlide(currentIndex - 1);
+        if (currentIndexRef.current > 0) {
+          goToSlide(currentIndexRef.current - 1);
         }
       } else if (e.key === "ArrowRight") {
-        if (currentIndex < items.length - 1) {
-          goToSlide(currentIndex + 1);
+        if (currentIndexRef.current < items.length - 1) {
+          goToSlide(currentIndexRef.current + 1);
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, items.length]);
+  }, [items.length, goToSlide]);
 
   // 자동 재생
   useEffect(() => {
     if (!autoPlay) return;
 
     const interval = setInterval(() => {
-      const newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+      const newIndex = currentIndexRef.current === items.length - 1 ? 0 : currentIndexRef.current + 1;
       goToSlide(newIndex);
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [autoPlay, autoPlayInterval, currentIndex, items.length]);
+  }, [autoPlay, autoPlayInterval, items.length, goToSlide]);
 
   // 스와이프 제스처 (모바일) 및 드래그 (데스크톱)
   const [touchStart, setTouchStart] = useState(0);

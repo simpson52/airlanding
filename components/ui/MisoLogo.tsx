@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface MisoLogoProps {
   className?: string;
@@ -28,12 +29,15 @@ export default function MisoLogo({
 
   // 이미지 표시
   return (
-    <img
+    <Image
       src="/miso-logo.svg"
       alt={alt}
+      width={120}
+      height={32}
       className={`${height} w-auto object-contain ${className}`}
       onError={() => setLogoError(true)}
-      loading="eager"
+      priority
+      unoptimized
     />
   );
 }
