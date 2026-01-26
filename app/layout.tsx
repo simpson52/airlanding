@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers/ContentViewProvider";
 
 export const metadata: Metadata = {
-  title: "MISO AIR 위험성평가서",
+  title: "AIR - AI기반 위험성 평가 시스템 Made by MISO",
   description:
     "JSA + KRAS + SIF를 결합한 국내 유일의 현장 데이터 기반 지능형 안전관리 시스템",
   icons: {
