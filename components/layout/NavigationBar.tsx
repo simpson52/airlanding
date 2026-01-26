@@ -17,8 +17,8 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { label: "About MISO", href: "#miso", isMiso: true },
   { label: "with 52g", href: "#52g", is52g: true },
+  { label: "About MISO", href: "#miso", isMiso: true },
   { label: "Contact Us", href: "/page/contact" },
 ];
 

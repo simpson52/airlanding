@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef, ReactNode, forwardRef, useImperativeHandle } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -12,9 +12,16 @@ interface SliderProps {
   showArrows?: boolean;
   hideLeftArrowOnFirst?: boolean;
   hideRightArrowOnLast?: boolean;
+  onSlideChange?: (index: number) => void;
 }
 
-export default function Slider({
+export interface SliderRef {
+  goToPrevious: () => void;
+  goToNext: () => void;
+  goToSlide: (index: number) => void;
+}
+
+const Slider = forwardRef<SliderRef, SliderProps>(function Slider({
   items,
   autoPlay = false,
   autoPlayInterval = 5000,
@@ -22,50 +29,74 @@ export default function Slider({
   showArrows = true,
   hideLeftArrowOnFirst = false,
   hideRightArrowOnLast = false,
-}: SliderProps) {
+  onSlideChange,
+}, ref) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const currentIndexRef = useRef(currentIndex);
 
-  // currentIndex가 변경될 때마다 ref 업데이트
+  // currentIndex가 변경될 때마다 ref 업데이트 및 콜백 호출
   useEffect(() => {
     currentIndexRef.current = currentIndex;
-  }, [currentIndex]);
+    onSlideChange?.(currentIndex);
+  }, [currentIndex, onSlideChange]);
 
   const goToSlide = useCallback((index: number) => {
-    setDirection(index > currentIndexRef.current ? 1 : -1);
+    // 순환형을 고려한 direction 계산
+    const current = currentIndexRef.current;
+    let direction = 1;
+    
+    if (index > current) {
+      direction = 1;
+    } else if (index < current) {
+      direction = -1;
+    } else {
+      // 순환형: 첫 페이지에서 마지막으로 가거나, 마지막에서 첫 페이지로 가는 경우
+      if (current === 0 && index === items.length - 1) {
+        direction = -1; // 왼쪽으로 이동하는 것처럼 보이도록
+      } else if (current === items.length - 1 && index === 0) {
+        direction = 1; // 오른쪽으로 이동하는 것처럼 보이도록
+      }
+    }
+    
+    setDirection(direction);
     setCurrentIndex(index);
-  }, []);
+    onSlideChange?.(index);
+  }, [onSlideChange, items.length]);
 
-  const goToPrevious = () => {
-    if (currentIndex === 0) return; // 첫 번째 슬라이드에서는 이전으로 이동 불가
-    const newIndex = currentIndex - 1;
+
+  const goToNext = useCallback(() => {
+    // 순환형: 마지막 슬라이드에서 다음 버튼을 누르면 첫 번째로 이동
+    const newIndex = currentIndexRef.current === items.length - 1 ? 0 : currentIndexRef.current + 1;
     goToSlide(newIndex);
-  };
+  }, [items.length, goToSlide]);
 
-  const goToNext = () => {
-    if (currentIndex === items.length - 1) return; // 마지막 슬라이드에서는 다음으로 이동 불가
-    const newIndex = currentIndex + 1;
+  const goToPreviousCallback = useCallback(() => {
+    // 순환형: 첫 번째 슬라이드에서 이전 버튼을 누르면 마지막으로 이동
+    const newIndex = currentIndexRef.current === 0 ? items.length - 1 : currentIndexRef.current - 1;
     goToSlide(newIndex);
-  };
+  }, [items.length, goToSlide]);
 
-  // 키보드 네비게이션
+  // 외부에서 제어할 수 있도록 ref 노출
+  useImperativeHandle(ref, () => ({
+    goToPrevious: goToPreviousCallback,
+    goToNext,
+    goToSlide,
+  }), [goToPreviousCallback, goToNext, goToSlide]);
+
+  // 키보드 네비게이션 (순환형)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
-        if (currentIndexRef.current > 0) {
-          goToSlide(currentIndexRef.current - 1);
-        }
+        goToPreviousCallback();
       } else if (e.key === "ArrowRight") {
-        if (currentIndexRef.current < items.length - 1) {
-          goToSlide(currentIndexRef.current + 1);
-        }
+        goToNext();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [items.length, goToSlide]);
+  }, [goToPreviousCallback, goToNext]);
 
   // 자동 재생
   useEffect(() => {
@@ -105,7 +136,7 @@ export default function Slider({
     if (isLeftSwipe && currentIndex < items.length - 1) {
       goToNext();
     } else if (isRightSwipe && currentIndex > 0) {
-      goToPrevious();
+      goToPreviousCallback();
     }
 
     setTouchStart(0);
@@ -133,7 +164,7 @@ export default function Slider({
     if (isLeftDrag && currentIndex < items.length - 1) {
       goToNext();
     } else if (isRightDrag && currentIndex > 0) {
-      goToPrevious();
+      goToPreviousCallback();
     }
 
     setIsDragging(false);
@@ -184,7 +215,7 @@ export default function Slider({
               x: { type: "tween", duration: 0.3, ease: "easeInOut" },
               opacity: { duration: 0.2 },
             }}
-            className="w-full"
+            className="w-full m-0 p-0"
           >
             {items[currentIndex]}
           </motion.div>
@@ -194,7 +225,7 @@ export default function Slider({
       {/* Navigation Arrows */}
       {showLeftArrow && (
         <button
-          onClick={goToPrevious}
+          onClick={goToPreviousCallback}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-bg-surface rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow active:scale-[0.96]"
           aria-label="이전 슬라이드"
         >
@@ -230,4 +261,8 @@ export default function Slider({
       )}
     </div>
   );
-}
+});
+
+Slider.displayName = "Slider";
+
+export default Slider;

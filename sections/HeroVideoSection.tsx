@@ -34,14 +34,17 @@ export default function HeroVideoSection() {
     <section className="relative w-full bg-bg-base">
       <TabletFrame>
         <iframe
-          width="560"
-          height="315"
           src="https://www.youtube.com/embed/BX4_raNiCw0?si=vgpj60Hg0mij6LZP&autoplay=1&mute=1&loop=1&playlist=BX4_raNiCw0&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
-          className="w-full h-full border-0"
+          className="w-full h-full border-0 absolute inset-0"
+          style={{
+            width: "100%",
+            height: "100%",
+            minHeight: "200px",
+          }}
           onLoad={() => setIsLoading(false)}
         />
         {/* Loading Placeholder */}

@@ -98,13 +98,15 @@
 
 **기술 사항**:
 - 각 단계별 화면 이미지 (16:9 비율)
-- 이미지 최적화 (WebP, Lazy loading)
+- 이미지 최적화 (Next.js Image 컴포넌트, Lazy loading, Priority loading)
 - 부드러운 전환 애니메이션
 - 각 슬라이드에 단계 번호 및 간단한 설명
-- 첫 번째 단계: 왼쪽 화살표 숨김
-- 마지막 단계: 오른쪽 화살표 숨김
+- 우측 상단 네비게이션 버튼 (< >)
+- 자동 재생 (5초마다 자동 전환)
+- 순환형 슬라이더 (첫 페이지 ↔ 마지막 페이지 순환)
 - 드래그/스와이프 제스처 지원 (모바일 및 데스크톱)
 - 키보드 네비게이션 (← →)
+- iframe 스타일 프레임 디자인 (그라데이션 배경, rounded corners)
 
 ---
 
@@ -230,12 +232,12 @@
 - [ ] 페이지 전환 애니메이션 (설문조사 페이지 이동 시)
 
 ### Phase 6: 반응형 및 최적화
-- [ ] Desktop First 디자인 (PC 우선)
-- [ ] 모바일 반응형 디자인 적용
+- [x] Desktop First 디자인 (PC 우선)
+- [x] 모바일 반응형 디자인 적용 (iframe 반응형 개선)
 - [ ] 비디오 최적화 (Lazy loading, 압축)
-- [ ] 이미지 최적화 (WebP, Next.js Image 컴포넌트)
-- [ ] 성능 최적화 (Lazy loading, Code splitting)
-- [ ] GPU 가속 애니메이션 (transform, opacity)
+- [x] 이미지 최적화 (Next.js Image 컴포넌트, Priority/Lazy loading)
+- [x] 성능 최적화 (Lazy loading, Code splitting)
+- [x] GPU 가속 애니메이션 (transform, opacity)
 
 ### Phase 7: 접근성 및 SEO
 - [ ] 키보드 네비게이션 (모든 인터랙티브 요소)
@@ -301,15 +303,15 @@
   - [x] Accordion 컴포넌트 (FAQ용, Framer Motion 애니메이션)
   - [x] NavigationBar 컴포넌트 (Glassmorphism, Sticky, 모바일 메뉴)
   - [x] Footer 컴포넌트 (소셜 미디어, 링크, Copyright)
-  - [x] Slider 컴포넌트 (슬라이드/갤러리, 키보드 네비게이션, 스와이프 제스처, 드래그 지원)
+  - [x] Slider 컴포넌트 (슬라이드/갤러리, 키보드 네비게이션, 스와이프 제스처, 드래그 지원, forwardRef 지원, 순환형 슬라이더)
   - [x] Modal 컴포넌트 (모달, ESC 키, 배경 클릭 닫기, 스크롤 잠금, UX 개선)
-  - [x] MisoLogo 컴포넌트 (이미지 로드 실패 시 폴백 텍스트)
-  - [x] TabletFrame 컴포넌트 (iframe용 태블릿 프레임, MISO 브랜드 스타일)
+  - [x] MisoLogo 컴포넌트 (이미지 로드 실패 시 폴백 텍스트, Next.js Image 컴포넌트 사용)
+  - [x] TabletFrame 컴포넌트 (iframe용 태블릿 프레임, MISO 브랜드 스타일, 반응형 최적화)
   - [x] ContentViewContext (iframe 전환 기능)
   - [x] Lucide React 아이콘 시스템 통합
 - [x] **Phase 3 완료**: 새로운 4개 섹션 구현
   - [x] Section 1: HeroVideoSection (YouTube 비디오 임베드, 전체 화면, URL 파싱 지원)
-  - [x] Section 2: UserFlowSection (슬라이드 갤러리, 실제 5단계 User Flow, 드래그/스와이프 지원, 화살표 경계 처리)
+  - [x] Section 2: UserFlowSection (슬라이드 갤러리, 실제 5단계 User Flow, 드래그/스와이프 지원, 우측 상단 네비게이션 버튼, 자동 재생, 순환형 슬라이더, 이미지 최적화)
   - [x] Section 3: FeaturesShowcaseSection (카드 그리드, 3가지 강점, 모달 상세 뷰, UX 개선)
   - [x] Section 4: FAQContactSection (FAQ Accordion, 시작하기 버튼, 버튼 크기 최적화)
   - [x] NavigationBar 개선 (MISO 로고, 'AI 위험성 평가서 AIR' 텍스트, 높이 54px, 'About MISO', 'with 52g' 버튼, 항상 고정 표시)
@@ -435,6 +437,43 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2025-01-26 (빌드 최적화 및 워크플로우 개선)
+- ✅ **GitHub 연동 완료**
+  - 원격 저장소 설정: `https://github.com/simpson52/airlanding.git`
+  - 모든 변경사항 푸시 완료
+- ✅ **Vercel 빌드 에러 수정**
+  - Button.tsx: Framer Motion과 React 타입 충돌 해결 (HTMLMotionProps 사용)
+  - Slider.tsx: useEffect 의존성 배열 경고 수정 (useCallback, useRef 활용)
+  - MisoLogo.tsx: Next.js Image 컴포넌트로 변경하여 최적화
+  - FeaturesShowcaseSection.tsx: Lucide 아이콘 타입 정의 수정 (LucideProps 사용)
+- ✅ **3가지 iframe 반응형 개선**
+  - TabletFrame 컴포넌트 모바일 최적화 (패딩, border-radius, 그림자 반응형)
+  - YouTube 영상 iframe 반응형 개선
+  - miso.gs 및 52g.gs iframe 반응형 개선
+  - 모바일에서 iframe이 화면 크기에 맞게 자동 조정
+- ✅ **네비게이션 바 버튼 위치 변경**
+  - "with 52g"와 "About MISO" 버튼 순서 변경 (with 52g가 먼저)
+- ✅ **워크플로우 이미지 추가 및 디자인 개선**
+  - 워크플로우 이미지 표시 로직 추가 (Next.js Image 컴포넌트)
+  - iframe 스타일의 가벼운 프레임 적용 (그라데이션 배경, rounded corners, subtle shadow)
+  - Step 3 이미지 경로 추가
+  - 이미지 파일 위치: `/public/userflow-1.jpg` ~ `/public/userflow-5.jpg`
+- ✅ **워크플로우 이미지 로딩 속도 최적화**
+  - 현재 슬라이드 및 다음 슬라이드 이미지만 priority 로딩
+  - 나머지 이미지는 lazy loading 적용
+  - 이미지 quality 85로 설정 (파일 크기와 품질 균형)
+  - blur placeholder 추가로 로딩 경험 개선
+- ✅ **워크플로우 슬라이더 개선**
+  - 좌우 화살표 제거 (showArrows={false})
+  - 우측 상단에 (< >) 스타일 네비게이션 버튼 추가
+  - 자동 재생 활성화 (5초마다 자동 전환)
+  - 순환형 슬라이더 구현 (첫 페이지에서 왼쪽 버튼 → 마지막 페이지, 마지막 페이지에서 오른쪽 버튼 → 첫 페이지)
+  - Slider 컴포넌트에 forwardRef 및 useImperativeHandle 추가 (외부 제어 지원)
+  - 버튼 비활성화 제거 (순환형으로 인해 항상 활성화)
+- ✅ **워크플로우 여백 제거**
+  - 슬라이드 내부 py-12 패딩 제거
+  - motion.div에 m-0 p-0 클래스 추가
+
 ### 2025-01-23 (Contact 페이지 및 네비게이션 개선)
 - ✅ **Contact 페이지 구현**
   - Contact 페이지 생성 (`/page/contact`)
@@ -544,4 +583,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2025-01-23 (Contact 페이지 및 네비게이션 개선 완료)
+**Last Updated**: 2025-01-26 (빌드 최적화 및 워크플로우 개선 완료)
