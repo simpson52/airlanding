@@ -23,9 +23,9 @@ export default function Footer() {
               <Image
                 src="/air_logo.png"
                 alt="AIR"
-                width={120}
-                height={32}
-                className="h-[28px] md:h-[32px] w-auto flex-shrink-0"
+                width={108}
+                height={29}
+                className="h-[25px] md:h-[29px] w-auto flex-shrink-0"
                 priority
               />
               <span className="text-[18px] md:text-[19px] font-semibold text-text-secondary leading-tight whitespace-nowrap">

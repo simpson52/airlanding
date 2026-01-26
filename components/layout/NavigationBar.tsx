@@ -71,9 +71,9 @@ export default function NavigationBar() {
               <Image
                 src="/air_logo.png"
                 alt="AIR"
-                width={120}
-                height={27}
-                className="h-[24px] md:h-[27px] w-auto flex-shrink-0"
+                width={108}
+                height={24}
+                className="h-[22px] md:h-[24px] w-auto flex-shrink-0"
                 priority
               />
               <span className="text-[15px] md:text-[16px] font-semibold text-text-secondary leading-tight whitespace-nowrap">
