@@ -12,31 +12,31 @@ const userFlowSteps = [
     id: 1,
     title: "어떤 작업을 계획하고 계신가요?",
     description: "작업 내용, 사용 장비, 인원 등을 자유롭게 설명해주시면 MISO AI 기반으로 위험성평가서를 작성합니다",
-    image: "/userflow-1.jpg",
+    image: "/userflow-1.webp",
   },
   {
     id: 2,
     title: "MISO AI 기반 위험요인 자동 식별",
     description: "MISO AI가 작업 내용을 기반으로 KOSHA Guide 기반 9가지 위험요인 중 적합한 위험요인을 선정합니다",
-    image: "/userflow-2.jpg",
+    image: "/userflow-2.webp",
   },
   {
     id: 3,
     title: "고위험요인(SIF) 사례 기반 작성",
     description: "MISO AI가 작업 내용을 기반으로 고용노동부에서 제공한 고위험요인(SIF) 사례를 기반으로 유사 재해사례를 탐색해 위험성평가서에 반영합니다.",
-    image: "/userflow-3.jpg",
+    image: "/userflow-3.webp",
   },
   {
     id: 4,
     title: "AI 기반 위험성 평가서 작성",
     description: "MISO AI가 작성한 위험성평가를 검토하고 현장 상황에 맞게 보완하세요",
-    image: "/userflow-4.jpg",
+    image: "/userflow-4.webp",
   },
   {
     id: 5,
     title: "체크리스트로 현장 안전성 강화",
     description: "MISO AI가 추천한 안전대책을 기반으로 현장에 맞는 체크리스트를 작성해 위험성을 낮추세요",
-    image: "/userflow-5.jpg",
+    image: "/userflow-5.webp",
   },
 ];
 
