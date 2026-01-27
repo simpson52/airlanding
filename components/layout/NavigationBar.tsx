@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -29,6 +29,7 @@ export default function NavigationBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { currentView, setCurrentView } = useContentView();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleHomeClick = () => {
     setCurrentView("landing");
@@ -36,7 +37,8 @@ export default function NavigationBar() {
   };
 
   const handleScrollClick = (id: string) => {
-    if (currentView !== "landing") {
+    // 현재 경로가 랜딩 페이지가 아니면 랜딩 페이지로 이동 후 스크롤
+    if (pathname !== "/") {
       setCurrentView("landing");
       router.push("/");
       // 페이지 전환 후 스크롤
@@ -45,8 +47,9 @@ export default function NavigationBar() {
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }, 100);
+      }, 300);
     } else {
+      // 이미 랜딩 페이지에 있으면 바로 스크롤
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
