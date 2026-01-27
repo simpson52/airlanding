@@ -40,7 +40,7 @@ export default function HeroSection() {
             {/* 부제목 */}
             <div className="mb-4">
               <p className="text-[20px] md:text-[22px] lg:text-[24px] font-semibold text-brand-blue leading-relaxed">
-                약 4,400개 사례<sup className="text-[14px] md:text-[16px]">*</sup> 기반 AI가 자동으로 작성하는
+                4,400개 사례<sup className="text-[14px] md:text-[16px]">*</sup> 기반 AI가 자동으로 작성하는
                 <br />
                 현장 맞춤형 위험성 평가서
               </p>

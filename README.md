@@ -428,14 +428,48 @@ npm run dev
 
 ## 📚 참고 문서
 
-- **Research**: `research.md` - 데모 신청 설문조사 관리 문서
+- **Survey Design**: `survey.md` - 설문조사 기능 설계 문서
+- **Development Guide**: `guide.md` - 개발 환경 설정 가이드
 - **Design System**: `.cursor/rules/design.mdc` - Toss 스타일 디자인 시스템 가이드
 - **Page Guide**: `.cursor/rules/page.mdc` - 랜딩페이지 설계 가이드라인
-- **Setup Guide**: `SETUP.md` - 프로젝트 설정 가이드
 
 ---
 
 ## 🔄 업데이트 로그
+
+### 2026-01-26 (About MISO 페이지 구현 및 UI/UX 개선)
+- ✅ **About MISO 페이지 구현**
+  - `/page/miso` 경로에 About MISO 페이지 생성
+  - Hero 섹션: GenAI PlayGround MISO 소개 및 YouTube 비디오 임베드
+  - 팀 업무 활용 섹션: GenAI 활용 안내
+  - 미소 앱 유형 섹션: 에이전트 앱, 워크플로우 앱, 챗플로우 앱 카드 (3개)
+  - Case Study 섹션: 3개 케이스 스터디 카드 (파카소, 위험성평가서, 백투백 계약서)
+  - 각 섹션 사이 회색 구분선 추가
+  - Case Study 썸네일 이미지 자동 로딩 API 추가 (`/api/case-study-preview`)
+- ✅ **네비게이션바 개선**
+  - About MISO 링크를 `/page/miso`로 연결
+  - 보도자료, FAQ 스크롤 링크 추가 (usePathname 사용)
+  - About MISO 페이지에서도 보도자료/FAQ 클릭 시 랜딩페이지로 이동 후 스크롤
+- ✅ **HeroSection 텍스트 수정**
+  - "약 4,400개 사례*" → "4,400개 사례*" ("약" 제거)
+- ✅ **FeaturesShowcaseSection 제목 레이아웃 변경**
+  - AIR 로고 + 별표(*) (같은 줄)
+  - "*AI Risk Assessment" 설명 텍스트 (로고 아래)
+  - "핵심 강점" 제목 (설명 아래)
+  - 별표 스타일: UserFlowSection Step 2, Step 4와 동일 (크고 파란색)
+- ✅ **FeaturesShowcaseSection 카드 설명 텍스트 개선**
+  - 카드 1: "위험성 평가 시간을 5분 이하로" 줄바꿈 추가
+  - 카드 2: "검증된 평가 기법으로 표준화해" 줄바꿈 추가
+  - 카드 3: "AI 기반 위험성 평가 결과를" 및 "바로 적용 가능한 체크리스트로 변환해" 줄바꿈 추가
+- ✅ **배너 하단 안내 문구 추가**
+  - "▲ 배너를 누르면 MISO에 대한 자세한 정보가 표시됩니다" 문구 추가
+  - 큰 텍스트 크기 (`text-[16px] md:text-[18px]`), 보라색 (`text-brand-blue`), 애니메이션 효과
+- ✅ **리다이렉트 설정**
+  - `/miso` → `/page/miso` 영구 리다이렉트 추가 (next.config.js)
+  - 운영환경에서 localhost로 이동하는 문제 해결
+- ✅ **문서 추가**
+  - `survey.md`: 설문조사 기능 설계 문서 추가 (질문 구성, UI/UX 가이드라인, 액션아이템)
+  - `guide.md`: 개발 환경 설정 가이드 추가 (설치, 실행, 배포, 트러블슈팅)
 
 ### 2025-01-26 (관련기사 섹션 개선 및 섹션 배경색 수정)
 - ✅ **관련기사 섹션 네비게이션 개선**
@@ -673,4 +707,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2025-01-26 (Phase 1 완료: Hero Section 재구성 및 CTA 전략 강화)
+**Last Updated**: 2026-01-26 (About MISO 페이지 구현 및 UI/UX 개선)

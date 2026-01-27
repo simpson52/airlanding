@@ -245,6 +245,12 @@ export default function FAQContactSection() {
               }}
             />
           </Link>
+          <div className="text-center mt-4 flex items-center justify-center gap-2">
+            <span className="text-[18px] md:text-[20px] text-brand-blue animate-bounce">▲</span>
+            <p className="text-[16px] md:text-[18px] font-semibold text-brand-blue">
+              배너를 누르면 MISO에 대한 자세한 정보가 표시됩니다
+            </p>
+          </div>
         </motion.div>
       </section>
     </>
