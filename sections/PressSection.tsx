@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
 import Image from "next/image";
 import Slider, { SliderRef } from "@/components/ui/Slider";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Award } from "lucide-react";
 
 interface NewsArticle {
   id: number;
@@ -97,14 +97,32 @@ export default function PressSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInUp}
-          className="text-center mb-12 md:mb-16"
+          className="text-center mb-0"
         >
-          <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-3 leading-tight">
-            AIR가 주목받고 있습니다
+          <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight">
+            관련 기사
           </h2>
-          <p className="text-[16px] md:text-[17px] font-medium text-text-secondary max-w-2xl mx-auto">
-            언론에서 본 AIR의 혁신
-          </p>
+          
+          {/* 고용노동부장관상 수상 강조 박스 */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-brand-blue/10 via-brand-blue-light/20 to-brand-blue/10 px-6 md:px-8 py-4 md:py-5 rounded-[20px] border-2 border-brand-blue/20 shadow-lg mb-0"
+          >
+            <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-brand-blue to-brand-blue/80 rounded-full flex items-center justify-center shadow-md">
+              <Award className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={2.5} />
+            </div>
+            <div className="text-left">
+              <div className="text-[12px] md:text-[13px] font-semibold text-brand-blue mb-1">
+                공정안전관리(PSM) 안전 문화 확산 우수사례
+              </div>
+              <div className="text-[18px] md:text-[22px] font-bold text-text-primary">
+                고용노동부장관상 수상
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* 로딩 상태 */}
@@ -149,7 +167,7 @@ export default function PressSection() {
               </div>
             )}
             {/* 카드 섹션에 상단 패딩 추가 (버튼 영역 확보) */}
-            <div className={articleSlides.length > 1 ? "pt-14" : ""}>
+            <div className={articleSlides.length > 1 ? "pt-14 mt-0" : "mt-0"}>
               <Slider
                 ref={sliderRef}
                 items={articleSlides.map((slideArticles, slideIndex) => (

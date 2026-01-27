@@ -328,6 +328,7 @@ async function fetchArticleData(url: string, publisher: string): Promise<Article
 
 export async function GET() {
   const articles = [
+    { url: "https://n.news.naver.com/article/421/0008732521?sid=101", publisher: "뉴스1" },
     { url: "https://biz.newdaily.co.kr/site/data/html/2026/01/15/2026011500059.html", publisher: "뉴데일리경제" },
     { url: "https://www.electimes.com/news/articleView.html?idxno=364082", publisher: "전기신문" },
     { url: "https://www.munhwa.com/article/11561252", publisher: "문화일보" },
