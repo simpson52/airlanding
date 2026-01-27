@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-type ContentView = "landing" | "52g";
+type ContentView = "landing" | "miso";
 
 interface ContentViewContextType {
   currentView: ContentView;

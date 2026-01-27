@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { fadeInUp } from "@/utils/animations";
 
 // 간단한 마크다운 파싱 함수 (Bold 처리)
@@ -233,15 +234,17 @@ export default function FAQContactSection() {
           variants={fadeInUp}
           className="w-full"
         >
-          <img
-            src="/banner.png"
-            alt="MISO와 함께 내 업무에 AI를 적용해보세요!"
-            className="w-full h-auto object-contain block"
-            onError={(e) => {
-              // 이미지가 없을 경우를 대비한 fallback
-              console.warn("Banner image not found at /banner.png");
-            }}
-          />
+          <Link href="/page/miso" className="block cursor-pointer hover:opacity-90 transition-opacity">
+            <img
+              src="/banner.png"
+              alt="MISO와 함께 내 업무에 AI를 적용해보세요!"
+              className="w-full h-auto object-contain block"
+              onError={(e) => {
+                // 이미지가 없을 경우를 대비한 fallback
+                console.warn("Banner image not found at /banner.png");
+              }}
+            />
+          </Link>
         </motion.div>
       </section>
     </>

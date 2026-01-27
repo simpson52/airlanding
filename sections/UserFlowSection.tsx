@@ -126,11 +126,28 @@ export default function UserFlowSection() {
                   <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
                   <span>기반 위험요인 자동 식별</span>
                 </>
+              ) : step.id === 4 ? (
+                <>
+                  <Image
+                    src="/miso-logo.svg"
+                    alt="MISO"
+                    width={120}
+                    height={32}
+                    className="inline-block"
+                  />
+                  <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
+                  <span>기반 위험성 평가서 작성</span>
+                </>
               ) : (
                 step.title
               )}
             </h3>
             {step.id === 2 && (
+              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 leading-relaxed">
+                <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
+              </p>
+            )}
+            {step.id === 4 && (
               <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 leading-relaxed">
                 <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
               </p>

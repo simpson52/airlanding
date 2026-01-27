@@ -12,13 +12,13 @@ import { useContentView } from "@/contexts/ContentViewContext";
 interface NavLink {
   label: string;
   href: string;
-  is52g?: boolean;
+  isMiso?: boolean;
   isScroll?: boolean;
   scrollToId?: string;
 }
 
 const navLinks: NavLink[] = [
-  { label: "with 52g", href: "#52g", is52g: true },
+  { label: "About MISO", href: "#miso", isMiso: true },
   { label: "보도자료", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
   { label: "FAQ", href: "#faq", isScroll: true, scrollToId: "faq" },
   { label: "Contact Us", href: "/page/contact" },
@@ -32,11 +32,6 @@ export default function NavigationBar() {
 
   const handleHomeClick = () => {
     setCurrentView("landing");
-    router.push("/");
-  };
-
-  const handle52gClick = () => {
-    setCurrentView("52g");
     router.push("/");
   };
 
@@ -101,19 +96,15 @@ export default function NavigationBar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => {
-              if (link.is52g) {
+              if (link.isMiso) {
                 return (
-                  <button
+                  <Link
                     key={link.href}
-                    onClick={handle52gClick}
-                    className={`text-[14px] font-medium transition-colors ${
-                      currentView === "52g"
-                        ? "text-brand-blue"
-                        : "text-text-secondary hover:text-brand-blue"
-                    }`}
+                    href="/page/miso"
+                    className="text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 );
               }
               if (link.isScroll && link.scrollToId) {
@@ -169,22 +160,16 @@ export default function NavigationBar() {
             className="md:hidden py-4 border-t border-gray-100"
           >
             {navLinks.map((link) => {
-              if (link.is52g) {
+              if (link.isMiso) {
                 return (
-                  <button
+                  <Link
                     key={link.href}
-                    onClick={() => {
-                      handle52gClick();
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`block py-2.5 text-[14px] font-medium transition-colors w-full text-left ${
-                      currentView === "52g"
-                        ? "text-brand-blue"
-                        : "text-text-secondary hover:text-brand-blue"
-                    }`}
+                    href="/page/miso"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-2.5 text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 );
               }
               if (link.isScroll && link.scrollToId) {
