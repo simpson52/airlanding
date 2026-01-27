@@ -151,6 +151,7 @@ async function fetchArticleData(url: string, publisher: string): Promise<Article
 
     // 제목 추출 (다양한 방법 시도)
     let title = "";
+    const domain = getDomain(url);
     
     // 1. OG 태그
     title = $("meta[property='og:title']").attr("content") || "";
@@ -160,17 +161,22 @@ async function fetchArticleData(url: string, publisher: string): Promise<Article
       title = $("meta[name='title']").attr("content") || "";
     }
     
-    // 3. h1 태그
+    // 3. 서울경제 사이트 특화 선택자
+    if (!title && domain.includes("sedaily.com")) {
+      title = $("h1.article_title, .article_title, h1.title").first().text().trim();
+    }
+    
+    // 4. h1 태그
     if (!title) {
       title = $("h1").first().text().trim();
     }
     
-    // 4. article title
+    // 5. article title
     if (!title) {
       title = $("article h1, .article-title, .news-title").first().text().trim();
     }
     
-    // 5. title 태그
+    // 6. title 태그
     if (!title) {
       title = $("title").text().trim();
     }
@@ -200,7 +206,8 @@ async function fetchArticleData(url: string, publisher: string): Promise<Article
     
     // 3. 본문 추출 (여러 선택자 시도)
     if (!content || content.length < 50) {
-      const contentSelectors = [
+      const domain = getDomain(url);
+      let contentSelectors = [
         "article .article-body",
         "article .article-content",
         "article .content",
@@ -214,6 +221,18 @@ async function fetchArticleData(url: string, publisher: string): Promise<Article
         "main article p",
         "main .content p",
       ];
+      
+      // 서울경제 사이트 특화 선택자 추가
+      if (domain.includes("sedaily.com")) {
+        contentSelectors = [
+          ".article_view",
+          "#articleBody",
+          ".article_view p",
+          ".article_view .article_body",
+          "article p",
+          ...contentSelectors,
+        ];
+      }
       
       for (const selector of contentSelectors) {
         const elements = $(selector);
@@ -330,6 +349,7 @@ export async function GET() {
   const articles = [
     { url: "https://n.news.naver.com/article/421/0008732521?sid=101", publisher: "뉴스1" },
     { url: "https://biz.newdaily.co.kr/site/data/html/2026/01/15/2026011500059.html", publisher: "뉴데일리경제" },
+    { url: "https://www.sedaily.com/article/14151977", publisher: "서울경제" },
     { url: "https://www.electimes.com/news/articleView.html?idxno=364082", publisher: "전기신문" },
     { url: "https://www.munhwa.com/article/11561252", publisher: "문화일보" },
     { url: "https://www.yna.co.kr/view/AKR20260115053500003", publisher: "연합뉴스" },

@@ -89,7 +89,7 @@ export default function PressSection() {
 
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-base relative overflow-hidden">
+    <section id="related-articles" className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-bg-base relative overflow-hidden">
       <div className="max-w-7xl mx-auto w-full">
         {/* 섹션 헤더 */}
         <motion.div
@@ -100,7 +100,7 @@ export default function PressSection() {
           className="text-center mb-0"
         >
           <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight">
-            관련 기사
+            보도자료
           </h2>
           
           {/* 고용노동부장관상 수상 강조 박스 */}

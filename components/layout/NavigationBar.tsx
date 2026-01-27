@@ -13,12 +13,14 @@ interface NavLink {
   label: string;
   href: string;
   is52g?: boolean;
-  isMiso?: boolean;
+  isScroll?: boolean;
+  scrollToId?: string;
 }
 
 const navLinks: NavLink[] = [
   { label: "with 52g", href: "#52g", is52g: true },
-  { label: "About MISO", href: "#miso", isMiso: true },
+  { label: "보도자료", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
+  { label: "FAQ", href: "#faq", isScroll: true, scrollToId: "faq" },
   { label: "Contact Us", href: "/page/contact" },
 ];
 
@@ -33,14 +35,28 @@ export default function NavigationBar() {
     router.push("/");
   };
 
-  const handleMisoClick = () => {
-    setCurrentView("miso");
-    router.push("/");
-  };
-
   const handle52gClick = () => {
     setCurrentView("52g");
     router.push("/");
+  };
+
+  const handleScrollClick = (id: string) => {
+    if (currentView !== "landing") {
+      setCurrentView("landing");
+      router.push("/");
+      // 페이지 전환 후 스크롤
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
   };
 
   useEffect(() => {
@@ -84,32 +100,7 @@ export default function NavigationBar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <button
-              onClick={handleHomeClick}
-              className={`text-[14px] font-medium transition-colors ${
-                currentView === "landing"
-                  ? "text-brand-blue"
-                  : "text-text-secondary hover:text-brand-blue"
-              }`}
-            >
-              HOME
-            </button>
             {navLinks.map((link) => {
-              if (link.isMiso) {
-                return (
-                  <button
-                    key={link.href}
-                    onClick={handleMisoClick}
-                    className={`text-[14px] font-medium transition-colors ${
-                      currentView === "miso"
-                        ? "text-brand-blue"
-                        : "text-text-secondary hover:text-brand-blue"
-                    }`}
-                  >
-                    {link.label}
-                  </button>
-                );
-              }
               if (link.is52g) {
                 return (
                   <button
@@ -120,6 +111,17 @@ export default function NavigationBar() {
                         ? "text-brand-blue"
                         : "text-text-secondary hover:text-brand-blue"
                     }`}
+                  >
+                    {link.label}
+                  </button>
+                );
+              }
+              if (link.isScroll && link.scrollToId) {
+                return (
+                  <button
+                    key={link.href}
+                    onClick={() => handleScrollClick(link.scrollToId!)}
+                    className="text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
                   >
                     {link.label}
                   </button>
@@ -166,38 +168,7 @@ export default function NavigationBar() {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden py-4 border-t border-gray-100"
           >
-            <button
-              onClick={() => {
-                handleHomeClick();
-                setIsMobileMenuOpen(false);
-              }}
-              className={`block py-2.5 text-[14px] font-medium transition-colors w-full text-left ${
-                currentView === "landing"
-                  ? "text-brand-blue"
-                  : "text-text-secondary hover:text-brand-blue"
-              }`}
-            >
-              HOME
-            </button>
             {navLinks.map((link) => {
-              if (link.isMiso) {
-                return (
-                  <button
-                    key={link.href}
-                    onClick={() => {
-                      handleMisoClick();
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`block py-2.5 text-[14px] font-medium transition-colors w-full text-left ${
-                      currentView === "miso"
-                        ? "text-brand-blue"
-                        : "text-text-secondary hover:text-brand-blue"
-                    }`}
-                  >
-                    {link.label}
-                  </button>
-                );
-              }
               if (link.is52g) {
                 return (
                   <button
@@ -211,6 +182,20 @@ export default function NavigationBar() {
                         ? "text-brand-blue"
                         : "text-text-secondary hover:text-brand-blue"
                     }`}
+                  >
+                    {link.label}
+                  </button>
+                );
+              }
+              if (link.isScroll && link.scrollToId) {
+                return (
+                  <button
+                    key={link.href}
+                    onClick={() => {
+                      handleScrollClick(link.scrollToId!);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block py-2.5 text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors w-full text-left"
                   >
                     {link.label}
                   </button>

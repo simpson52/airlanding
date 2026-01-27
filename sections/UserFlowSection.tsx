@@ -155,8 +155,16 @@ export default function UserFlowSection() {
           variants={fadeInUp}
           className="text-center mb-0"
         >
-          <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-bold text-text-primary mb-0 leading-tight">
-            어떻게 AI가 위험성평가서를 작성하나요?
+          <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-bold text-text-primary mb-0 leading-tight flex items-center justify-center gap-2 flex-wrap">
+            어떻게{" "}
+            <Image
+              src="/air_logo.png"
+              alt="AIR"
+              width={106}
+              height={32}
+              className="h-8 md:h-9 lg:h-10 w-auto inline-block"
+            />
+            가 위험성평가서를 작성하나요?
           </h2>
         </motion.div>
 
