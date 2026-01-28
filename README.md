@@ -437,6 +437,18 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2026-01-26 (CTA 버튼 및 네비게이션 텍스트 변경)
+- ✅ **CTA 버튼 텍스트 통일**
+  - 모든 '무료 데모 신청하기' → 'AIR로 위험성평가하기'로 변경
+  - HeroSection, NavigationBar, StickyCTA 컴포넌트에 적용
+- ✅ **네비게이션 텍스트 변경**
+  - 모든 '보도자료' → 'News'로 변경
+  - NavigationBar, PressSection에 적용
+- ✅ **About MISO 페이지 개선**
+  - 설명 텍스트 삭제: 'GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼'
+  - CTA 버튼 텍스트: '미소 소개 자료 신청 >' → '도입 문의'
+  - CTA 버튼 색상: `#5542F6` (MISO CI 색상)로 변경
+
 ### 2026-01-26 (About MISO 페이지 헤드라인 개선)
 - ✅ **About MISO 페이지 헤드라인 수정**
   - "우리 회사를 위한 GenAI PlayGround MISO" → "우리 회사를 위한(줄바꿈)AI PlayGround(줄바꿈)miso-logo.svg"
