@@ -437,6 +437,17 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2026-01-26 (About MISO 페이지 헤드라인 개선)
+- ✅ **About MISO 페이지 헤드라인 수정**
+  - "우리 회사를 위한 GenAI PlayGround MISO" → "우리 회사를 위한(줄바꿈)AI PlayGround(줄바꿈)miso-logo.svg"
+  - "GenAI" → "AI"로 변경
+  - "MISO" 텍스트를 `miso-logo.svg` 이미지로 교체
+  - 각 요소가 새 줄에 표시되도록 줄바꿈 구조 유지
+- ✅ **MISO 로고 크기 조정**
+  - miso-logo.svg 이미지 크기를 30% 증가
+  - 높이: `h-[32px] md:h-[40px] lg:h-[48px]` → `h-[42px] md:h-[52px] lg:h-[62px]`
+  - width: 120 → 156, height: 40 → 52
+
 ### 2026-01-26 (브랜드 색상 통일 및 디자인 시스템 업데이트)
 - ✅ **브랜드 색상 통일**
   - 모든 버튼, 강조 색상을 MISO CI 색상 `#5542F6`로 통일

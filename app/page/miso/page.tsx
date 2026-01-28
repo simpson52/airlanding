@@ -140,8 +140,15 @@ export default function MisoPage() {
                 <h1 className="text-[36px] md:text-[48px] lg:text-[56px] font-bold text-text-primary mb-4 leading-tight">
                   우리 회사를 위한
                   <br />
-                  GenAI PlayGround{" "}
-                  <span className="text-brand-blue">MISO</span>
+                  AI PlayGround
+                  <br />
+                  <Image
+                    src="/miso-logo.svg"
+                    alt="MISO"
+                    width={156}
+                    height={52}
+                    className="h-[42px] md:h-[52px] lg:h-[62px] w-auto inline-block mt-2"
+                  />
                 </h1>
               </div>
 
