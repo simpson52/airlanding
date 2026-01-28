@@ -157,19 +157,14 @@ export default function MisoPage() {
                 함께 만드는 진짜 AI Transformation
               </p>
 
-              {/* 설명 텍스트 */}
-              <p className="text-[17px] md:text-[18px] font-medium text-text-secondary leading-relaxed">
-                GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
-              </p>
-
               {/* CTA 버튼 */}
               <div className="pt-4">
                 <Button
                   variant="primary"
-                  className="!px-8 !py-4 text-[18px] !bg-text-primary hover:!bg-text-primary/90"
+                  className="!px-8 !py-4 text-[18px] !bg-[#5542F6] hover:!bg-[#5542F6]/90"
                   fullWidth={false}
                 >
-                  미소 소개 자료 신청 &gt;
+                  도입 문의
                 </Button>
               </div>
             </motion.div>

@@ -19,7 +19,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { label: "About MISO", href: "#miso", isMiso: true },
-  { label: "보도자료", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
+  { label: "News", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
   { label: "FAQ", href: "#faq", isScroll: true, scrollToId: "faq" },
   { label: "Contact Us", href: "/page/contact" },
 ];
@@ -136,7 +136,7 @@ export default function NavigationBar() {
               variant="primary" 
               className="ml-5 !px-4 !py-1.5 text-[14px] !h-auto"
             >
-              무료 데모 신청하기
+              AIR로 위험성평가하기
             </Button>
           </div>
 
@@ -205,7 +205,7 @@ export default function NavigationBar() {
             })}
             <div className="mt-4">
               <Button variant="primary" fullWidth>
-                무료 데모 신청하기
+                AIR로 위험성평가하기
               </Button>
             </div>
           </motion.div>

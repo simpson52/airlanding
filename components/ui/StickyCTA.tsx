@@ -58,7 +58,7 @@ export default function StickyCTA() {
                 onClick={handleCTAClick}
                 className="!px-6 !py-3 text-[16px]"
               >
-                무료 데모 신청하기
+                AIR로 위험성평가하기
               </Button>
               <button
                 onClick={handleDismiss}

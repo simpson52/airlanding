@@ -136,7 +136,7 @@ export default function HeroSection() {
                 className="!px-8 !py-4 text-[18px]"
                 fullWidth={false}
               >
-                무료 데모 신청하기
+                AIR로 위험성평가하기
               </Button>
               <Button
                 variant="ghost"

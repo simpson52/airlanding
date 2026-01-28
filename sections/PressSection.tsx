@@ -100,7 +100,7 @@ export default function PressSection() {
           className="text-center mb-0"
         >
           <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight">
-            보도자료
+            News
           </h2>
           
           {/* 고용노동부장관상 수상 강조 박스 */}
