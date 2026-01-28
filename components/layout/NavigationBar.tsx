@@ -18,7 +18,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { label: "About MISO", href: "#miso", isMiso: true },
-  { label: "News", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
+  { label: "NEWS", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
   { label: "FAQ", href: "#faq", isScroll: true, scrollToId: "faq" },
   { label: "Contact Us", href: "/page/contact" },
 ];
@@ -34,23 +34,24 @@ export default function NavigationBar() {
   };
 
   const handleScrollClick = (id: string) => {
-    // 현재 경로가 랜딩 페이지가 아니면 랜딩 페이지로 이동 후 스크롤
-    if (pathname !== "/") {
-      router.push("/");
-      // 페이지 전환 후 스크롤
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 300);
-    } else {
-      // 이미 랜딩 페이지에 있으면 바로 스크롤
+    // 이미 랜딩 페이지에 있으면 바로 스크롤
+    if (pathname === "/") {
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+      return;
     }
+    
+    // 현재 경로가 랜딩 페이지가 아니면 랜딩 페이지로 이동 후 스크롤
+    router.push("/");
+    // 페이지 전환 후 스크롤
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300);
   };
 
   useEffect(() => {

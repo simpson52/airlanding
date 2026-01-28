@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function HeroSection() {
   const handleCTAClick = () => {
-    // TODO: 데모 신청 페이지로 이동 또는 모달 열기
+    // CTA 클릭 핸들러 (향후 구현 예정)
     console.log("CTA 클릭");
   };
 

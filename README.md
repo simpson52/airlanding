@@ -437,6 +437,29 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2026-01-26 (SonarQube 코드 품질 개선 및 텍스트 변경)
+- ✅ **SonarQube 코드 품질 이슈 수정 (8개)**
+  - PressSection.tsx (5개 이슈)
+    - 사용되지 않는 변수 제거 (`currentSlideIndex`)
+    - 중첩된 삼항 연산자 리팩토링 (IIFE 패턴으로 변경)
+    - Array index key 문제 해결 (고유 key 생성)
+    - `replace()` → `replaceAll()` 변경
+    - 함수 중첩 깊이 문제 해결 (컴포넌트 분리: `ArticleImage`, `ArticleCard`, `SlideItem`)
+  - NavigationBar.tsx (1개 이슈)
+    - 부정 조건 개선 (Early return 패턴 적용)
+  - HeroSection.tsx (1개 이슈)
+    - TODO 주석 처리 (일반 주석으로 변경)
+  - UserFlowSection.tsx (1개 이슈)
+    - 중첩된 삼항 연산자 리팩토링 (IIFE 패턴으로 변경)
+- ✅ **텍스트 변경**
+  - 모든 "News" → "NEWS"로 변경 (PressSection, NavigationBar)
+- ✅ **코드 품질 개선 효과**
+  - 함수 중첩 깊이 감소 (4단계 이하로 유지)
+  - 가독성 향상 (중첩된 삼항 연산자 제거)
+  - 재사용성 향상 (컴포넌트 분리)
+  - 타입 안정성 향상 (Props interface 정의)
+- 📝 **참고**: SonarQube 분석 결과 및 개선 가이드는 `sonar.md` 참조
+
 ### 2026-01-26 (코드 리팩토링 완료)
 - ✅ **Phase 1: 사용되지 않는 컴포넌트 및 파일 제거**
   - `sections/HeroVideoSection.tsx` 제거 (사용되지 않음)

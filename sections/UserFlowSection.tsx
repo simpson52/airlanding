@@ -114,33 +114,39 @@ export default function UserFlowSection() {
               Step {step.id}
             </div>
             <h3 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-0 flex items-center gap-2 flex-wrap">
-              {step.id === 2 ? (
-                <>
-                  <Image
-                    src="/miso-logo.svg"
-                    alt="MISO"
-                    width={120}
-                    height={32}
-                    className="inline-block"
-                  />
-                  <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
-                  <span>기반 위험요인 자동 식별</span>
-                </>
-              ) : step.id === 4 ? (
-                <>
-                  <Image
-                    src="/miso-logo.svg"
-                    alt="MISO"
-                    width={120}
-                    height={32}
-                    className="inline-block"
-                  />
-                  <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
-                  <span>기반 위험성 평가서 작성</span>
-                </>
-              ) : (
-                step.title
-              )}
+              {(() => {
+                if (step.id === 2) {
+                  return (
+                    <>
+                      <Image
+                        src="/miso-logo.svg"
+                        alt="MISO"
+                        width={120}
+                        height={32}
+                        className="inline-block"
+                      />
+                      <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
+                      <span>기반 위험요인 자동 식별</span>
+                    </>
+                  );
+                }
+                if (step.id === 4) {
+                  return (
+                    <>
+                      <Image
+                        src="/miso-logo.svg"
+                        alt="MISO"
+                        width={120}
+                        height={32}
+                        className="inline-block"
+                      />
+                      <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
+                      <span>기반 위험성 평가서 작성</span>
+                    </>
+                  );
+                }
+                return step.title;
+              })()}
             </h3>
             {step.id === 2 && (
               <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 mt-0 leading-relaxed">
