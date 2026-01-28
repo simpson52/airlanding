@@ -71,27 +71,16 @@ export default function FeaturesShowcaseSection() {
           variants={fadeInUp}
           className="text-center mb-12"
         >
-          <div className="flex flex-col items-center justify-center">
-            {/* AIR 로고 + 별표 (같은 줄) */}
-            <div className="mb-2 flex items-center justify-center gap-1">
-              <Image
-                src="/air_logo.png"
-                alt="AIR"
-                width={106}
-                height={32}
-                className="h-8 md:h-9 w-auto"
-              />
-              <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
-            </div>
-            {/* 설명 텍스트 */}
-            <p className="text-[14px] md:text-[15px] text-text-tertiary mb-2">
-              <sup>*</sup>AI Risk Assessment
-            </p>
-            {/* 핵심 강점 제목 */}
-            <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary">
-              핵심 강점
-            </h2>
-          </div>
+          <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-12 flex items-center justify-center gap-2 flex-wrap">
+            <Image
+              src="/air-logo.png"
+              alt="AIR"
+              width={106}
+              height={32}
+              className="h-8 md:h-9 w-auto"
+            />
+            를 쓰면 무엇이 좋아지나요?
+          </h2>
         </motion.div>
 
         <motion.div

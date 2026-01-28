@@ -21,7 +21,7 @@ export default function Footer() {
                 unoptimized
               />
               <Image
-                src="/air_logo.png"
+                src="/air-logo.png"
                 alt="AIR"
                 width={108}
                 height={29}

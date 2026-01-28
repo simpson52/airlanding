@@ -437,6 +437,21 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2026-01-26 (브랜드 색상 통일 및 디자인 시스템 업데이트)
+- ✅ **브랜드 색상 통일**
+  - 모든 버튼, 강조 색상을 MISO CI 색상 `#5542F6`로 통일
+  - 기존 `#3182F6` 색상을 모두 `#5542F6`로 변경
+  - `tailwind.config.ts`: 이미 `#5542F6`로 설정되어 있음 (자동 적용)
+  - `design.mdc`: Brand Blue 색상 `#3182F6` → `#5542F6`로 업데이트
+  - `output.md`: 문서 내 색상 참조 업데이트
+- ✅ **그라데이션 색상 수정**
+  - HeroSection, UserFlowSection의 그라데이션 색상 `#E8F3FF` → `#E8E5FF`로 변경
+  - Brand Blue Light 색상과 일치하도록 조정
+- ✅ **코드 검증**
+  - 모든 컴포넌트가 Tailwind 클래스(`bg-brand-blue`, `text-brand-blue` 등) 사용 확인
+  - 인라인 스타일의 `rgba(85, 66, 246, ...)` 값이 이미 `#5542F6`의 RGB 값임을 확인
+  - 하드코딩된 `#3182F6` 색상 없음 확인
+
 ### 2026-01-26 (About MISO 페이지 구현 및 UI/UX 개선)
 - ✅ **About MISO 페이지 구현**
   - `/page/miso` 경로에 About MISO 페이지 생성

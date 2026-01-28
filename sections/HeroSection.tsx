@@ -30,6 +30,21 @@ export default function HeroSection() {
             variants={fadeInUp}
             className="text-left"
           >
+            {/* AIR 로고 + 별표 */}
+            <div className="mb-0 flex items-center gap-1">
+              <Image
+                src="/air-logo.png"
+                alt="AIR"
+                width={148}
+                height={45}
+                className="h-[32px] md:h-[40px] lg:h-[45px] w-auto"
+              />
+              <sup className="text-[16px] md:text-[20px] text-brand-blue">*</sup>
+            </div>
+            {/* 설명 텍스트 */}
+            <p className="text-[14px] md:text-[15px] text-text-tertiary mb-0 mt-0">
+              <sup>*</sup>AI Risk Assessment
+            </p>
             {/* 헤드라인 */}
             <h1 className="text-[36px] md:text-[48px] lg:text-[56px] font-bold text-text-primary mb-6 leading-tight">
               AI 기반 위험성 평가서,
@@ -146,7 +161,7 @@ export default function HeroSection() {
             <div
               className="relative rounded-[20px] md:rounded-[24px] overflow-hidden shadow-2xl"
               style={{
-                background: "linear-gradient(135deg, #E8F3FF 0%, #FFFFFF 100%)",
+                background: "linear-gradient(135deg, #E8E5FF 0%, #FFFFFF 100%)",
                 padding: "8px",
                 boxShadow: "0 20px 60px rgba(85, 66, 246, 0.15), 0 0 0 1px rgba(85, 66, 246, 0.1)",
               }}

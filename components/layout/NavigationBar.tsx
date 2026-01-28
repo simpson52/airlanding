@@ -83,7 +83,7 @@ export default function NavigationBar() {
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
               <Image
-                src="/air_logo.png"
+                src="/air-logo.png"
                 alt="AIR"
                 width={108}
                 height={24}

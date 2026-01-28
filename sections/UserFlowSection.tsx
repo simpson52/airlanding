@@ -11,25 +11,25 @@ const userFlowSteps = [
   {
     id: 1,
     title: "어떤 작업을 계획하고 계신가요?",
-    description: "작업 내용, 사용 장비, 인원 등을 자유롭게 설명해주시면 MISO AI 기반으로 위험성평가서를 작성합니다",
+    description: "나의 작업 내용, 사용 장비, 인원을 자유롭게 입력합니다.",
     image: "/userflow-1.webp",
   },
   {
     id: 2,
-    title: "MISO AI 기반 위험요인 자동 식별",
-    description: "MISO AI가 작업 내용을 기반으로 한국산업안전보건공단 지침 기반 9가지 위험요인 중 적합한 위험요인을 선정합니다",
+    title: "MISO AI 기반 위험요인 자동 선정",
+    description: "MISO AI가 작성된 작업 내용을 분석하여,\n한국산업안전보건공단의 9가지 위험 요인 중 적합한 위험 요인을 선정합니다.",
     image: "/userflow-2.webp",
   },
   {
     id: 3,
-    title: "고위험요인(SIF) 사례 기반 작성",
-    description: "MISO AI가 작업 내용을 기반으로 고용노동부에서 제공한 고위험요인(SIF) 사례를 기반으로 유사 재해사례를 탐색해 위험성평가서에 반영합니다.",
+    title: "고위험요인(SIF*) 사례 기반 작성",
+    description: "MISO AI가 작업 내용 기반 고위험요인(SIF) 사례 중 유사 재해사례를 위험성평가서에 반영합니다.",
     image: "/userflow-3.webp",
   },
   {
     id: 4,
     title: "AI 기반 위험성 평가서 작성",
-    description: "MISO AI가 작성한 위험성평가를 검토하고 현장 상황에 맞게 보완하세요",
+    description: "MISO AI가 작성한 위험성 평가를 검토하고 현장 상황에 맞게 보완하세요.",
     image: "/userflow-4.webp",
   },
   {
@@ -64,7 +64,7 @@ export default function UserFlowSection() {
               className="relative rounded-[20px] md:rounded-[24px] overflow-hidden"
               style={{
                 padding: "6px",
-                background: "linear-gradient(135deg, #E8F3FF 0%, #FFFFFF 100%)",
+                background: "linear-gradient(135deg, #E8E5FF 0%, #FFFFFF 100%)",
                 boxShadow: "0 8px 24px rgba(85, 66, 246, 0.08), 0 0 0 1px rgba(85, 66, 246, 0.06)",
               }}
             >
@@ -113,7 +113,7 @@ export default function UserFlowSection() {
             <div className="inline-block bg-brand-blue-light text-brand-blue text-[14px] font-semibold px-4 py-2 rounded-full mb-6">
               Step {step.id}
             </div>
-            <h3 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-4 flex items-center gap-2 flex-wrap">
+            <h3 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-0 flex items-center gap-2 flex-wrap">
               {step.id === 2 ? (
                 <>
                   <Image
@@ -143,16 +143,21 @@ export default function UserFlowSection() {
               )}
             </h3>
             {step.id === 2 && (
-              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 leading-relaxed">
+              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 mt-0 leading-relaxed">
                 <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
+              </p>
+            )}
+            {step.id === 3 && (
+              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 mt-0 leading-relaxed">
+                <sup>*</sup>고용노동부에서 제공한 고위험 요인(SIF: Serious Injury&Fatality)
               </p>
             )}
             {step.id === 4 && (
-              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 leading-relaxed">
+              <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 mt-0 leading-relaxed">
                 <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
               </p>
             )}
-            <p className="text-[17px] md:text-[18px] font-medium text-text-secondary leading-relaxed">
+            <p className="text-[17px] md:text-[18px] font-medium text-text-secondary leading-relaxed whitespace-pre-line mt-4">
               {step.description}
             </p>
           </div>
@@ -173,15 +178,14 @@ export default function UserFlowSection() {
           className="text-center mb-0"
         >
           <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-bold text-text-primary mb-0 leading-tight flex items-center justify-center gap-2 flex-wrap">
-            어떻게{" "}
             <Image
-              src="/air_logo.png"
+              src="/air-logo.png"
               alt="AIR"
               width={106}
               height={32}
               className="h-8 md:h-9 lg:h-10 w-auto inline-block"
             />
-            가 위험성평가서를 작성하나요?
+            로 어떻게 위험성 평가서를 작성하나요?
           </h2>
         </motion.div>
 

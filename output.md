@@ -446,7 +446,7 @@ Section 7: Final CTA
 - **Content First**: 텍스트가 시각적 요소보다 우선
 - **Extreme Minimalism**: 불필요한 장식 제거
 - **Super Ellipse**: 둥근 모서리 유지
-- **색상**: Brand Blue (#3182F6)를 CTA에 강조
+- **색상**: Brand Blue (#5542F6)를 CTA에 강조
 
 ---
 

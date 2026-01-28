@@ -18,8 +18,8 @@ description: Design System Documentation (Toss Style)
 *Tailwind CSS 클래스 기준*
 
 ### Primary Colors
-- **Brand Blue**: `#3182F6` (주요 버튼, 활성화 상태, 링크)
-- **Brand Blue Light**: `#E8F3FF` (보조 버튼 배경, 선택된 아이템 배경)
+- **Brand Blue**: `#5542F6` (주요 버튼, 활성화 상태, 링크) - MISO CI 색상
+- **Brand Blue Light**: `#E8E5FF` (보조 버튼 배경, 선택된 아이템 배경)
 
 ### Backgrounds
 - **Base (App Background)**: `#F2F4F6` (아주 연한 회색 - 전체 배경)
@@ -34,7 +34,7 @@ description: Design System Documentation (Toss Style)
 
 ### Semantic
 - **Error**: `#F04452`
-- **Success**: `#3182F6` (브랜드 컬러와 동일하게 가져가는 경향)
+- **Success**: `#5542F6` (브랜드 컬러와 동일하게 가져가는 경향)
 
 ---
 
@@ -65,15 +65,15 @@ description: Design System Documentation (Toss Style)
 
 ### C. Buttons (CTA)
 - **Primary**: 화면 하단에 꽉 차거나 굵은 스타일.
-  - `w-full bg-[#3182F6] text-white font-bold text-[17px] py-4 rounded-[18px] active:scale-[0.96] transition-transform`
+  - `w-full bg-[#5542F6] text-white font-bold text-[17px] py-4 rounded-[18px] active:scale-[0.96] transition-transform`
 - **Secondary**: 배경이 연하고 글자가 색상이 있는 스타일.
-  - `bg-[#E8F3FF] text-[#3182F6] font-semibold py-3 px-5 rounded-[16px]`
+  - `bg-[#E8E5FF] text-[#5542F6] font-semibold py-3 px-5 rounded-[16px]`
 - **Ghost**: 배경 없음.
   - `text-[#4E5968] underline-offset-4 hover:underline`
 
 ### D. Inputs (Form)
 - **Style**: 테두리(Border)를 사용하지 않고 배경색으로 영역을 구분함.
-- **Code**: `w-full bg-[#F9FAFB] text-[#191F28] rounded-[16px] px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#3182F6]/20 placeholder-[#8B95A1]`
+- **Code**: `w-full bg-[#F9FAFB] text-[#191F28] rounded-[16px] px-4 py-4 focus:outline-none focus:ring-2 focus:ring-[#5542F6]/20 placeholder-[#8B95A1]`
 - **Label**: 입력창 바로 위에 작게 배치하지 않고, 입력창 안의 Placeholder나 상단에 굵은 질문 형태로 배치.
 
 ### E. Navigation & Modals
