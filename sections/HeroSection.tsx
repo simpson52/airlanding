@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeInUp, fadeInUpStagger } from "@/utils/animations";
+import { fadeInUp } from "@/utils/animations";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 

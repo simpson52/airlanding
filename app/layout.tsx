@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Providers } from "@/components/providers/ContentViewProvider";
 
 export const metadata: Metadata = {
   title: "AIR - AI기반 위험성 평가 시스템 Made by MISO",
@@ -23,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="antialiased">
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );
