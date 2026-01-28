@@ -7,7 +7,6 @@ import { useRouter, usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import { useContentView } from "@/contexts/ContentViewContext";
 
 interface NavLink {
   label: string;
@@ -27,19 +26,16 @@ const navLinks: NavLink[] = [
 export default function NavigationBar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { currentView, setCurrentView } = useContentView();
   const router = useRouter();
   const pathname = usePathname();
 
   const handleHomeClick = () => {
-    setCurrentView("landing");
     router.push("/");
   };
 
   const handleScrollClick = (id: string) => {
     // 현재 경로가 랜딩 페이지가 아니면 랜딩 페이지로 이동 후 스크롤
     if (pathname !== "/") {
-      setCurrentView("landing");
       router.push("/");
       // 페이지 전환 후 스크롤
       setTimeout(() => {
@@ -125,7 +121,6 @@ export default function NavigationBar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setCurrentView("landing")}
                   className="text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
                 >
                   {link.label}
@@ -193,10 +188,7 @@ export default function NavigationBar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => {
-                    setCurrentView("landing");
-                    setIsMobileMenuOpen(false);
-                  }}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="block py-2.5 text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
                 >
                   {link.label}

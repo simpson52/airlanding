@@ -437,6 +437,36 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2026-01-26 (코드 리팩토링 완료)
+- ✅ **Phase 1: 사용되지 않는 컴포넌트 및 파일 제거**
+  - `sections/HeroVideoSection.tsx` 제거 (사용되지 않음)
+  - `components/ui/TabletFrame.tsx` 제거 (HeroVideoSection에서만 사용)
+  - `components/ui/MisoLogo.tsx` 제거 (어디서도 사용되지 않음)
+  - `components/ui/Input.tsx` 제거 (어디서도 사용되지 않음)
+  - `scripts/fetch-articles.js` 제거 (개발용 스크립트, 미사용)
+  - `sections/index.ts`, `components/ui/index.ts`에서 관련 export 제거
+- ✅ **Phase 2: ContentViewContext 리팩토링**
+  - `contexts/ContentViewContext.tsx` 제거 (불필요한 Context)
+  - `components/providers/ContentViewProvider.tsx` 제거
+  - `app/layout.tsx`에서 Providers 제거
+  - NavigationBar 단순화 (Context 없이 라우팅만 사용)
+  - 빈 폴더 정리 (`contexts/`, `components/providers/`)
+- ✅ **Phase 4: Import/Export 정리**
+  - `sections/HeroSection.tsx`: `fadeInUpStagger` import 제거 (사용되지 않음)
+  - `types/index.ts` 제거 (사용되지 않는 타입 정의)
+  - `utils/youtube.ts`: `getYouTubeVideoId()` 함수 제거 (사용되지 않음)
+  - 빈 폴더 정리 (`types/`)
+- ✅ **Phase 5: 코드 구조 최적화**
+  - 사용되지 않는 유틸리티 함수 제거
+  - 사용되지 않는 타입 정의 제거
+  - 코드 가독성 향상
+- ✅ **검증 결과**
+  - 빌드 성공: `npm run build` 통과
+  - Linter 오류 없음
+  - 모든 페이지 정상 작동 확인
+  - 번들 크기 최적화: `/page/miso` 6.82 kB → 6.02 kB
+- 📝 **참고**: 리팩토링 계획 및 진행 상황은 `refac.md` 참조
+
 ### 2026-01-26 (CTA 버튼 및 네비게이션 텍스트 변경)
 - ✅ **CTA 버튼 텍스트 통일**
   - 모든 '무료 데모 신청하기' → 'AIR로 위험성평가하기'로 변경
