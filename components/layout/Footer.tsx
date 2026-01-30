@@ -29,12 +29,12 @@ export default function Footer() {
                 priority
               />
               <span className="text-[18px] md:text-[19px] font-semibold text-text-secondary leading-tight whitespace-nowrap">
-                AI기반 위험성 평가 시스템
+                AI기반 위험성 평가 솔루션
               </span>
             </div>
             <p className="text-[17px] font-medium text-text-secondary">
               GS그룹이 만든<br />
-              MISO AI기반 위험성 평가 시스템
+              MISO AI기반 위험성 평가 솔루션
             </p>
           </div>
 

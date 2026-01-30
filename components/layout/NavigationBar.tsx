@@ -88,7 +88,7 @@ export default function NavigationBar() {
                 priority
               />
               <span className="text-[15px] md:text-[16px] font-semibold text-text-secondary leading-tight whitespace-nowrap">
-                AI기반 위험성 평가 시스템
+                AI기반 위험성 평가 솔루션
               </span>
             </button>
           </div>

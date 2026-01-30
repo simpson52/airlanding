@@ -437,6 +437,11 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
+### 2026-01-26 (브랜드 문구 통일: 시스템 → 솔루션)
+- ✅ **텍스트 전역 변경**
+  - "AI기반 위험성 평가 시스템" → "AI기반 위험성 평가 솔루션"
+  - 적용: 페이지 타이틀(layout.tsx), NavigationBar, Footer(2곳)
+
 ### 2026-01-26 (SonarQube 코드 품질 개선 및 텍스트 변경)
 - ✅ **SonarQube 코드 품질 이슈 수정 (8개)**
   - PressSection.tsx (5개 이슈)
@@ -798,4 +803,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2026-01-26 (About MISO 페이지 구현 및 UI/UX 개선)
+**Last Updated**: 2026-01-26 (브랜드 문구 통일: AI기반 위험성 평가 솔루션)
