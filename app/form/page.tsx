@@ -23,6 +23,18 @@ interface FormData {
   privacyAgreement: boolean;
 }
 
+interface FormErrors {
+  company?: string;
+  locationProvince?: string;
+  locationCity?: string;
+  name?: string;
+  position?: string;
+  email?: string;
+  phone?: string;
+  inquiry?: string;
+  privacyAgreement?: string;
+}
+
 export default function FormPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -37,7 +49,7 @@ export default function FormPage() {
     privacyAgreement: false,
   });
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
@@ -56,13 +68,13 @@ export default function FormPage() {
     }
     
     // 에러 초기화
-    if (errors[name as keyof FormData]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: FormErrors = {};
 
     if (!formData.company.trim()) {
       newErrors.company = "회사명을 입력해주세요";
