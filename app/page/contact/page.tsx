@@ -78,6 +78,12 @@ export default function ContactPage() {
               <Button
                 variant="primary"
                 className="w-full !py-4 text-[18px] flex items-center justify-center gap-2 whitespace-nowrap"
+                onClick={() => {
+                  window.open(
+                    "https://drive.google.com/file/d/1-3qRFvDGzNPIca52CSdIf2DWz8D7dFBx/view?usp=sharing",
+                    "_blank"
+                  );
+                }}
               >
                 <Image
                   src="/air-logo 1_white.png"
