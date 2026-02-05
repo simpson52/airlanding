@@ -73,14 +73,13 @@ export default function Footer() {
         {/* Banner Image */}
         <div className="mb-8">
           <a href="https://miso.gs" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
-            <img
+            <Image
               src="/banner.png"
               alt="MISO와 함께 내 업무에 AI를 적용해보세요!"
+              width={1200}
+              height={300}
               className="w-full h-auto object-contain block"
-              onError={(e) => {
-                // 이미지가 없을 경우를 대비한 fallback
-                console.warn("Banner image not found at /banner.png");
-              }}
+              unoptimized
             />
           </a>
         </div>
