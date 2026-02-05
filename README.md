@@ -866,8 +866,9 @@ npm run dev
 
 - **파일 생성**: `.env.local.example` (템플릿)
 - **환경 변수**:
-  - `GOOGLE_SHEETS_WEBHOOK_URL`: Google Apps Script 웹앱 URL
+  - `GOOGLE_SHEETS_WEBHOOK_URL`: Google Apps Script 웹앱 URL (필수)
   - `SLACK_WEBHOOK_URL`: Slack Incoming Webhook URL (선택사항)
+- **Vercel 배포 환경**: Vercel 대시보드에서 환경 변수 설정 필요 (자세한 내용은 `GOOGLE_SHEETS_SETUP.md` 참고)
 
 ---
 

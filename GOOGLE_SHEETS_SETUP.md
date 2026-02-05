@@ -121,12 +121,49 @@
 
 #### 4. 환경 변수 설정
 
+##### 로컬 개발 환경 (`.env.local`)
+
 1. **프로젝트 루트에 `.env.local` 파일 생성** (이미 있다면 수정)
    - 다음 내용 추가:
      ```
      GOOGLE_SHEETS_WEBHOOK_URL=여기에_복사한_웹앱_URL_입력
      SLACK_WEBHOOK_URL=여기에_복사한_Slack_웹훅_URL_입력 (선택사항)
      ```
+
+##### Vercel 배포 환경 설정 (중요!)
+
+**배포된 사이트에서 폼 제출이 작동하려면 Vercel에 환경 변수를 설정해야 합니다.**
+
+1. **Vercel 대시보드 접속**
+   - https://vercel.com 접속 후 로그인
+   - 프로젝트 선택 (airlanding)
+
+2. **환경 변수 설정**
+   - 좌측 메뉴에서 **"Settings"** 클릭
+   - 상단 탭에서 **"Environment Variables"** 클릭
+   - 다음 환경 변수 추가:
+
+   **필수:**
+   ```
+   이름: GOOGLE_SHEETS_WEBHOOK_URL
+   값: 여기에_복사한_Google_Apps_Script_웹앱_URL_입력
+   환경: Production, Preview, Development 모두 선택
+   ```
+
+   **선택사항:**
+   ```
+   이름: SLACK_WEBHOOK_URL
+   값: 여기에_복사한_Slack_웹훅_URL_입력
+   환경: Production, Preview, Development 모두 선택
+   ```
+
+3. **재배포**
+   - 환경 변수 추가 후 **자동으로 재배포**되거나
+   - 수동으로 **"Deployments"** 탭에서 최신 배포의 **"Redeploy"** 클릭
+
+4. **확인**
+   - 재배포 완료 후 배포된 사이트에서 폼 제출 테스트
+   - Google Sheet에 데이터가 저장되는지 확인
 
 ---
 

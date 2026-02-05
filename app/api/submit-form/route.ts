@@ -105,7 +105,10 @@ export async function POST(request: NextRequest) {
         envKeys: Object.keys(process.env).filter(key => key.includes('GOOGLE') || key.includes('SHEET')),
       });
       return NextResponse.json(
-        { success: false, error: "서버 설정 오류" },
+        { 
+          success: false, 
+          error: "서버 설정 오류: Google Sheets 웹훅 URL이 설정되지 않았습니다. Vercel 대시보드에서 환경 변수를 설정해주세요." 
+        },
         { status: 500 }
       );
     }
