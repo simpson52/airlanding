@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { fadeInUp } from "@/utils/animations";
 
 // 간단한 마크다운 파싱 함수 (Bold 처리)
@@ -160,8 +159,7 @@ export default function FAQContactSection() {
   const currentCategory = faqCategories.find((cat) => cat.id === selectedCategory) || faqCategories[0];
 
   return (
-    <>
-      <section id="faq" className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-white relative overflow-hidden">
+    <section id="faq" className="py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-8 bg-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto w-full">
           <motion.div
             initial="hidden"
@@ -224,35 +222,5 @@ export default function FAQContactSection() {
           </motion.div>
         </div>
       </section>
-
-      {/* Banner Image - Full Width */}
-      <section className="bg-bg-surface pt-0 pb-16 md:pb-24">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="w-full"
-        >
-          <Link href="/page/miso" className="block cursor-pointer hover:opacity-90 transition-opacity">
-            <img
-              src="/banner.png"
-              alt="MISO와 함께 내 업무에 AI를 적용해보세요!"
-              className="w-full h-auto object-contain block"
-              onError={(e) => {
-                // 이미지가 없을 경우를 대비한 fallback
-                console.warn("Banner image not found at /banner.png");
-              }}
-            />
-          </Link>
-          <div className="text-center mt-4 flex items-center justify-center gap-2">
-            <span className="text-[18px] md:text-[20px] text-brand-blue animate-bounce">▲</span>
-            <p className="text-[16px] md:text-[18px] font-semibold text-brand-blue">
-              배너를 누르면 MISO에 대한 자세한 정보가 표시됩니다
-            </p>
-          </div>
-        </motion.div>
-      </section>
-    </>
   );
 }

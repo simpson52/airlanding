@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 
 export default function Footer() {
@@ -33,7 +33,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-[17px] font-medium text-text-secondary">
-              GS그룹이 만든<br />
+              GS가 만든<br />
               MISO AI기반 위험성 평가 솔루션
             </p>
           </div>
@@ -44,30 +44,17 @@ export default function Footer() {
               Contact Us
             </h4>
             <div className="space-y-4">
-              {/* Email and Phone in one line */}
-              <div className="flex items-center gap-4 flex-wrap">
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
-                    <Mail className="w-4 h-4 text-brand-blue" strokeWidth={2} />
-                  </div>
-                  <a
-                    href="mailto:contact@miso.ai"
-                    className="text-[15px] font-medium text-brand-blue hover:underline transition-colors"
-                  >
-                    contact@miso.ai
-                  </a>
+              {/* Email */}
+              <div className="flex items-center gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
+                  <Mail className="w-4 h-4 text-brand-blue" strokeWidth={2} />
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
-                    <Phone className="w-4 h-4 text-brand-blue" strokeWidth={2} />
-                  </div>
-                  <a
-                    href="tel:02-2000-0000"
-                    className="text-[15px] font-medium text-text-primary hover:text-brand-blue transition-colors"
-                  >
-                    02-2000-0000
-                  </a>
-                </div>
+                <a
+                  href="mailto:jhshim@gs.co.kr"
+                  className="text-[15px] font-medium text-brand-blue hover:underline transition-colors"
+                >
+                  jhshim@gs.co.kr
+                </a>
               </div>
 
               {/* Address */}
@@ -81,6 +68,21 @@ export default function Footer() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Banner Image */}
+        <div className="mb-8">
+          <a href="https://miso.gs" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
+            <img
+              src="/banner.png"
+              alt="MISO와 함께 내 업무에 AI를 적용해보세요!"
+              className="w-full h-auto object-contain block"
+              onError={(e) => {
+                // 이미지가 없을 경우를 대비한 fallback
+                console.warn("Banner image not found at /banner.png");
+              }}
+            />
+          </a>
         </div>
 
         {/* Copyright */}

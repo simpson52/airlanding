@@ -150,7 +150,7 @@ export default function UserFlowSection() {
             </h3>
             {step.id === 2 && (
               <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 mt-0 leading-relaxed">
-                <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
+                <sup>*</sup>GS가 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
               </p>
             )}
             {step.id === 3 && (
@@ -160,7 +160,7 @@ export default function UserFlowSection() {
             )}
             {step.id === 4 && (
               <p className="text-[14px] md:text-[15px] text-text-tertiary mb-4 mt-0 leading-relaxed">
-                <sup>*</sup>GS그룹이 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
+                <sup>*</sup>GS가 만든 비개발자를 위한 현장 맞춤형 AI 플랫폼
               </p>
             )}
             <p className="text-[17px] md:text-[18px] font-medium text-text-secondary leading-relaxed whitespace-pre-line mt-4">

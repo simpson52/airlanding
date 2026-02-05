@@ -2,7 +2,9 @@
 
 import NavigationBar from "@/components/layout/NavigationBar";
 import Footer from "@/components/layout/Footer";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import Button from "@/components/ui/Button";
 
 export default function ContactPage() {
   return (
@@ -32,23 +34,10 @@ export default function ContactPage() {
                   <Mail className="w-4 h-4 text-brand-blue" strokeWidth={2} />
                 </div>
                 <a
-                  href="mailto:contact@miso.ai"
+                  href="mailto:jhshim@gs.co.kr"
                   className="text-lg font-medium text-brand-blue hover:underline transition-colors"
                 >
-                  contact@miso.ai
-                </a>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-brand-blue-light rounded-input flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-brand-blue" strokeWidth={2} />
-                </div>
-                <a
-                  href="tel:02-2000-0000"
-                  className="text-lg font-medium text-text-primary hover:text-brand-blue transition-colors"
-                >
-                  02-2000-0000
+                  jhshim@gs.co.kr
                 </a>
               </div>
 
@@ -83,6 +72,25 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
+            
+            {/* 소개 자료 다운로드 버튼 */}
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <Button
+                variant="primary"
+                className="w-full !py-4 text-[18px] flex items-center justify-center gap-2 whitespace-nowrap"
+              >
+                <Image
+                  src="/air-logo 1_white.png"
+                  alt="AIR"
+                  width={24}
+                  height={24}
+                  className="h-6 w-auto flex-shrink-0"
+                  quality={100}
+                  unoptimized
+                />
+                <span>소개 자료 다운로드</span>
+              </Button>
+            </div>
             </div>
 
             {/* Right: Google Maps */}
@@ -113,7 +121,7 @@ export default function ContactPage() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-brand-blue mt-1">•</span>
-                <span>이메일 또는 전화로 연락주시면 빠른 시일 내에 답변드리겠습니다.</span>
+                <span>이메일로 연락주시면 빠른 시일 내에 답변드리겠습니다.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-brand-blue mt-1">•</span>

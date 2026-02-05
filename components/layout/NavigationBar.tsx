@@ -11,19 +11,19 @@ import { Menu, X } from "lucide-react";
 interface NavLink {
   label: string;
   href: string;
-  isMiso?: boolean;
   isScroll?: boolean;
   scrollToId?: string;
 }
 
 const navLinks: NavLink[] = [
-  { label: "About MISO", href: "#miso", isMiso: true },
-  { label: "NEWS", href: "#related-articles", isScroll: true, scrollToId: "related-articles" },
-  { label: "FAQ", href: "#faq", isScroll: true, scrollToId: "faq" },
   { label: "Contact Us", href: "/page/contact" },
 ];
 
-export default function NavigationBar() {
+interface NavigationBarProps {
+  readonly onCTAClick?: () => void;
+}
+
+export default function NavigationBar({ onCTAClick }: NavigationBarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
@@ -96,17 +96,6 @@ export default function NavigationBar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => {
-              if (link.isMiso) {
-                return (
-                  <Link
-                    key={link.href}
-                    href="/page/miso"
-                    className="text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                );
-              }
               if (link.isScroll && link.scrollToId) {
                 return (
                   <button
@@ -130,9 +119,19 @@ export default function NavigationBar() {
             })}
             <Button 
               variant="primary" 
-              className="ml-5 !px-4 !py-1.5 text-[14px] !h-auto"
+              className="ml-5 !px-4 !py-1.5 text-[14px] !h-auto flex items-center justify-center gap-1.5"
+              onClick={onCTAClick}
             >
-              AIR로 위험성평가하기
+              <Image
+                src="/air-logo 1_white.png"
+                alt="AIR"
+                width={16}
+                height={16}
+                className="h-4 w-auto"
+                quality={100}
+                unoptimized
+              />
+              위험성 평가하기
             </Button>
           </div>
 
@@ -159,18 +158,6 @@ export default function NavigationBar() {
             className="md:hidden py-4 border-t border-gray-100"
           >
             {navLinks.map((link) => {
-              if (link.isMiso) {
-                return (
-                  <Link
-                    key={link.href}
-                    href="/page/miso"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block py-2.5 text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                );
-              }
               if (link.isScroll && link.scrollToId) {
                 return (
                   <button
@@ -197,8 +184,22 @@ export default function NavigationBar() {
               );
             })}
             <div className="mt-4">
-              <Button variant="primary" fullWidth>
-                AIR로 위험성평가하기
+              <Button 
+                variant="primary" 
+                fullWidth 
+                onClick={onCTAClick}
+                className="flex items-center justify-center gap-2"
+              >
+                <Image
+                  src="/air-logo 1_white.png"
+                  alt="AIR"
+                  width={20}
+                  height={20}
+                  className="h-5 w-auto"
+                  quality={100}
+                  unoptimized
+                />
+                위험성 평가하기
               </Button>
             </div>
           </motion.div>

@@ -4,11 +4,18 @@ import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
+import { extractYouTubeVideoId } from "@/utils/youtube";
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  readonly onCTAClick?: () => void;
+}
+
+export default function HeroSection({ onCTAClick }: HeroSectionProps) {
+  const youtubeUrl = "https://youtu.be/VbCzkWyFTmU";
+  const videoId = extractYouTubeVideoId(youtubeUrl) || "VbCzkWyFTmU";
+
   const handleCTAClick = () => {
-    // CTA 클릭 핸들러 (향후 구현 예정)
-    console.log("CTA 클릭");
+    onCTAClick?.();
   };
 
   const handleSecondaryCTAClick = () => {
@@ -22,13 +29,13 @@ export default function HeroSection() {
   return (
     <section className="relative w-full bg-white py-16 md:py-20 lg:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16 items-center">
           {/* 좌측: 텍스트 영역 */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="text-left"
+            className="text-left order-2 lg:order-none"
           >
             {/* AIR 로고 + 별표 */}
             <div className="mb-0 flex items-center gap-1">
@@ -47,9 +54,9 @@ export default function HeroSection() {
             </p>
             {/* 헤드라인 */}
             <h1 className="text-[36px] md:text-[48px] lg:text-[56px] font-bold text-text-primary mb-6 leading-tight">
-              AI 기반 위험성 평가서,
+              현장 위험성 평가서,
               <br />
-              이제 1분이면 충분합니다
+              이제 검토만 하세요.
             </h1>
 
             {/* 부제목 */}
@@ -133,15 +140,24 @@ export default function HeroSection() {
               <Button
                 variant="primary"
                 onClick={handleCTAClick}
-                className="!px-8 !py-4 text-[18px]"
+                className="!px-8 !py-4 text-[18px] flex items-center justify-center gap-2 whitespace-nowrap"
                 fullWidth={false}
               >
-                AIR로 위험성평가하기
+                <Image
+                  src="/air-logo 1_white.png"
+                  alt="AIR"
+                  width={24}
+                  height={24}
+                  className="h-6 w-auto flex-shrink-0"
+                  quality={100}
+                  unoptimized
+                />
+                <span className="whitespace-nowrap">위험성 평가하기</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={handleSecondaryCTAClick}
-                className="!px-8 !py-4 text-[18px]"
+                className="!px-8 !py-4 text-[18px] whitespace-nowrap"
                 fullWidth={false}
               >
                 더 알아보기
@@ -149,13 +165,13 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* 우측: 시각적 요소 (데스크탑 화면 미리보기) */}
+          {/* 우측: YouTube 비디오 */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
             transition={{ delay: 0.2 }}
-            className="relative w-full"
+            className="relative w-full order-first lg:order-none"
           >
             {/* 데스크탑 화면 프레임 */}
             <div
@@ -166,34 +182,15 @@ export default function HeroSection() {
                 boxShadow: "0 20px 60px rgba(85, 66, 246, 0.15), 0 0 0 1px rgba(85, 66, 246, 0.1)",
               }}
             >
-              {/* 화면 내부 */}
-              <div className="relative w-full aspect-video bg-white rounded-[16px] md:rounded-[20px] overflow-hidden">
-                {/* 임시 플레이스홀더 - 나중에 실제 대시보드 스크린샷으로 교체 */}
-                <div className="w-full h-full bg-gradient-to-br from-brand-blue/10 to-brand-blue-light/20 flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-brand-blue/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <svg
-                        className="w-12 h-12 text-brand-blue"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-[16px] text-text-secondary font-medium">
-                      AIR 대시보드 미리보기
-                    </p>
-                    <p className="text-[14px] text-text-tertiary mt-2">
-                      (실제 화면 동영상으로 교체 예정)
-                    </p>
-                  </div>
-                </div>
+              {/* YouTube 비디오 임베드 */}
+              <div className="relative w-full aspect-[16/11] md:aspect-[16/10] lg:aspect-[16/9] bg-white rounded-[16px] md:rounded-[20px] overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=0&mute=0&controls=1&rel=0`}
+                  title="AIR 소개 영상"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full border-0"
+                />
               </div>
             </div>
           </motion.div>

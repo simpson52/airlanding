@@ -3,14 +3,13 @@
 import { motion } from "framer-motion";
 import { fadeInUp, fadeInUpStagger } from "@/utils/animations";
 import Card from "@/components/ui/Card";
-import { Shield, FileCheck, CheckSquare, LucideProps } from "lucide-react";
 import Image from "next/image";
 
 interface Feature {
   id: number;
   title: string;
   shortDescription: string | React.ReactNode;
-  icon: React.ComponentType<LucideProps>;
+  iconImage: string;
   color: string;
 }
 
@@ -20,27 +19,25 @@ const features: Feature[] = [
     title: "안전관리 업무 효율화",
     shortDescription: (
       <>
-        위험성 평가 시간을 5분 이하로
+        위험성 평가 시간을 기존 대비 83%로 단축하고 품질은 향상시킵니다.
         <br />
-        단축하면서 품질은 향상시킵니다.
-        <br />
-        <strong className="font-bold text-text-primary">이제 검토만 하면 됩니다.</strong>
+        <span className="text-[13px] md:text-[14px] text-text-tertiary mt-2 block">
+          *PSM S,M등급 29개 사업장 대상 설문조사 결과
+        </span>
       </>
     ),
-    icon: FileCheck,
+    iconImage: "/time.png",
     color: "from-blue-500 to-blue-600",
   },
   {
     id: 2,
-    title: "JSA·KRAS 기반 위험성평가 표준화",
+    title: "전문 평가기법 기반 표준화",
     shortDescription: (
       <>
-        검증된 평가 기법으로 표준화해
-        <br />
-        <strong className="font-bold text-text-primary">숙련도에 따른 편차를 줄입니다.</strong>
+        JSA·KRAS·빈도-강도법 등 AI기반의 위험성 평가 표준화로 숙련도에 따른 편차를 줄입니다.
       </>
     ),
-    icon: Shield,
+    iconImage: "/legal.png",
     color: "from-orange-500 to-orange-600",
   },
   {
@@ -48,14 +45,10 @@ const features: Feature[] = [
     title: "현장 맞춤형 체크리스트",
     shortDescription: (
       <>
-        AI 기반 위험성 평가 결과를
-        <br />
-        바로 적용 가능한 체크리스트로 변환해
-        <br />
-        <strong className="font-bold text-text-primary">즉시 실행 가능한 안전 계획을 수립합니다.</strong>
+        위험성 평가 결과를 간단한 클릭으로 체크리스트로 변환, 즉시 실행 가능한 안전 계획을 수립합니다.
       </>
     ),
-    icon: CheckSquare,
+    iconImage: "/checklist.png",
     color: "from-green-500 to-green-600",
   },
 ];
@@ -72,6 +65,7 @@ export default function FeaturesShowcaseSection() {
           className="text-center mb-12"
         >
           <h2 className="text-[28px] md:text-[36px] font-bold text-text-primary mb-12 flex items-center justify-center gap-2 flex-wrap">
+            왜{" "}
             <Image
               src="/air-logo.png"
               alt="AIR"
@@ -79,7 +73,7 @@ export default function FeaturesShowcaseSection() {
               height={32}
               className="h-8 md:h-9 w-auto"
             />
-            를 쓰면 무엇이 좋아지나요?
+            인가요?
           </h2>
         </motion.div>
 
@@ -91,15 +85,18 @@ export default function FeaturesShowcaseSection() {
           className="grid md:grid-cols-3 gap-6 lg:gap-8 w-full overflow-hidden"
         >
           {features.map((feature) => {
-            const Icon = feature.icon;
             return (
               <motion.div key={feature.id} variants={fadeInUp}>
                 <Card className="h-full">
                   <div className="flex flex-col items-center text-center">
-                    <div
-                      className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-full flex items-center justify-center mb-6`}
-                    >
-                      <Icon className="w-8 h-8 text-white" strokeWidth={2.5} />
+                    <div className="mb-6">
+                      <Image
+                        src={feature.iconImage}
+                        alt={feature.title}
+                        width={128}
+                        height={128}
+                        className="w-24 h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 object-contain"
+                      />
                     </div>
                     <h3 className="text-[20px] font-semibold text-text-primary mb-4">
                       {feature.title}

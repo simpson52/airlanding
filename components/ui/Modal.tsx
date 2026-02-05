@@ -2,13 +2,12 @@
 
 import { useEffect, ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 
 interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: ReactNode;
-  title?: string;
+  readonly isOpen: boolean;
+  readonly onClose: () => void;
+  readonly children: ReactNode;
+  readonly title?: string;
 }
 
 export default function Modal({ isOpen, onClose, children, title }: ModalProps) {
@@ -54,7 +53,7 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
                 duration: 0.3,
                 ease: [0.16, 1, 0.3, 1] // Custom easing for smooth feel
               }}
-              className="relative w-full max-w-4xl max-h-[90vh] bg-bg-surface rounded-[32px] shadow-2xl overflow-hidden"
+              className="relative w-full max-w-lg max-h-[90vh] bg-bg-surface rounded-[32px] shadow-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Content - 스크롤 가능 */}
