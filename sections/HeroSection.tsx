@@ -11,7 +11,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ onCTAClick }: HeroSectionProps) {
-  const youtubeUrl = "https://youtu.be/VbCzkWyFTmU";
+  const youtubeUrl = "https://youtu.be/Ga-k1RN6Wgo";
   const videoId = extractYouTubeVideoId(youtubeUrl) || "VbCzkWyFTmU";
 
   const handleCTAClick = () => {
