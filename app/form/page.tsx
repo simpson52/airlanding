@@ -89,9 +89,9 @@ export default function FormPage() {
       newErrors.name = "이름을 입력해주세요";
     }
     if (!formData.email.trim()) {
-      newErrors.email = "이메일을 입력해주세요";
+      newErrors.email = "회사 이메일을 입력해주세요";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "올바른 이메일 형식을 입력해주세요";
+      newErrors.email = "올바른 회사 이메일 형식을 입력해주세요";
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "전화번호를 입력해주세요";
@@ -370,7 +370,7 @@ export default function FormPage() {
                     name="position"
                     value={formData.position}
                     onChange={handleInputChange}
-                    placeholder="예: 안전관리, 위험성 평가"
+                    placeholder="예: 안전관리 등"
                     className="w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all"
                   />
                 </div>
@@ -380,7 +380,7 @@ export default function FormPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 <div>
                   <label htmlFor="email" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    이메일 <span className="text-semantic-error">*</span>
+                    회사 이메일 <span className="text-semantic-error">*</span>
                   </label>
                   <input
                     id="email"
