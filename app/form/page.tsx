@@ -11,26 +11,24 @@ import { fadeInUp } from "@/utils/animations";
 import Image from "next/image";
 import { X } from "lucide-react";
 
+const LIKED_POINT_OPTIONS = [
+  "안전관리 업무 효율화",
+  "전문 평가기법 기반 표준화",
+  "현장 맞춤형 체크리스트",
+  "AI 기반 위험성 평가",
+] as const;
+
 interface FormData {
   company: string;
-  locationProvince: string;
-  locationCity: string;
-  name: string;
-  position: string;
   email: string;
-  phone: string;
+  likedPoints: string[];
   inquiry: string;
   privacyAgreement: boolean;
 }
 
 interface FormErrors {
   company?: string;
-  locationProvince?: string;
-  locationCity?: string;
-  name?: string;
-  position?: string;
   email?: string;
-  phone?: string;
   inquiry?: string;
   privacyAgreement?: string;
 }
@@ -39,12 +37,8 @@ export default function FormPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     company: "",
-    locationProvince: "",
-    locationCity: "",
-    name: "",
-    position: "",
     email: "",
-    phone: "",
+    likedPoints: [],
     inquiry: "",
     privacyAgreement: false,
   });
@@ -57,17 +51,23 @@ export default function FormPage() {
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    
-    // 시/도가 변경되면 시/군/구 초기화
-    if (name === "locationProvince") {
-      setFormData((prev) => ({ ...prev, locationProvince: value, locationCity: "" }));
-    } else if (type === "checkbox") {
-      setFormData((prev) => ({ ...prev, [name]: checked }));
+
+    if (type === "checkbox") {
+      if (name === "likedPoint") {
+        const pointValue = (e.target as HTMLInputElement).value;
+        setFormData((prev) => ({
+          ...prev,
+          likedPoints: checked
+            ? [...prev.likedPoints, pointValue]
+            : prev.likedPoints.filter((p) => p !== pointValue),
+        }));
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: checked }));
+      }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
-    
-    // 에러 초기화
+
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -79,22 +79,10 @@ export default function FormPage() {
     if (!formData.company.trim()) {
       newErrors.company = "회사명을 입력해주세요";
     }
-    if (!formData.locationProvince) {
-      newErrors.locationProvince = "시/도를 선택해주세요";
-    }
-    if (!formData.locationCity) {
-      newErrors.locationCity = "시/군/구를 선택해주세요";
-    }
-    if (!formData.name.trim()) {
-      newErrors.name = "이름을 입력해주세요";
-    }
     if (!formData.email.trim()) {
       newErrors.email = "회사 이메일을 입력해주세요";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "올바른 회사 이메일 형식을 입력해주세요";
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "전화번호를 입력해주세요";
     }
     if (!formData.privacyAgreement) {
       newErrors.privacyAgreement = "개인정보 수집 및 처리방침에 동의해주세요";
@@ -102,46 +90,6 @@ export default function FormPage() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
-
-  const koreanProvinces = [
-    "서울특별시",
-    "부산광역시",
-    "대구광역시",
-    "인천광역시",
-    "광주광역시",
-    "대전광역시",
-    "울산광역시",
-    "세종특별자치시",
-    "경기도",
-    "강원특별자치도",
-    "충청북도",
-    "충청남도",
-    "전북특별자치도",
-    "전라남도",
-    "경상북도",
-    "경상남도",
-    "제주특별자치도",
-  ];
-
-  const koreanCities: Record<string, string[]> = {
-    "서울특별시": ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
-    "부산광역시": ["강서구", "금정구", "기장군", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"],
-    "대구광역시": ["남구", "달서구", "달성군", "동구", "북구", "서구", "수성구", "중구"],
-    "인천광역시": ["강화군", "계양구", "남동구", "동구", "미추홀구", "부평구", "서구", "연수구", "옹진군", "중구"],
-    "광주광역시": ["광산구", "남구", "동구", "북구", "서구"],
-    "대전광역시": ["대덕구", "동구", "서구", "유성구", "중구"],
-    "울산광역시": ["남구", "동구", "북구", "울주군", "중구"],
-    "세종특별자치시": ["세종시"],
-    "경기도": ["가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시"],
-    "강원특별자치도": ["강릉시", "고성군", "동해시", "삼척시", "속초시", "양구군", "양양군", "영월군", "원주시", "인제군", "정선군", "철원군", "춘천시", "태백시", "평창군", "홍천군", "화천군", "횡성군"],
-    "충청북도": ["괴산군", "단양군", "보은군", "영동군", "옥천군", "음성군", "제천시", "증평군", "진천군", "청주시", "충주시"],
-    "충청남도": ["계룡시", "공주시", "금산군", "논산시", "당진시", "보령시", "부여군", "서산시", "서천군", "아산시", "예산군", "천안시", "청양군", "태안군", "홍성군"],
-    "전북특별자치도": ["고창군", "군산시", "김제시", "남원시", "무주군", "부안군", "순창군", "완주군", "익산시", "임실군", "장수군", "전주시", "정읍시", "진안군"],
-    "전라남도": ["강진군", "고흥군", "곡성군", "광양시", "구례군", "나주시", "담양군", "목포시", "무안군", "보성군", "순천시", "신안군", "여수시", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군"],
-    "경상북도": ["경산시", "경주시", "고령군", "구미시", "군위군", "김천시", "문경시", "봉화군", "상주시", "성주군", "안동시", "영덕군", "영양군", "영주시", "영천시", "예천군", "울릉군", "울진군", "의성군", "청도군", "청송군", "칠곡군", "포항시"],
-    "경상남도": ["거제시", "거창군", "고성군", "김해시", "남해군", "밀양시", "사천시", "산청군", "양산시", "의령군", "진주시", "창녕군", "창원시", "통영시", "하동군", "함안군", "함양군", "합천군"],
-    "제주특별자치도": ["서귀포시", "제주시"],
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -242,184 +190,54 @@ export default function FormPage() {
                 )}
               </div>
 
-              {/* 소재지: 시/도 + 시/군/구 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <div>
-                  <label htmlFor="locationProvince" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    소재지 (시/도) <span className="text-semantic-error">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="locationProvince"
-                      name="locationProvince"
-                      value={formData.locationProvince}
-                      onChange={handleInputChange}
-                      className={`w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 pr-12 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all appearance-none ${
-                        errors.locationProvince ? "border-semantic-error bg-red-50" : ""
-                      }`}
-                    >
-                      <option value="">시/도를 선택하세요</option>
-                      {koreanProvinces.map((province) => (
-                        <option key={province} value={province}>
-                          {province}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-text-secondary"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  {errors.locationProvince && (
-                    <p className="mt-2 text-[14px] text-semantic-error">
-                      {errors.locationProvince}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="locationCity" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    소재지 (시/군/구) <span className="text-semantic-error">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="locationCity"
-                      name="locationCity"
-                      value={formData.locationCity}
-                      onChange={handleInputChange}
-                      disabled={!formData.locationProvince}
-                      className={`w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 pr-12 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all appearance-none ${
-                        !formData.locationProvince ? "opacity-50 cursor-not-allowed" : ""
-                      } ${
-                        errors.locationCity ? "border-semantic-error bg-red-50" : ""
-                      }`}
-                    >
-                      <option value="">시/군/구를 선택하세요</option>
-                      {formData.locationProvince && koreanCities[formData.locationProvince]?.map((city) => (
-                        <option key={city} value={city}>
-                          {city}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-text-secondary"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  {errors.locationCity && (
-                    <p className="mt-2 text-[14px] text-semantic-error">
-                      {errors.locationCity}
-                    </p>
-                  )}
-                </div>
+              {/* 회사 이메일 */}
+              <div>
+                <label htmlFor="email" className="block text-[18px] font-semibold text-text-primary mb-1">
+                  회사 이메일 <span className="text-semantic-error">*</span>
+                </label>
+                <p className="text-[14px] text-text-secondary mb-3">
+                  서비스 이용을 위해 연락이 가능한 담당자 이메일을 입력해주세요!
+                </p>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="example@company.com"
+                  className={`w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all ${
+                    errors.email ? "border-semantic-error bg-red-50" : ""
+                  }`}
+                />
+                {errors.email && (
+                  <p className="mt-2 text-[14px] text-semantic-error">
+                    {errors.email}
+                  </p>
+                )}
               </div>
 
-              {/* 이름 + 담당 업무 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <div>
-                  <label htmlFor="name" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    이름 <span className="text-semantic-error">*</span>
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="홍길동"
-                    className={`w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all ${
-                      errors.name ? "border-semantic-error bg-red-50" : ""
-                    }`}
-                  />
-                  {errors.name && (
-                    <p className="mt-2 text-[14px] text-semantic-error">
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="position" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    담당 업무
-                  </label>
-                  <input
-                    id="position"
-                    type="text"
-                    name="position"
-                    value={formData.position}
-                    onChange={handleInputChange}
-                    placeholder="예: 안전관리 등"
-                    className="w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* 이메일 + 전화번호 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <div>
-                  <label htmlFor="email" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    회사 이메일 <span className="text-semantic-error">*</span>
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="example@company.com"
-                    className={`w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all ${
-                      errors.email ? "border-semantic-error bg-red-50" : ""
-                    }`}
-                  />
-                  {errors.email && (
-                    <p className="mt-2 text-[14px] text-semantic-error">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-[18px] font-semibold text-text-primary mb-3">
-                    전화번호 <span className="text-semantic-error">*</span>
-                  </label>
-                  <input
-                    id="phone"
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="010-1234-5678"
-                    className={`w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all ${
-                      errors.phone ? "border-semantic-error bg-red-50" : ""
-                    }`}
-                  />
-                  {errors.phone && (
-                    <p className="mt-2 text-[14px] text-semantic-error">
-                      {errors.phone}
-                    </p>
-                  )}
+              {/* AIR의 어떤점이 마음에 드셨나요? (복수 선택) */}
+              <div>
+                <p className="block text-[18px] font-semibold text-text-primary mb-3">
+                  AIR의 어떤점이 마음에 드셨나요? <span className="text-[14px] font-normal text-text-tertiary">(복수 선택 가능)</span>
+                </p>
+                <div className="flex flex-col gap-3">
+                  {LIKED_POINT_OPTIONS.map((option) => (
+                    <label
+                      key={option}
+                      className="flex items-center gap-3 p-4 bg-gray-50 rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all"
+                    >
+                      <input
+                        type="checkbox"
+                        name="likedPoint"
+                        value={option}
+                        checked={formData.likedPoints.includes(option)}
+                        onChange={handleInputChange}
+                        className="w-5 h-5 rounded border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                      />
+                      <span className="text-[17px] font-medium text-text-primary">{option}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -458,12 +276,8 @@ export default function FormPage() {
                         htmlFor="privacyAgreement"
                         className="block text-[17px] font-semibold text-text-primary cursor-pointer"
                       >
-                        개인정보 수집 및 처리방침에 동의합니다{" "}
-                        <span className="text-semantic-error">*</span>
+                        개인정보 수집 및 이용에 동의합니다 <span className="text-semantic-error">*</span>
                       </label>
-                      <p className="mt-2 text-[15px] text-text-secondary leading-relaxed">
-                        귀하께서는 개인정보 수집 및 처리방침에 동의하지 아니할수 있지만 이 경우 가입 신청이 불가능합니다.
-                      </p>
                       <button
                         type="button"
                         onClick={() => setShowPrivacyModal(true)}
@@ -547,93 +361,23 @@ export default function FormPage() {
           </button>
           <div className="px-6 md:px-8">
             <h2 className="text-[28px] md:text-[32px] font-bold text-text-primary mb-6">
-              개인정보 수집 및 처리방침
+              개인정보 수집 및 이용 동의 (필수)
             </h2>
-            <div className="space-y-6 text-[15px] md:text-[16px] text-text-secondary leading-relaxed">
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 수집 및 처리방침]
-                </h3>
-                <p>
-                  귀하께서는 개인정보 수집 및 처리방침에 동의하지 아니할수 있지만 이 경우 가입 신청이 불가능합니다.
-                  <br />
-                  &apos;동의함&apos; 선택 후 진행 요청드립니다.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 수집 및 처리 안내]
-                </h3>
-                <p>
-                  다음의 목적을 위해 정보통신망 이용 촉진 및 정보보호 등에 대한 법률 및 개인정보보호법에 의해 가입 신청자(이하 &quot;신청자&quot;)로부터 개인 정보를 수집하고 있으며, 신청자 개인정보는 아래 목적과 같이 &apos;(주)GS&apos;에서 활용합니다.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 수집 및 이용 목적]
-                </h3>
-                <ul className="list-disc list-inside space-y-2 ml-2">
-                  <li>AIR 서비스 가입 신청 처리</li>
-                  <li>서비스 안내 및 연락</li>
-                  <li>가입 신청자와의 소통 및 문의 응대</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 수집항목]
-                </h3>
-                <ul className="list-disc list-inside space-y-2 ml-2">
-                  <li>이름</li>
-                  <li>회사명</li>
-                  <li>소재지 (시/도, 시/군/구)</li>
-                  <li>담당 업무</li>
-                  <li>연락처 (휴대전화, 이메일)</li>
-                  <li>기타 문의사항 (선택사항)</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 보유 및 이용 기간]
-                </h3>
-                <ul className="list-disc list-inside space-y-2 ml-2">
-                  <li>가입 신청일로부터 1년</li>
-                  <li>단, 관련 법령에 따라 보존이 필요한 경우 해당 기간 동안 보관</li>
-                  <li>고객의 삭제 요청 시 지체없이 파기</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 처리 거부 권리]
-                </h3>
-                <p>
-                  신청자는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다. 다만, 동의를 거부하실 경우 AIR 서비스 가입 신청이 불가능합니다.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 처리 위탁]
-                </h3>
-                <p>
-                  현재 &apos;(주)GS&apos;는 개인정보 처리 업무를 외부에 위탁하지 않습니다. 향후 위탁이 필요한 경우, 관련 법령에 따라 사전에 고지하고 동의를 받겠습니다.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-semibold text-text-primary mb-3">
-                  [개인정보 보호책임자]
-                </h3>
-                <p>
-                  개인정보 처리와 관련한 문의사항이 있으시면 아래로 연락주시기 바랍니다.
-                  <br />
-                  이메일: jhshim@gs.co.kr
-                </p>
-              </div>
+            <div className="space-y-5 text-[15px] md:text-[16px] text-text-secondary leading-relaxed">
+              <ol className="list-decimal list-inside space-y-3 ml-0 pl-0">
+                <li>
+                  <span className="font-semibold text-text-primary">수집 및 이용 목적:</span> 서비스 이용 신청에 대한 답변 및 안내, 서비스 제공을 위한 연락
+                </li>
+                <li>
+                  <span className="font-semibold text-text-primary">수집하는 항목:</span> 회사명, 회사 이메일 주소
+                </li>
+                <li>
+                  <span className="font-semibold text-text-primary">보유 및 이용 기간:</span> 1년 (단, 관계 법령에 따라 보존이 필요한 경우 해당 기간까지 보관)
+                </li>
+                <li>
+                  <span className="font-semibold text-text-primary">동의 거부 권리 및 불이익:</span> 귀하는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다. 다만, 동의 거부 시 서비스 이용 신청이 불가능합니다.
+                </li>
+              </ol>
             </div>
           </div>
         </div>

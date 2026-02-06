@@ -2,12 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface FormSubmissionData {
   company: string;
-  locationProvince: string;
-  locationCity: string;
-  name: string;
-  position: string;
   email: string;
-  phone: string;
+  likedPoints?: string[];
   inquiry: string;
   privacyAgreement: boolean;
 }
@@ -33,12 +29,8 @@ async function sendSlackNotification(data: FormSubmissionData) {
 |------|------|
 | 작성시간 | ${timestamp} |
 | 회사명 | ${data.company || "-"} |
-| 소재지(시/도) | ${data.locationProvince || "-"} |
-| 소재지(시/군/구) | ${data.locationCity || "-"} |
-| 이름 | ${data.name || "-"} |
-| 담당 업무 | ${data.position || "-"} |
 | 이메일 | ${data.email || "-"} |
-| 전화번호 | ${data.phone || "-"} |
+| AIR 마음에 드신 점 | ${(data.likedPoints && data.likedPoints.length > 0) ? data.likedPoints.join(", ") : "-"} |
 | 기타 문의사항 | ${data.inquiry || "-"} |
 | 개인정보처리방침 동의 | ${data.privacyAgreement ? "✅ 동의" : "❌ 미동의"} |`;
 
@@ -83,11 +75,7 @@ export async function POST(request: NextRequest) {
     // 필수 필드 검증
     if (
       !data.company ||
-      !data.locationProvince ||
-      !data.locationCity ||
-      !data.name ||
       !data.email ||
-      !data.phone ||
       !data.privacyAgreement
     ) {
       return NextResponse.json(
@@ -121,12 +109,8 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         company: data.company,
-        locationProvince: data.locationProvince,
-        locationCity: data.locationCity,
-        name: data.name,
-        position: data.position || "",
         email: data.email,
-        phone: data.phone,
+        likedPoints: data.likedPoints || [],
         inquiry: data.inquiry || "",
         privacyAgreement: data.privacyAgreement,
       }),

@@ -1,184 +1,122 @@
 # Google Sheets 웹훅 연동 가이드
 
-## 방법 1: Google Apps Script 웹훅 (추천 - 무료, 간단)
-
-### 사용자가 해야 할 작업
-
-#### 1. Google Sheet 생성 및 헤더 설정
-
-1. **새 Google Sheet 생성**
-   - https://sheets.google.com/ 접속
-   - "빈 스프레드시트" 클릭하여 새 시트 생성
-   - 시트 이름 변경 (예: "AIR 가입 신청")
-
-2. **헤더 행 설정**
-   - 첫 번째 행에 다음 헤더를 입력:
-     ```
-     A1: 작성시간
-     B1: 회사명
-     C1: 소재지(시/도)
-     D1: 소재지(시/군/구)
-     E1: 이름
-     F1: 담당 업무
-     G1: 이메일
-     H1: 전화번호
-     I1: 기타 문의사항
-     J1: 개인정보처리방침 동의
-     ```
-
-#### 2. Google Apps Script 설정
-
-1. **Google Apps Script 열기**
-   - Google Sheet에서 "확장 프로그램" > "Apps Script" 클릭
-   - 새 스크립트 편집기가 열립니다
-
-2. **웹훅 스크립트 작성**
-   - 기존 코드를 모두 삭제하고 아래 코드를 붙여넣기:
-   
-   ```javascript
-   function doPost(e) {
-     try {
-       const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-       const data = JSON.parse(e.postData.contents);
-       
-       // 년월일시분초 형식으로 작성시간 생성
-       const now = new Date();
-       const year = now.getFullYear();
-       const month = String(now.getMonth() + 1).padStart(2, '0');
-       const day = String(now.getDate()).padStart(2, '0');
-       const hours = String(now.getHours()).padStart(2, '0');
-       const minutes = String(now.getMinutes()).padStart(2, '0');
-       const seconds = String(now.getSeconds()).padStart(2, '0');
-       const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-       
-       const row = [
-         timestamp,
-         data.company || '',
-         data.locationProvince || '',
-         data.locationCity || '',
-         data.name || '',
-         data.position || '',
-         data.email || '',
-         data.phone || '',
-         data.inquiry || '',
-         data.privacyAgreement ? '동의' : '미동의'
-       ];
-       
-       sheet.appendRow(row);
-       
-       return ContentService
-         .createTextOutput(JSON.stringify({ success: true }))
-         .setMimeType(ContentService.MimeType.JSON);
-     } catch (error) {
-       return ContentService
-         .createTextOutput(JSON.stringify({ success: false, error: error.toString() }))
-         .setMimeType(ContentService.MimeType.JSON);
-     }
-   }
-   ```
-
-3. **스크립트 저장 및 배포**
-   - 상단의 "저장" 버튼 클릭 (프로젝트 이름: "AIR Form Webhook")
-   - "배포" > "새 배포" 클릭
-   - "유형 선택"에서 "웹 앱" 선택
-   - 설명: "AIR Form Submission" 입력
-   - "다음 사용자로 실행": "나" 선택
-   - "액세스 권한": "모든 사용자" 선택
-   - "배포" 클릭
-   - **중요: 웹 앱 URL을 복사하세요!** (예: `https://script.google.com/macros/s/.../exec`)
-
-4. **권한 승인**
-   - 첫 배포 시 권한 승인 팝업이 나타날 수 있습니다
-   - "권한 검토" 클릭
-   - Google 계정 선택
-   - "고급" > "AIR Landing(안전하지 않은 페이지)로 이동" 클릭
-   - "허용" 클릭
-
-#### 3. Slack 웹훅 설정 (선택사항)
-
-1. **Slack 워크스페이스에서 Incoming Webhook 생성**
-   - https://api.slack.com/apps 접속
-   - "Create New App" 클릭
-   - "From scratch" 선택
-   - App 이름: "AIR Form Notifications" 입력
-   - 워크스페이스 선택 후 "Create App" 클릭
-
-2. **Incoming Webhooks 활성화**
-   - 좌측 메뉴에서 "Incoming Webhooks" 클릭
-   - "Activate Incoming Webhooks" 토글을 ON으로 변경
-
-3. **Webhook URL 생성**
-   - 하단의 "Add New Webhook to Workspace" 클릭
-   - 알림을 받을 채널 선택 (예: #air-form-notifications)
-   - "Allow" 클릭
-   - **Webhook URL을 복사하세요!** (예: `https://hooks.slack.com/services/...`)
-
-4. **환경 변수 설정**
-   - `.env.local` 파일에 다음 추가:
-     ```
-     SLACK_WEBHOOK_URL=여기에_복사한_Slack_웹훅_URL_입력
-     ```
-
-#### 4. 환경 변수 설정
-
-##### 로컬 개발 환경 (`.env.local`)
-
-1. **프로젝트 루트에 `.env.local` 파일 생성** (이미 있다면 수정)
-   - 다음 내용 추가:
-     ```
-     GOOGLE_SHEETS_WEBHOOK_URL=여기에_복사한_웹앱_URL_입력
-     SLACK_WEBHOOK_URL=여기에_복사한_Slack_웹훅_URL_입력 (선택사항)
-     ```
-
-##### Vercel 배포 환경 설정 (중요!)
-
-**배포된 사이트에서 폼 제출이 작동하려면 Vercel에 환경 변수를 설정해야 합니다.**
-
-> **참고**: 프로젝트가 자동으로 생성된 경우, 기존 프로젝트(`air-miso`)에 저장소를 연결하는 방법은 `VERCEL_PROJECT_SETUP.md`를 참고하세요.
-
-1. **Vercel 대시보드 접속**
-   - https://vercel.com 접속 후 로그인
-   - 프로젝트 선택 (기존 프로젝트: `air-miso` 또는 새로 생성된 프로젝트)
-
-2. **환경 변수 설정**
-   - 좌측 메뉴에서 **"Settings"** 클릭
-   - 상단 탭에서 **"Environment Variables"** 클릭
-   - 다음 환경 변수 추가:
-
-   **필수:**
-   ```
-   이름: GOOGLE_SHEETS_WEBHOOK_URL
-   값: 여기에_복사한_Google_Apps_Script_웹앱_URL_입력
-   환경: Production, Preview, Development 모두 선택
-   ```
-
-   **선택사항:**
-   ```
-   이름: SLACK_WEBHOOK_URL
-   값: 여기에_복사한_Slack_웹훅_URL_입력
-   환경: Production, Preview, Development 모두 선택
-   ```
-
-3. **재배포**
-   - 환경 변수 추가 후 **자동으로 재배포**되거나
-   - 수동으로 **"Deployments"** 탭에서 최신 배포의 **"Redeploy"** 클릭
-
-4. **확인**
-   - 재배포 완료 후 배포된 사이트에서 폼 제출 테스트
-   - Google Sheet에 데이터가 저장되는지 확인
+가입 신청 폼 제출 시 Google Sheet에 자동으로 한 행씩 저장되도록 설정하는 방법입니다.
 
 ---
 
+## 1. Google Sheet 생성 및 헤더 설정
+
+1. [Google Sheet](https://sheets.google.com)에서 **빈 스프레드시트** 생성
+2. 첫 번째 행에 아래 **헤더**를 입력합니다.
+
+| A1 | B1 | C1 | D1 | E1 | F1 |
+|----|----|----|----|----|----|
+| 작성시간 | 회사명 | 회사 이메일 | AIR 마음에 드신 점 | 기타 문의사항 | 개인정보처리방침 동의 |
+
 ---
 
-## 완료 후 확인사항
+## 2. Google Apps Script 설정
 
-### 완료 확인사항:
-✅ Google Sheet 생성 및 헤더 설정 완료
-✅ Google Apps Script에 웹훅 코드 작성 완료
-✅ 웹 앱으로 배포 완료
-✅ 웹 앱 URL 복사 완료
-✅ `.env.local`에 `GOOGLE_SHEETS_WEBHOOK_URL` 설정 완료
-✅ (선택) Slack 웹훅 생성 및 `.env.local`에 `SLACK_WEBHOOK_URL` 설정 완료
+1. 시트 메뉴에서 **확장 프로그램** → **Apps Script** 클릭
+2. **기존 코드 전체를 삭제**한 뒤, 아래 스크립트 **전체**를 복사해 붙여넣습니다.  
+   (예전에 소재지·이름·전화번호·담당업무 등이 있던 버전이라면 반드시 이 코드로 **통째로 교체**하세요.)  
+   프로젝트 루트의 `google-apps-script-form-webhook.js` 파일을 열어 복사해 써도 됩니다.
 
-위 항목들이 모두 완료되면 코드가 자동으로 Google Sheets와 Slack에 데이터를 전송합니다.
+```javascript
+function pad2(n) {
+  return n < 10 ? "0" + n : String(n);
+}
+
+function doPost(e) {
+  try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, error: "No POST data" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+
+    var now = new Date();
+    var timestamp = now.getFullYear() + "-" + pad2(now.getMonth() + 1) + "-" + pad2(now.getDate()) + " " +
+      pad2(now.getHours()) + ":" + pad2(now.getMinutes()) + ":" + pad2(now.getSeconds());
+
+    var likedPointsStr = "";
+    if (data.likedPoints && Array.isArray(data.likedPoints) && data.likedPoints.length > 0) {
+      likedPointsStr = data.likedPoints.join(", ");
+    }
+    var privacyText = data.privacyAgreement === true ? "동의" : "미동의";
+
+    var row = [timestamp, data.company || "", data.email || "", likedPointsStr, data.inquiry || "", privacyText];
+    sheet.appendRow(row);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+```
+
+3. **저장** (Ctrl+S / Cmd+S), 프로젝트 이름 예: `AIR Form Webhook`
+4. **배포** → **새 배포** → **유형 선택**에서 **웹 앱** 선택
+   - **실행 사용자**: 나
+   - **액세스 권한**: 모든 사용자
+   - **배포** 클릭 후 생성된 **웹 앱 URL** 복사 (예: `https://script.google.com/macros/s/.../exec`)
+5. 첫 배포 시 **권한 검토** → 본인 계정 선택 → **고급** → 해당 프로젝트로 이동 → **허용**
+
+---
+
+## 3. 환경 변수 설정
+
+### 로컬 (`.env.local`)
+
+```env
+GOOGLE_SHEETS_WEBHOOK_URL=여기에_복사한_웹앱_URL
+```
+
+### Vercel 배포
+
+1. Vercel 대시보드 → 프로젝트 → **Settings** → **Environment Variables**
+2. `GOOGLE_SHEETS_WEBHOOK_URL` 추가, 값에 웹 앱 URL 입력
+3. Production / Preview / Development 원하는 환경 선택 후 저장
+4. 필요 시 **Redeploy** 실행
+
+---
+
+## 4. API에서 전송하는 데이터 구조
+
+폼 제출 시 아래 JSON이 Google Apps Script로 전달됩니다.
+
+| 키 | 타입 | 설명 |
+|----|------|------|
+| `company` | string | 회사명 |
+| `email` | string | 회사 이메일 |
+| `likedPoints` | string[] | AIR 마음에 드신 점 (복수 선택, 예: `["안전관리 업무 효율화", "AI 기반 위험성 평가"]`) |
+| `inquiry` | string | 기타 문의사항 |
+| `privacyAgreement` | boolean | 개인정보 수집·이용 동의 여부 |
+
+스크립트는 위 구조에 맞춰 시트의 **작성시간, 회사명, 회사 이메일, AIR 마음에 드신 점, 기타 문의사항, 개인정보처리방침 동의** 순서로 한 행을 추가합니다.
+
+---
+
+## 5. 확인
+
+- 가입 신청 폼에서 제출 후 해당 Google Sheet에 새 행이 추가되는지 확인
+- **AIR 마음에 드신 점** 열에는 복수 선택 시 항목이 쉼표로 구분되어 저장됩니다.
+
+---
+
+## 6. 새 폼이 작동하지 않을 때
+
+- **원인**: 예전 폼(소재지·이름·전화번호·담당업무 등)용 스크립트가 그대로 배포되어 있으면, 새 폼에서 보내는 데이터 구조와 맞지 않아 실패합니다.
+- **해결**:
+  1. Google 시트 → **확장 프로그램** → **Apps Script** 열기
+  2. 편집기에서 **기존 코드 전부 삭제**
+  3. 이 문서의 **2번 스크립트 전체** 또는 프로젝트의 `google-apps-script-form-webhook.js` 내용 **전체**를 복사해 붙여넣기
+  4. **저장** 후 **배포** → **배포 관리** → 기존 웹 앱 옆 **연필 아이콘(편집)** → **버전**을 "새 버전"으로 선택 후 **배포**
+  5. (선택) 시트 1행 헤더를 아래 6개로 맞춤: `작성시간` | `회사명` | `회사 이메일` | `AIR 마음에 드신 점` | `기타 문의사항` | `개인정보처리방침 동의`
+- 배포 후에는 URL이 그대로이므로 `.env.local`이나 Vercel 환경 변수는 수정할 필요 없습니다.
