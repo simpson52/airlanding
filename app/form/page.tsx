@@ -600,7 +600,7 @@ export default function FormPage() {
                   [개인정보 보유 및 이용 기간]
                 </h3>
                 <ul className="list-disc list-inside space-y-2 ml-2">
-                  <li>가입 신청일로부터 서비스 제공 완료 시까지</li>
+                  <li>가입 신청일로부터 1년</li>
                   <li>단, 관련 법령에 따라 보존이 필요한 경우 해당 기간 동안 보관</li>
                   <li>고객의 삭제 요청 시 지체없이 파기</li>
                 </ul>
