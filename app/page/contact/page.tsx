@@ -80,7 +80,7 @@ export default function ContactPage() {
                 className="w-full !py-4 text-[18px] flex items-center justify-center gap-2 whitespace-nowrap"
                 onClick={() => {
                   window.open(
-                    "https://drive.google.com/file/d/1-3qRFvDGzNPIca52CSdIf2DWz8D7dFBx/view?usp=sharing",
+                    "https://drive.google.com/file/d/12ok68i_OztN7172ZKhl7-8LeYf5ITkYJ/view?usp=drive_link",
                     "_blank"
                   );
                 }}
