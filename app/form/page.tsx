@@ -257,6 +257,16 @@ export default function FormPage() {
                         {errors.under100Workplace}
                       </p>
                     )}
+                    {formData.under100Workplace === "no" && (
+                      <div className="mt-4 w-full rounded-[20px] bg-brand-blue-light border-l-4 border-[#5541f6] p-5 md:p-6 text-left">
+                        <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
+                          이 서비스는 100인 이하 사업장을 대상으로 무료로 제공하고 있습니다.
+                        </p>
+                        <p className="mt-3 text-[16px] md:text-[17px] font-bold text-[#5541f6] leading-relaxed">
+                          100인 이하 사업장이 아니신 경우는 담당자 배정 후 별도 연락을 드리도록 하겠습니다.
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   {/* 개인정보 수집 및 이용 동의 */}
