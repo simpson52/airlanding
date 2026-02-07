@@ -68,22 +68,13 @@ export default function StickyCTA({ onCTAClick }: StickyCTAProps) {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="flex items-center gap-3 flex-shrink-0 self-end sm:self-auto">
               <Button
                 variant="primary"
                 onClick={handleCTAClick}
-                className="!px-6 !py-3 text-[16px] flex items-center justify-center gap-2"
+                className="!px-6 !py-3 text-[16px]"
               >
-                <Image
-                  src="/air-logo 1_white.png"
-                  alt="AIR"
-                  width={20}
-                  height={20}
-                  className="h-5 w-auto"
-                  quality={100}
-                  unoptimized
-                />
-                위험성 평가하기
+                사용 신청하기
               </Button>
               <button
                 onClick={handleDismiss}

@@ -11,7 +11,7 @@
 
 | A1 | B1 | C1 | D1 | E1 | F1 |
 |----|----|----|----|----|----|
-| 작성시간 | 회사명 | 회사 이메일 | AIR 마음에 드신 점 | 기타 문의사항 | 개인정보처리방침 동의 |
+| 작성시간 | 회사명 | 회사 이메일 | 기타 문의사항 | 100인 이하 사업장 여부 | 개인정보처리방침 동의 |
 
 ---
 
@@ -41,13 +41,10 @@ function doPost(e) {
     var timestamp = now.getFullYear() + "-" + pad2(now.getMonth() + 1) + "-" + pad2(now.getDate()) + " " +
       pad2(now.getHours()) + ":" + pad2(now.getMinutes()) + ":" + pad2(now.getSeconds());
 
-    var likedPointsStr = "";
-    if (data.likedPoints && Array.isArray(data.likedPoints) && data.likedPoints.length > 0) {
-      likedPointsStr = data.likedPoints.join(", ");
-    }
+    var under100Text = data.under100Workplace === true ? "맞음" : "아님";
     var privacyText = data.privacyAgreement === true ? "동의" : "미동의";
 
-    var row = [timestamp, data.company || "", data.email || "", likedPointsStr, data.inquiry || "", privacyText];
+    var row = [timestamp, data.company || "", data.email || "", data.inquiry || "", under100Text, privacyText];
     sheet.appendRow(row);
 
     return ContentService
@@ -95,18 +92,18 @@ GOOGLE_SHEETS_WEBHOOK_URL=여기에_복사한_웹앱_URL
 |----|------|------|
 | `company` | string | 회사명 |
 | `email` | string | 회사 이메일 |
-| `likedPoints` | string[] | AIR 마음에 드신 점 (복수 선택, 예: `["안전관리 업무 효율화", "AI 기반 위험성 평가"]`) |
 | `inquiry` | string | 기타 문의사항 |
+| `under100Workplace` | boolean | 100인 이하 사업장 여부 |
 | `privacyAgreement` | boolean | 개인정보 수집·이용 동의 여부 |
 
-스크립트는 위 구조에 맞춰 시트의 **작성시간, 회사명, 회사 이메일, AIR 마음에 드신 점, 기타 문의사항, 개인정보처리방침 동의** 순서로 한 행을 추가합니다.
+스크립트는 위 구조에 맞춰 시트의 **작성시간, 회사명, 회사 이메일, 기타 문의사항, 100인 이하 사업장 여부, 개인정보처리방침 동의** 순서로 한 행을 추가합니다.
 
 ---
 
 ## 5. 확인
 
 - 가입 신청 폼에서 제출 후 해당 Google Sheet에 새 행이 추가되는지 확인
-- **AIR 마음에 드신 점** 열에는 복수 선택 시 항목이 쉼표로 구분되어 저장됩니다.
+- **100인 이하 사업장 여부** 열에는 "맞음" 또는 "아님"이 저장됩니다.
 
 ---
 
@@ -118,5 +115,5 @@ GOOGLE_SHEETS_WEBHOOK_URL=여기에_복사한_웹앱_URL
   2. 편집기에서 **기존 코드 전부 삭제**
   3. 이 문서의 **2번 스크립트 전체** 또는 프로젝트의 `google-apps-script-form-webhook.js` 내용 **전체**를 복사해 붙여넣기
   4. **저장** 후 **배포** → **배포 관리** → 기존 웹 앱 옆 **연필 아이콘(편집)** → **버전**을 "새 버전"으로 선택 후 **배포**
-  5. (선택) 시트 1행 헤더를 아래 6개로 맞춤: `작성시간` | `회사명` | `회사 이메일` | `AIR 마음에 드신 점` | `기타 문의사항` | `개인정보처리방침 동의`
+  5. (선택) 시트 1행 헤더를 아래 6개로 맞춤: `작성시간` | `회사명` | `회사 이메일` | `기타 문의사항` | `100인 이하 사업장 여부` | `개인정보처리방침 동의`
 - 배포 후에는 URL이 그대로이므로 `.env.local`이나 Vercel 환경 변수는 수정할 필요 없습니다.

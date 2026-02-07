@@ -12,8 +12,8 @@ export default function Footer() {
           <div>
             <div className="mb-4 flex items-center gap-2.5">
               <Image
-                src="/miso-logo.svg"
-                alt="MISO"
+                src="/52g_logo.png"
+                alt="52g"
                 width={120}
                 height={32}
                 className="h-[28px] md:h-[32px] w-auto flex-shrink-0"
@@ -89,8 +89,8 @@ export default function Footer() {
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <span className="text-[14px] text-text-tertiary">© {new Date().getFullYear()}</span>
             <Image
-              src="/miso-logo.svg"
-              alt="MISO"
+              src="/52g_logo.png"
+              alt="52g"
               width={80}
               height={16}
               className="h-[16px] w-auto inline-block"

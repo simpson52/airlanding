@@ -1,37 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import NavigationBar from "@/components/layout/NavigationBar";
 import Footer from "@/components/layout/Footer";
-import CTAModal from "@/components/ui/CTAModal";
 import { Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 
 export default function ContactPage() {
   const router = useRouter();
-  const [isCTAModalOpen, setIsCTAModalOpen] = useState(false);
 
-  const handleCTAClick = () => setIsCTAModalOpen(true);
-  const handleMemberClick = () => {
-    window.open("https://miso-powered-jsa.vercel.app/login", "_blank");
-    setIsCTAModalOpen(false);
-  };
-  const handleNewUserClick = () => {
-    setIsCTAModalOpen(false);
-    router.push("/form");
-  };
+  const handleCTAClick = () => router.push("/form");
 
   return (
     <main className="min-h-screen bg-bg-base">
       <NavigationBar onCTAClick={handleCTAClick} />
-      <CTAModal
-        isOpen={isCTAModalOpen}
-        onClose={() => setIsCTAModalOpen(false)}
-        onMemberClick={handleMemberClick}
-        onNewUserClick={handleNewUserClick}
-      />
       <div className="pt-[54px]">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
           {/* Header */}

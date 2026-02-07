@@ -11,18 +11,11 @@ import { fadeInUp } from "@/utils/animations";
 import Image from "next/image";
 import { X } from "lucide-react";
 
-const LIKED_POINT_OPTIONS = [
-  "안전관리 업무 효율화",
-  "전문 평가기법 기반 표준화",
-  "현장 맞춤형 체크리스트",
-  "AI 기반 위험성 평가",
-] as const;
-
 interface FormData {
   company: string;
   email: string;
-  likedPoints: string[];
   inquiry: string;
+  under100Workplace: "" | "yes" | "no";
   privacyAgreement: boolean;
 }
 
@@ -30,6 +23,7 @@ interface FormErrors {
   company?: string;
   email?: string;
   inquiry?: string;
+  under100Workplace?: string;
   privacyAgreement?: string;
 }
 
@@ -38,8 +32,8 @@ export default function FormPage() {
   const [formData, setFormData] = useState<FormData>({
     company: "",
     email: "",
-    likedPoints: [],
     inquiry: "",
+    under100Workplace: "",
     privacyAgreement: false,
   });
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -53,17 +47,7 @@ export default function FormPage() {
     const checked = (e.target as HTMLInputElement).checked;
 
     if (type === "checkbox") {
-      if (name === "likedPoint") {
-        const pointValue = (e.target as HTMLInputElement).value;
-        setFormData((prev) => ({
-          ...prev,
-          likedPoints: checked
-            ? [...prev.likedPoints, pointValue]
-            : prev.likedPoints.filter((p) => p !== pointValue),
-        }));
-      } else {
-        setFormData((prev) => ({ ...prev, [name]: checked }));
-      }
+      setFormData((prev) => ({ ...prev, [name]: checked }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -84,6 +68,9 @@ export default function FormPage() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "올바른 회사 이메일 형식을 입력해주세요";
     }
+    if (formData.under100Workplace !== "yes" && formData.under100Workplace !== "no") {
+      newErrors.under100Workplace = "예 또는 아니오를 선택해주세요";
+    }
     if (!formData.privacyAgreement) {
       newErrors.privacyAgreement = "개인정보 수집 및 처리방침에 동의해주세요";
     }
@@ -99,12 +86,16 @@ export default function FormPage() {
     setIsSubmitting(true);
 
     try {
+      const payload = {
+        ...formData,
+        under100Workplace: formData.under100Workplace === "yes",
+      };
       const response = await fetch("/api/submit-form", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
@@ -135,25 +126,22 @@ export default function FormPage() {
             className="mb-16"
           >
             <div className="text-center mb-12">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Image
-                  src="/air-logo.png"
-                  alt="AIR"
-                  width={120}
-                  height={40}
-                  className="h-10 md:h-12 w-auto"
-                  quality={100}
-                  unoptimized
-                />
-                <h1 className="text-[32px] md:text-[40px] font-bold text-text-primary leading-tight">
-                  서비스 가입 신청하기
-                </h1>
-              </div>
-              <p className="text-[17px] md:text-[18px] font-medium text-text-secondary">
+              <h1 className="text-[32px] md:text-[40px] font-bold text-text-primary leading-tight mb-6">
+                사용 신청하기
+              </h1>
+              <p className="text-[17px] md:text-[18px] font-medium text-text-secondary mb-4">
                 서비스에 대한 관심을 가져주셔서 감사합니다
                 <br />
                 아래 정보를 입력해주시면 빠르게 연락드리겠습니다
               </p>
+              <div className="inline-block rounded-[20px] bg-bg-input px-6 py-4 text-center">
+                <p className="text-[17px] md:text-[18px] font-bold text-text-primary leading-snug">
+                  서비스 이용 대상
+                  <br />
+                  중부지청 중대재해방지센터 관할 공정안전관리(PSM) 등급 S/M인{" "}
+                  <span className="font-extrabold text-brand-blue">100인 이하 사업장</span>
+                </p>
+              </div>
             </div>
           </motion.div>
 
@@ -216,31 +204,6 @@ export default function FormPage() {
                 )}
               </div>
 
-              {/* AIR의 어떤점이 마음에 드셨나요? (복수 선택) */}
-              <div>
-                <p className="block text-[18px] font-semibold text-text-primary mb-3">
-                  AIR의 어떤점이 마음에 드셨나요? <span className="text-[14px] font-normal text-text-tertiary">(복수 선택 가능)</span>
-                </p>
-                <div className="flex flex-col gap-3">
-                  {LIKED_POINT_OPTIONS.map((option) => (
-                    <label
-                      key={option}
-                      className="flex items-center gap-3 p-4 bg-gray-50 rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all"
-                    >
-                      <input
-                        type="checkbox"
-                        name="likedPoint"
-                        value={option}
-                        checked={formData.likedPoints.includes(option)}
-                        onChange={handleInputChange}
-                        className="w-5 h-5 rounded border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
-                      />
-                      <span className="text-[17px] font-medium text-text-primary">{option}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
               {/* 기타 문의사항 */}
               <div>
                 <label htmlFor="inquiry" className="block text-[18px] font-semibold text-text-primary mb-3">
@@ -257,41 +220,80 @@ export default function FormPage() {
                 />
               </div>
 
-              {/* 개인정보 수집 및 처리방침 동의 */}
+              {/* 필수 동의 (100인 이하 사업장 + 개인정보) */}
               <div className="mt-8">
-                <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200">
-                  <div className="flex items-start gap-4">
-                    <input
-                      id="privacyAgreement"
-                      name="privacyAgreement"
-                      type="checkbox"
-                      checked={formData.privacyAgreement}
-                      onChange={handleInputChange}
-                      className={`mt-1 w-5 h-5 rounded border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all cursor-pointer ${
-                        errors.privacyAgreement ? "border-semantic-error" : ""
-                      }`}
-                    />
-                    <div className="flex-1">
-                      <label
-                        htmlFor="privacyAgreement"
-                        className="block text-[17px] font-semibold text-text-primary cursor-pointer"
-                      >
-                        개인정보 수집 및 이용에 동의합니다 <span className="text-semantic-error">*</span>
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => setShowPrivacyModal(true)}
-                        className="mt-3 text-[15px] text-brand-blue font-medium hover:underline underline-offset-2"
-                      >
-                        전체 내용 보기
-                      </button>
-                    </div>
-                  </div>
-                  {errors.privacyAgreement && (
-                    <p className="mt-3 text-[14px] text-semantic-error">
-                      {errors.privacyAgreement}
+                <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200 space-y-6">
+                  {/* 100인 이하 사업장 여부 (예/아니오) */}
+                  <div>
+                    <p className="block text-[17px] font-semibold text-text-primary mb-3">
+                      귀 사는 100인 이하 사업장이 맞습니까? <span className="text-semantic-error">*</span>
                     </p>
-                  )}
+                    <div className="flex flex-wrap gap-4">
+                      <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
+                        <input
+                          type="radio"
+                          name="under100Workplace"
+                          value="yes"
+                          checked={formData.under100Workplace === "yes"}
+                          onChange={handleInputChange}
+                          className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                        />
+                        <span className="text-[17px] font-medium text-text-primary">예</span>
+                      </label>
+                      <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
+                        <input
+                          type="radio"
+                          name="under100Workplace"
+                          value="no"
+                          checked={formData.under100Workplace === "no"}
+                          onChange={handleInputChange}
+                          className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                        />
+                        <span className="text-[17px] font-medium text-text-primary">아니오</span>
+                      </label>
+                    </div>
+                    {errors.under100Workplace && (
+                      <p className="mt-3 text-[14px] text-semantic-error">
+                        {errors.under100Workplace}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* 개인정보 수집 및 이용 동의 */}
+                  <div className="pt-6 border-t border-gray-200">
+                    <div className="flex items-start gap-4">
+                      <input
+                        id="privacyAgreement"
+                        name="privacyAgreement"
+                        type="checkbox"
+                        checked={formData.privacyAgreement}
+                        onChange={handleInputChange}
+                        className={`mt-1 w-5 h-5 rounded border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all cursor-pointer ${
+                          errors.privacyAgreement ? "border-semantic-error" : ""
+                        }`}
+                      />
+                      <div className="flex-1">
+                        <label
+                          htmlFor="privacyAgreement"
+                          className="block text-[17px] font-semibold text-text-primary cursor-pointer"
+                        >
+                          개인정보 수집 및 이용에 동의합니다 <span className="text-semantic-error">*</span>
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => setShowPrivacyModal(true)}
+                          className="mt-3 text-[15px] text-brand-blue font-medium hover:underline underline-offset-2"
+                        >
+                          전체 내용 보기
+                        </button>
+                      </div>
+                    </div>
+                    {errors.privacyAgreement && (
+                      <p className="mt-3 text-[14px] text-semantic-error">
+                        {errors.privacyAgreement}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

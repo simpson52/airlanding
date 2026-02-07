@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 interface FormSubmissionData {
   company: string;
   email: string;
-  likedPoints?: string[];
   inquiry: string;
+  under100Workplace: boolean;
   privacyAgreement: boolean;
 }
 
@@ -30,7 +30,7 @@ async function sendSlackNotification(data: FormSubmissionData) {
 | 작성시간 | ${timestamp} |
 | 회사명 | ${data.company || "-"} |
 | 이메일 | ${data.email || "-"} |
-| AIR 마음에 드신 점 | ${(data.likedPoints && data.likedPoints.length > 0) ? data.likedPoints.join(", ") : "-"} |
+| 100인 이하 사업장 여부 | ${data.under100Workplace ? "✅ 맞음" : "❌ 아님"} |
 | 기타 문의사항 | ${data.inquiry || "-"} |
 | 개인정보처리방침 동의 | ${data.privacyAgreement ? "✅ 동의" : "❌ 미동의"} |`;
 
@@ -72,10 +72,11 @@ export async function POST(request: NextRequest) {
   try {
     const data: FormSubmissionData = await request.json();
 
-    // 필수 필드 검증
+    // 필수 필드 검증 (under100Workplace는 예/아니오 중 선택된 boolean)
     if (
       !data.company ||
       !data.email ||
+      typeof data.under100Workplace !== "boolean" ||
       !data.privacyAgreement
     ) {
       return NextResponse.json(
@@ -110,8 +111,8 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         company: data.company,
         email: data.email,
-        likedPoints: data.likedPoints || [],
         inquiry: data.inquiry || "",
+        under100Workplace: data.under100Workplace,
         privacyAgreement: data.privacyAgreement,
       }),
     });
