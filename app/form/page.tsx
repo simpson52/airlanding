@@ -142,7 +142,11 @@ export default function FormPage() {
                     공정안전관리(PSM) S/M 등급 중{" "}
                     <span className="font-bold text-[#5541f6]">100인 이하 사업장</span>
                     <br />
-                    <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(중부지청 중대재해 방지센터 관할)</span>
+                    <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">
+                      (중부지방고용노동청
+                      <br />
+                      수도권 중대산업사고예방센터 관할 사업장)
+                    </span>
                     <br />
                     <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(무상 배포 기간 : 2026. 02. 24 ~ 12.31)</span>
                   </p>
