@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import Button from "./Button";
 import { X } from "lucide-react";
 
@@ -51,38 +50,15 @@ export default function StickyCTA({ onCTAClick }: StickyCTAProps) {
             {/* 모바일: 텍스트 영역 전체 너비 사용 → 정상 줄바꿈 / 데스크톱: 가로 배치 */}
             <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
               <p className="text-[14px] sm:text-[16px] font-semibold text-text-primary whitespace-normal break-keep">
-                GS가 만든 AI기반 위험성 평가서 솔루션
+                GS가 만든 AI기반 위험성 평가 솔루션, 지금 바로 신청하세요!
               </p>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <Image
-                  src="/air-logo.png"
-                  alt="AIR"
-                  width={80}
-                  height={24}
-                  className="h-5 sm:h-6 w-auto flex-shrink-0"
-                  quality={100}
-                  unoptimized
-                />
-                <p className="text-[14px] sm:text-[16px] font-semibold text-text-primary whitespace-normal break-keep">
-                  지금 바로 시작하세요!
-                </p>
-              </div>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0 self-end sm:self-auto">
               <Button
                 variant="primary"
                 onClick={handleCTAClick}
-                className="!px-6 !py-3 text-[16px] flex items-center justify-center gap-2"
+                className="!px-6 !py-3 text-[16px]"
               >
-                <Image
-                  src="/air-logo 1_white.png"
-                  alt="AIR"
-                  width={20}
-                  height={20}
-                  className="h-5 w-auto"
-                  quality={100}
-                  unoptimized
-                />
                 신청하기
               </Button>
               <button

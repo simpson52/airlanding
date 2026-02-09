@@ -50,10 +50,10 @@ export default function Footer() {
                   <Mail className="w-4 h-4 text-brand-blue" strokeWidth={2} />
                 </div>
                 <a
-                  href="mailto:jhshim@gs.co.kr"
+                  href="mailto:miso@52g.team"
                   className="text-[15px] font-medium text-brand-blue hover:underline transition-colors"
                 >
-                  jhshim@gs.co.kr
+                  miso@52g.team
                 </a>
               </div>
 

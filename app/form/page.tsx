@@ -8,7 +8,6 @@ import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
-import Image from "next/image";
 import { X } from "lucide-react";
 
 interface FormData {
@@ -144,6 +143,8 @@ export default function FormPage() {
                     <span className="font-bold text-[#5541f6]">100인 이하 사업장</span>
                     <br />
                     <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(중부지청 중대재해 방지센터 관할)</span>
+                    <br />
+                    <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(무상 배포 기간 : 2026. 02. 24 ~ 12.31)</span>
                   </p>
                 </div>
                 <p className="text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
@@ -355,18 +356,7 @@ export default function FormPage() {
                     <span>제출 중...</span>
                   </>
                 ) : (
-                  <>
-                    <Image
-                      src="/air-logo 1_white.png"
-                      alt="AIR"
-                      width={24}
-                      height={24}
-                      className="h-6 w-auto flex-shrink-0"
-                      quality={100}
-                      unoptimized
-                    />
-                    <span>신청하기</span>
-                  </>
+                  <span>신청하기</span>
                 )}
               </Button>
             </div>

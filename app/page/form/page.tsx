@@ -398,18 +398,7 @@ export default function FormPage() {
                     <span>제출 중...</span>
                   </>
                 ) : (
-                  <>
-                    <Image
-                      src="/air-logo 1_white.png"
-                      alt="AIR"
-                      width={24}
-                      height={24}
-                      className="h-6 w-auto flex-shrink-0"
-                      quality={100}
-                      unoptimized
-                    />
-                    <span>신청하기</span>
-                  </>
+                  <span>신청하기</span>
                 )}
               </Button>
             </div>

@@ -94,6 +94,25 @@ function cleanText(text: string): string {
     .trim();
 }
 
+// 보도자료 중복 제거용: 제목 정규화
+function normalizeTitleForDedup(title: string): string {
+  return title
+    .trim()
+    .replaceAll(/\s+/g, " ")
+    .replaceAll(/[^\w\s가-힣]/g, " ")
+    .replaceAll(/\s+/g, " ")
+    .trim()
+    .slice(0, 80)
+    .toLowerCase();
+}
+function isSimilarTitle(a: string, b: string): boolean {
+  const na = normalizeTitleForDedup(a);
+  const nb = normalizeTitleForDedup(b);
+  if (na === nb) return true;
+  if (na.length >= 10 && nb.length >= 10 && (na.includes(nb) || nb.includes(na))) return true;
+  return false;
+}
+
 // 기사 데이터 추출 (개선된 버전)
 async function fetchArticleData(url: string, publisher: string): Promise<ArticleData | null> {
   try {
@@ -354,9 +373,6 @@ export async function GET() {
     { url: "https://www.munhwa.com/article/11561252", publisher: "문화일보" },
     { url: "https://www.yna.co.kr/view/AKR20260115053500003", publisher: "연합뉴스" },
     { url: "https://m.newsprime.co.kr/section_view.html?no=720311&menu=index", publisher: "뉴스프라임" },
-    { url: "https://v.daum.net/v/20260115103732117", publisher: "다음뉴스" },
-    { url: "https://biz.heraldcorp.com/article/10655893", publisher: "헤럴드경제" },
-    { url: "https://www.ikoreadaily.co.kr/news/articleView.html?idxno=834993", publisher: "아이코리아데일리" },
     { url: "https://www.ajunews.com/view/20260115135109364", publisher: "아주경제" },
   ];
 
@@ -373,7 +389,7 @@ export async function GET() {
   );
 
   // 성공한 기사만 필터링
-  const articleData = results
+  let articleData = results
     .map((result, index) => {
       if (result.status === "fulfilled" && result.value) {
         return {
@@ -386,12 +402,20 @@ export async function GET() {
     })
     .filter((article): article is NonNullable<typeof article> => article !== null);
 
+  // 겹치는 내용 제거: 제목 정규화 후 중복·유사 제목은 첫 번째만 유지
+  const deduped: typeof articleData = [];
+  for (const article of articleData) {
+    const alreadyHas = deduped.some((existing) => isSimilarTitle(existing.title, article.title));
+    if (!alreadyHas) deduped.push(article);
+  }
+  articleData = deduped.map((a, i) => ({ ...a, id: i + 1 }));
+
   // 최소 3개 이상의 기사가 있어야 반환
   if (articleData.length < 3) {
     console.warn(`Only ${articleData.length} articles loaded successfully`);
   }
 
-  return NextResponse.json({ 
+  return NextResponse.json({
     articles: articleData,
     total: articleData.length,
   });
