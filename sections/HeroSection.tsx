@@ -140,10 +140,19 @@ export default function HeroSection({ onCTAClick }: HeroSectionProps) {
               <Button
                 variant="primary"
                 onClick={handleCTAClick}
-                className="!px-8 !py-4 text-[18px] whitespace-nowrap"
+                className="!px-8 !py-4 text-[18px] flex items-center justify-center gap-2 whitespace-nowrap"
                 fullWidth={false}
               >
-                <span className="whitespace-nowrap">사용 신청하기</span>
+                <Image
+                  src="/air-logo 1_white.png"
+                  alt="AIR"
+                  width={24}
+                  height={24}
+                  className="h-6 w-auto flex-shrink-0"
+                  quality={100}
+                  unoptimized
+                />
+                <span className="whitespace-nowrap">신청하기</span>
               </Button>
               <Button
                 variant="ghost"

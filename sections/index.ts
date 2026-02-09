@@ -7,4 +7,5 @@ export { default as HeroSection } from "./HeroSection";
 export { default as UserFlowSection } from "./UserFlowSection";
 export { default as FeaturesShowcaseSection } from "./FeaturesShowcaseSection";
 export { default as PressSection } from "./PressSection";
+export { default as ServiceIntroCardSection } from "./ServiceIntroCardSection";
 export { default as FAQContactSection } from "./FAQContactSection";

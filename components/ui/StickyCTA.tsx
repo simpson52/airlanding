@@ -72,9 +72,18 @@ export default function StickyCTA({ onCTAClick }: StickyCTAProps) {
               <Button
                 variant="primary"
                 onClick={handleCTAClick}
-                className="!px-6 !py-3 text-[16px]"
+                className="!px-6 !py-3 text-[16px] flex items-center justify-center gap-2"
               >
-                사용 신청하기
+                <Image
+                  src="/air-logo 1_white.png"
+                  alt="AIR"
+                  width={20}
+                  height={20}
+                  className="h-5 w-auto"
+                  quality={100}
+                  unoptimized
+                />
+                신청하기
               </Button>
               <button
                 onClick={handleDismiss}

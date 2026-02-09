@@ -119,10 +119,19 @@ export default function NavigationBar({ onCTAClick }: NavigationBarProps) {
             })}
             <Button 
               variant="primary" 
-              className="ml-5 !px-4 !py-1.5 text-[14px] !h-auto"
+              className="ml-5 !px-4 !py-1.5 text-[14px] !h-auto flex items-center justify-center gap-1.5"
               onClick={onCTAClick}
             >
-              사용 신청하기
+              <Image
+                src="/air-logo 1_white.png"
+                alt="AIR"
+                width={16}
+                height={16}
+                className="h-4 w-auto"
+                quality={100}
+                unoptimized
+              />
+              신청하기
             </Button>
           </div>
 
@@ -179,8 +188,18 @@ export default function NavigationBar({ onCTAClick }: NavigationBarProps) {
                 variant="primary" 
                 fullWidth 
                 onClick={onCTAClick}
+                className="flex items-center justify-center gap-2"
               >
-                사용 신청하기
+                <Image
+                  src="/air-logo 1_white.png"
+                  alt="AIR"
+                  width={20}
+                  height={20}
+                  className="h-5 w-auto"
+                  quality={100}
+                  unoptimized
+                />
+                신청하기
               </Button>
             </div>
           </motion.div>

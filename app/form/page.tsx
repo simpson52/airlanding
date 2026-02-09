@@ -125,21 +125,34 @@ export default function FormPage() {
             variants={fadeInUp}
             className="mb-16"
           >
-            <div className="text-center mb-12">
+            <div className="mb-12 text-center">
               <h1 className="text-[32px] md:text-[40px] font-bold text-text-primary leading-tight mb-6">
                 사용 신청하기
               </h1>
-              <p className="text-[17px] md:text-[18px] font-medium text-text-secondary mb-4">
-                서비스에 대한 관심을 가져주셔서 감사합니다
-                <br />
-                아래 정보를 입력해주시면 빠르게 연락드리겠습니다
-              </p>
-              <div className="inline-block rounded-[20px] bg-bg-input px-6 py-4 text-center">
-                <p className="text-[17px] md:text-[18px] font-bold text-text-primary leading-snug">
-                  서비스 이용 대상
+              <div className="space-y-4">
+                <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
+                  본 서비스는 (주)GS가 상생 협력의 가치를 담아,
                   <br />
-                  중부지청 중대재해방지센터 관할 공정안전관리(PSM) 등급 S/M인{" "}
-                  <span className="font-extrabold text-brand-blue">100인 이하 사업장</span>
+                  중소기업의 AI 기반 안전관리를 보다 체계적으로 구축할 수 있도록 돕는 사회공헌활동입니다.
+                </p>
+                <div className="w-full max-w-xl mx-auto rounded-[20px] bg-white border-2 border-[#5541f6] p-5 md:p-6 text-center">
+                  <p className="text-[15px] md:text-[16px] font-bold text-text-primary">
+                    [무상 배포 대상]
+                  </p>
+                  <p className="mt-2 text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
+                    공정안전관리(PSM) S/M 등급 중{" "}
+                    <span className="font-bold text-[#5541f6]">100인 이하 사업장</span>
+                    <br />
+                    <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(중부지청 중대재해 방지센터 관할)</span>
+                  </p>
+                </div>
+                <p className="text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
+                  한정된 자원으로 인해 이번 차수에는 위 대상을 우선 선정하여 무상 보급합니다.
+                </p>
+                <p className="text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
+                  당장 지원 대상에 해당하지 않더라도 신청서를 남겨주시면,
+                  <br />
+                  귀사 환경에 최적화된 솔루션 제안 및 상담을 우선적으로 진행해 드리겠습니다.
                 </p>
               </div>
             </div>
