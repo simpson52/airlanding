@@ -130,7 +130,7 @@ export default function FormPage() {
               </h1>
               <div className="space-y-4">
                 <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
-                  본 서비스는 (주)GS가 상생 협력의 가치를 담아,
+                  본 서비스는 <span className="font-bold">(주)GS</span>와 <span className="font-bold">AWS코리아</span>가 상생 협력의 가치를 담아,
                   <br />
                   중소기업의 AI 기반 안전관리를 보다 체계적으로 구축할 수 있도록 돕는 사회공헌활동입니다.
                 </p>
