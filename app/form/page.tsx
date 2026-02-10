@@ -151,14 +151,6 @@ export default function FormPage() {
                     <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(무상 배포 기간 : 2026. 02. 24 ~ 12.31)</span>
                   </p>
                 </div>
-                <p className="text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
-                  한정된 자원으로 인해 이번 차수에는 위 대상을 우선 선정하여 무상 보급합니다.
-                </p>
-                <p className="text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
-                  당장 지원 대상에 해당하지 않더라도 신청서를 남겨주시면,
-                  <br />
-                  귀사 환경에 최적화된 솔루션 제안 및 상담을 우선적으로 진행해 드리겠습니다.
-                </p>
               </div>
             </div>
           </motion.div>
@@ -173,6 +165,57 @@ export default function FormPage() {
             className="w-full"
           >
             <div className="space-y-8">
+              {/* 100인 이하 사업장 여부 (예/아니오) - 설문 최상단 */}
+              <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200">
+                <p className="block text-[17px] font-semibold text-text-primary mb-3">
+                  귀 사는 100인 이하 사업장이 맞습니까? <span className="text-semantic-error">*</span>
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
+                    <input
+                      type="radio"
+                      name="under100Workplace"
+                      value="yes"
+                      checked={formData.under100Workplace === "yes"}
+                      onChange={handleInputChange}
+                      className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                    />
+                    <span className="text-[17px] font-medium text-text-primary">예</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
+                    <input
+                      type="radio"
+                      name="under100Workplace"
+                      value="no"
+                      checked={formData.under100Workplace === "no"}
+                      onChange={handleInputChange}
+                      className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                    />
+                    <span className="text-[17px] font-medium text-text-primary">아니오</span>
+                  </label>
+                </div>
+                {errors.under100Workplace && (
+                  <p className="mt-3 text-[14px] text-semantic-error">
+                    {errors.under100Workplace}
+                  </p>
+                )}
+                {formData.under100Workplace === "no" && (
+                  <div className="mt-4 w-full rounded-[20px] bg-brand-blue-light border-l-4 border-[#5541f6] p-5 md:p-6 text-left">
+                    <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
+                      이 서비스는 100인 이하 사업장을 대상으로 무료로 제공하고 있습니다.
+                    </p>
+                    <p className="mt-3 text-[16px] md:text-[17px] font-bold text-[#5541f6] leading-relaxed">
+                      100인 이하 사업장이 아니신 경우는 담당자 배정 후 별도 연락을 드리도록 하겠습니다.
+                    </p>
+                    <p className="mt-3 text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
+                      당장 지원 대상에 해당하지 않더라도 신청서를 남겨주시면,
+                      <br />
+                      귀사 환경에 최적화된 솔루션 제안 및 상담을 우선적으로 진행해 드리겠습니다.
+                    </p>
+                  </div>
+                )}
+              </div>
+
               {/* 회사명 */}
               <div>
                 <label htmlFor="company" className="block text-[18px] font-semibold text-text-primary mb-3">
@@ -238,57 +281,9 @@ export default function FormPage() {
                 />
               </div>
 
-              {/* 필수 동의 (100인 이하 사업장 + 개인정보) */}
+              {/* 개인정보 수집 및 이용 동의 */}
               <div className="mt-8">
-                <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200 space-y-6">
-                  {/* 100인 이하 사업장 여부 (예/아니오) */}
-                  <div>
-                    <p className="block text-[17px] font-semibold text-text-primary mb-3">
-                      귀 사는 100인 이하 사업장이 맞습니까? <span className="text-semantic-error">*</span>
-                    </p>
-                    <div className="flex flex-wrap gap-4">
-                      <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
-                        <input
-                          type="radio"
-                          name="under100Workplace"
-                          value="yes"
-                          checked={formData.under100Workplace === "yes"}
-                          onChange={handleInputChange}
-                          className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
-                        />
-                        <span className="text-[17px] font-medium text-text-primary">예</span>
-                      </label>
-                      <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
-                        <input
-                          type="radio"
-                          name="under100Workplace"
-                          value="no"
-                          checked={formData.under100Workplace === "no"}
-                          onChange={handleInputChange}
-                          className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
-                        />
-                        <span className="text-[17px] font-medium text-text-primary">아니오</span>
-                      </label>
-                    </div>
-                    {errors.under100Workplace && (
-                      <p className="mt-3 text-[14px] text-semantic-error">
-                        {errors.under100Workplace}
-                      </p>
-                    )}
-                    {formData.under100Workplace === "no" && (
-                      <div className="mt-4 w-full rounded-[20px] bg-brand-blue-light border-l-4 border-[#5541f6] p-5 md:p-6 text-left">
-                        <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
-                          이 서비스는 100인 이하 사업장을 대상으로 무료로 제공하고 있습니다.
-                        </p>
-                        <p className="mt-3 text-[16px] md:text-[17px] font-bold text-[#5541f6] leading-relaxed">
-                          100인 이하 사업장이 아니신 경우는 담당자 배정 후 별도 연락을 드리도록 하겠습니다.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* 개인정보 수집 및 이용 동의 */}
-                  <div className="pt-6 border-t border-gray-200">
+                <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200">
                     <div className="flex items-start gap-4">
                       <input
                         id="privacyAgreement"
@@ -321,7 +316,6 @@ export default function FormPage() {
                         {errors.privacyAgreement}
                       </p>
                     )}
-                  </div>
                 </div>
               </div>
             </div>

@@ -72,7 +72,7 @@ export default function Footer() {
 
         {/* Banner Image */}
         <div className="mb-8">
-          <a href="https://www.miso.gs/" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
+          <a href="https://www.52g.gs/miso" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:opacity-90 transition-opacity">
             <Image
               src="/banner.png"
               alt="MISO와 함께 내 업무에 AI를 적용해보세요!"
