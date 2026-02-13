@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import NavigationBar from "@/components/layout/NavigationBar";
 import Footer from "@/components/layout/Footer";
@@ -11,6 +11,7 @@ import { fadeInUp } from "@/utils/animations";
 import { X } from "lucide-react";
 
 interface FormData {
+  businessRegistrationNumber: string;
   company: string;
   email: string;
   inquiry: string;
@@ -19,6 +20,7 @@ interface FormData {
 }
 
 interface FormErrors {
+  businessRegistrationNumber?: string;
   company?: string;
   email?: string;
   inquiry?: string;
@@ -29,6 +31,7 @@ interface FormErrors {
 export default function FormPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
+    businessRegistrationNumber: "",
     company: "",
     email: "",
     inquiry: "",
@@ -38,6 +41,59 @@ export default function FormPage() {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const businessRegPart1Ref = useRef<HTMLInputElement>(null);
+  const businessRegPart2Ref = useRef<HTMLInputElement>(null);
+  const businessRegPart3Ref = useRef<HTMLInputElement>(null);
+
+  // 사업자등록번호 3칸 (3-2-5) 파생 값
+  const digitsOnly = formData.businessRegistrationNumber.replace(/\D/g, "");
+  const businessRegPart1 = digitsOnly.slice(0, 3);
+  const businessRegPart2 = digitsOnly.slice(3, 5);
+  const businessRegPart3 = digitsOnly.slice(5, 10);
+
+  const setBusinessRegPart = (part: 1 | 2 | 3, value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, part === 1 ? 3 : part === 2 ? 2 : 5);
+    let newDigits = "";
+    if (part === 1) newDigits = digits + digitsOnly.slice(3);
+    if (part === 2) newDigits = digitsOnly.slice(0, 3) + digits + digitsOnly.slice(5);
+    if (part === 3) newDigits = digitsOnly.slice(0, 5) + digits;
+    newDigits = newDigits.slice(0, 10);
+    const formatted =
+      newDigits.length > 5
+        ? `${newDigits.slice(0, 3)}-${newDigits.slice(3, 5)}-${newDigits.slice(5)}`
+        : newDigits.length > 3
+          ? `${newDigits.slice(0, 3)}-${newDigits.slice(3)}`
+          : newDigits;
+    setFormData((prev) => ({ ...prev, businessRegistrationNumber: formatted }));
+    setErrors((prev) => ({ ...prev, businessRegistrationNumber: undefined }));
+  };
+
+  const handleBusinessRegKeyDown = (
+    part: 1 | 2 | 3,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Backspace" && (e.target as HTMLInputElement).value === "") {
+      if (part === 2) businessRegPart1Ref.current?.focus();
+      if (part === 3) businessRegPart2Ref.current?.focus();
+    }
+  };
+
+  const handleBusinessRegPaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 10);
+    if (pasted.length === 0) return;
+    const formatted =
+      pasted.length > 5
+        ? `${pasted.slice(0, 3)}-${pasted.slice(3, 5)}-${pasted.slice(5)}`
+        : pasted.length > 3
+          ? `${pasted.slice(0, 3)}-${pasted.slice(3)}`
+          : pasted;
+    setFormData((prev) => ({ ...prev, businessRegistrationNumber: formatted }));
+    setErrors((prev) => ({ ...prev, businessRegistrationNumber: undefined }));
+    if (pasted.length >= 10) businessRegPart3Ref.current?.focus();
+    else if (pasted.length >= 5) businessRegPart3Ref.current?.focus();
+    else if (pasted.length >= 3) businessRegPart2Ref.current?.focus();
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -59,6 +115,10 @@ export default function FormPage() {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
+    const regNoDigits = formData.businessRegistrationNumber.replace(/\D/g, "");
+    if (regNoDigits.length !== 10) {
+      newErrors.businessRegistrationNumber = "사업자등록번호 10자리를 입력해주세요";
+    }
     if (!formData.company.trim()) {
       newErrors.company = "회사명을 입력해주세요";
     }
@@ -213,6 +273,73 @@ export default function FormPage() {
                       귀사 환경에 최적화된 솔루션 제안 및 상담을 우선적으로 진행해 드리겠습니다.
                     </p>
                   </div>
+                )}
+              </div>
+
+              {/* 사업자등록번호 (3-2-5 양식) */}
+              <div>
+                <label htmlFor="businessRegPart1" className="block text-[18px] font-semibold text-text-primary mb-3">
+                  사업자등록번호 <span className="text-semantic-error">*</span>
+                </label>
+                <div className="flex items-center gap-2 w-full">
+                  <input
+                    ref={businessRegPart1Ref}
+                    id="businessRegPart1"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={3}
+                    value={businessRegPart1}
+                    onChange={(e) => {
+                      setBusinessRegPart(1, e.target.value);
+                      if (e.target.value.replace(/\D/g, "").length >= 3)
+                        businessRegPart2Ref.current?.focus();
+                    }}
+                    onKeyDown={(e) => handleBusinessRegKeyDown(1, e)}
+                    onPaste={handleBusinessRegPaste}
+                    placeholder="000"
+                    className={`flex-[3] min-w-0 bg-gray-50 text-text-primary rounded-[16px] px-4 py-4 text-[17px] font-medium border-2 focus:outline-none focus:border-brand-blue focus:bg-white text-center transition-all ${
+                      errors.businessRegistrationNumber ? "border-semantic-error bg-red-50" : "border-gray-300"
+                    }`}
+                  />
+                  <span className="text-text-secondary font-bold text-[18px] shrink-0">-</span>
+                  <input
+                    ref={businessRegPart2Ref}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={2}
+                    value={businessRegPart2}
+                    onChange={(e) => {
+                      setBusinessRegPart(2, e.target.value);
+                      if (e.target.value.replace(/\D/g, "").length >= 2)
+                        businessRegPart3Ref.current?.focus();
+                    }}
+                    onKeyDown={(e) => handleBusinessRegKeyDown(2, e)}
+                    onPaste={handleBusinessRegPaste}
+                    placeholder="00"
+                    className={`flex-[2] min-w-0 bg-gray-50 text-text-primary rounded-[16px] px-4 py-4 text-[17px] font-medium border-2 focus:outline-none focus:border-brand-blue focus:bg-white text-center transition-all ${
+                      errors.businessRegistrationNumber ? "border-semantic-error bg-red-50" : "border-gray-300"
+                    }`}
+                  />
+                  <span className="text-text-secondary font-bold text-[18px] shrink-0">-</span>
+                  <input
+                    ref={businessRegPart3Ref}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    value={businessRegPart3}
+                    onChange={(e) => setBusinessRegPart(3, e.target.value)}
+                    onKeyDown={(e) => handleBusinessRegKeyDown(3, e)}
+                    onPaste={handleBusinessRegPaste}
+                    placeholder="00000"
+                    className={`flex-[5] min-w-0 bg-gray-50 text-text-primary rounded-[16px] px-4 py-4 text-[17px] font-medium border-2 focus:outline-none focus:border-brand-blue focus:bg-white text-center transition-all ${
+                      errors.businessRegistrationNumber ? "border-semantic-error bg-red-50" : "border-gray-300"
+                    }`}
+                  />
+                </div>
+                {errors.businessRegistrationNumber && (
+                  <p className="mt-2 text-[14px] text-semantic-error">
+                    {errors.businessRegistrationNumber}
+                  </p>
                 )}
               </div>
 

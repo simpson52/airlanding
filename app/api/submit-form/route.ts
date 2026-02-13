@@ -6,6 +6,7 @@ interface FormSubmissionData {
   inquiry: string;
   under100Workplace: boolean;
   privacyAgreement: boolean;
+  businessRegistrationNumber: string;
 }
 
 // Slack에 마크다운 테이블 형식으로 알림 전송
@@ -32,7 +33,8 @@ async function sendSlackNotification(data: FormSubmissionData) {
 | 이메일 | ${data.email || "-"} |
 | 100인 이하 사업장 여부 | ${data.under100Workplace ? "✅ 맞음" : "❌ 아님"} |
 | 기타 문의사항 | ${data.inquiry || "-"} |
-| 개인정보처리방침 동의 | ${data.privacyAgreement ? "✅ 동의" : "❌ 미동의"} |`;
+| 개인정보처리방침 동의 | ${data.privacyAgreement ? "✅ 동의" : "❌ 미동의"} |
+| 사업자등록번호 | ${data.businessRegistrationNumber || "-"} |`;
 
   const slackPayload = {
     text: "🚀 *새로운 가입 신청이 접수되었습니다*",
@@ -73,9 +75,11 @@ export async function POST(request: NextRequest) {
     const data: FormSubmissionData = await request.json();
 
     // 필수 필드 검증 (under100Workplace는 예/아니오 중 선택된 boolean)
+    const regNoDigits = (data.businessRegistrationNumber ?? "").replace(/\D/g, "");
     if (
       !data.company ||
       !data.email ||
+      regNoDigits.length !== 10 ||
       typeof data.under100Workplace !== "boolean" ||
       !data.privacyAgreement
     ) {
@@ -114,6 +118,7 @@ export async function POST(request: NextRequest) {
         inquiry: data.inquiry || "",
         under100Workplace: data.under100Workplace,
         privacyAgreement: data.privacyAgreement,
+        businessRegistrationNumber: data.businessRegistrationNumber || "",
       }),
     });
 
