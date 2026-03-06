@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  formatNewSignupSlackMessage,
+  type NewSignupSlackMessageData,
+} from "../../../lib/slack/formatNewSignupSlackMessage";
 
 interface FormSubmissionData {
   company: string;
@@ -9,51 +13,22 @@ interface FormSubmissionData {
   businessRegistrationNumber: string;
 }
 
-// Slack에 마크다운 테이블 형식으로 알림 전송
 async function sendSlackNotification(data: FormSubmissionData) {
   const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL?.trim();
   if (!slackWebhookUrl) {
     return; // Slack 웹훅이 설정되지 않았으면 무시
   }
 
-  const timestamp = new Date().toLocaleString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
-
-  const markdownTable = `| 항목 | 내용 |
-|------|------|
-| 작성시간 | ${timestamp} |
-| 회사명 | ${data.company || "-"} |
-| 이메일 | ${data.email || "-"} |
-| 100인 이하 사업장 여부 | ${data.under100Workplace ? "✅ 맞음" : "❌ 아님"} |
-| 기타 문의사항 | ${data.inquiry || "-"} |
-| 개인정보처리방침 동의 | ${data.privacyAgreement ? "✅ 동의" : "❌ 미동의"} |
-| 사업자등록번호 | ${data.businessRegistrationNumber || "-"} |`;
+  const messageData: NewSignupSlackMessageData = {
+    company: data.company,
+    businessRegistrationNumber: data.businessRegistrationNumber,
+    email: data.email,
+    under100Workplace: data.under100Workplace,
+    inquiry: data.inquiry,
+  };
 
   const slackPayload = {
-    text: "🚀 *새로운 가입 신청이 접수되었습니다*",
-    blocks: [
-      {
-        type: "header",
-        text: {
-          type: "plain_text",
-          text: "🚀 새로운 가입 신청이 접수되었습니다",
-        },
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: markdownTable,
-        },
-      },
-    ],
+    text: formatNewSignupSlackMessage(messageData),
   };
 
   try {
@@ -75,7 +50,7 @@ export async function POST(request: NextRequest) {
     const data: FormSubmissionData = await request.json();
 
     // 필수 필드 검증 (under100Workplace는 예/아니오 중 선택된 boolean)
-    const regNoDigits = (data.businessRegistrationNumber ?? "").replace(/\D/g, "");
+    const regNoDigits = (data.businessRegistrationNumber ?? "").replaceAll(/\D/g, "");
     if (
       !data.company ||
       !data.email ||
