@@ -13,10 +13,12 @@ interface NavLink {
   href: string;
   isScroll?: boolean;
   scrollToId?: string;
+  external?: boolean;
 }
 
 const navLinks: NavLink[] = [
-  { label: "Contact Us", href: "/page/contact" },
+  { label: "채팅상담", href: "http://pf.kakao.com/_QnuqX", external: true },
+  { label: "문의하기", href: "/page/contact" },
 ];
 
 interface NavigationBarProps {
@@ -107,6 +109,19 @@ export default function NavigationBar({ onCTAClick }: NavigationBarProps) {
                   </button>
                 );
               }
+              if (link.external) {
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
               return (
                 <Link
                   key={link.href}
@@ -161,6 +176,20 @@ export default function NavigationBar({ onCTAClick }: NavigationBarProps) {
                   >
                     {link.label}
                   </button>
+                );
+              }
+              if (link.external) {
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-2.5 text-[14px] font-medium text-text-secondary hover:text-brand-blue transition-colors"
+                  >
+                    {link.label}
+                  </a>
                 );
               }
               return (

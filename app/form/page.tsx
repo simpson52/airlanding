@@ -186,32 +186,8 @@ export default function FormPage() {
           >
             <div className="mb-12 text-center">
               <h1 className="text-[32px] md:text-[40px] font-bold text-text-primary leading-tight mb-6">
-                사용 신청하기
+                서비스 이용 신청
               </h1>
-              <div className="space-y-4">
-                <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
-                  본 서비스는 <span className="font-bold">(주)GS</span>와 <span className="font-bold">AWS코리아</span>가 상생 협력의 가치를 담아,
-                  <br />
-                  중소기업의 AI 기반 안전관리를 보다 체계적으로 구축할 수 있도록 돕는 사회공헌활동입니다.
-                </p>
-                <div className="w-full max-w-xl mx-auto rounded-[20px] bg-white border-2 border-[#5541f6] p-5 md:p-6 text-center">
-                  <p className="text-[15px] md:text-[16px] font-bold text-text-primary">
-                    [무상 배포 대상]
-                  </p>
-                  <p className="mt-2 text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
-                    공정안전관리(PSM) S/M 등급 중{" "}
-                    <span className="font-bold text-[#5541f6]">100인 이하 사업장</span>
-                    <br />
-                    <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">
-                      (중부지방고용노동청
-                      <br />
-                      수도권 중대산업사고예방센터 관할 사업장)
-                    </span>
-                    <br />
-                    <span className="text-[14px] md:text-[15px] font-medium text-text-tertiary">(무상 배포 기간 : 2026. 02. 24 ~ 12.31)</span>
-                  </p>
-                </div>
-              </div>
             </div>
           </motion.div>
 

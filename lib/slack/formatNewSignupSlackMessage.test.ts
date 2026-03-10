@@ -26,7 +26,7 @@ describe("formatNewSignupSlackMessage", () => {
         "100인 이하 사업장 : 맞음",
         "문의사항 : 잘 쓰겠습니다.",
         "",
-        "링크 : https://docs.google.com/spreadsheets/d/17M0c0eMz1x2ZIS9bzgc8sy9OJrneZ0WhEgsbM9Ggzc0/edit?usp=sharing",
+        "신청서 링크 : https://docs.google.com/spreadsheets/d/17M0c0eMz1x2ZIS9bzgc8sy9OJrneZ0WhEgsbM9Ggzc0/edit?usp=sharing",
       ].join("\n")
     );
   });

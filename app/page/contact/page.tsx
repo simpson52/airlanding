@@ -20,7 +20,7 @@ export default function ContactPage() {
           {/* Header */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
-              Contact Us
+              문의하기
             </h1>
             <p className="text-lg md:text-xl text-text-secondary">
               문의사항이 있으시면 언제든지 연락주세요

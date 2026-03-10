@@ -9,7 +9,6 @@ import {
   UserFlowSection,
   FeaturesShowcaseSection,
   PressSection,
-  ServiceIntroCardSection,
 } from "@/sections";
 
 export default function Home() {
@@ -27,7 +26,6 @@ export default function Home() {
         <UserFlowSection />
         <FeaturesShowcaseSection />
         <PressSection />
-        <ServiceIntroCardSection />
       </div>
       <Footer />
       <StickyCTA onCTAClick={handleCTAClick} />

@@ -41,7 +41,7 @@ export default function Footer() {
           {/* Contact Information */}
           <div>
             <h4 className="text-[18px] font-semibold text-text-primary mb-6">
-              Contact Us
+              문의하기
             </h4>
             <div className="space-y-4">
               {/* Email */}
