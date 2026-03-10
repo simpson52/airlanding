@@ -107,8 +107,8 @@ export async function POST(request: NextRequest) {
       throw new Error(result.error || "웹훅 처리 실패");
     }
 
-    // Google Sheets 저장 성공 후 Slack 알림 전송 (비동기, 실패해도 무시)
-    sendSlackNotification(data).catch((error) => {
+    // Google Sheets 저장 성공 후 Slack 알림 전송 (완료 후 응답 반환 — 서버리스에서 전송 보장)
+    await sendSlackNotification(data).catch((error) => {
       console.error("Slack 알림 전송 실패:", error);
     });
 
