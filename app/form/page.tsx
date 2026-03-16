@@ -10,12 +10,22 @@ import { motion } from "framer-motion";
 import { fadeInUp } from "@/utils/animations";
 import { X } from "lucide-react";
 
+const REFERRAL_SOURCE_OPTIONS = [
+  { value: "수도권 중방센터", label: "수도권 중방센터" },
+  { value: "보도자료(기사)", label: "보도자료(기사)" },
+  { value: "유튜브", label: "유튜브" },
+  { value: "지인 소개", label: "지인 소개" },
+  { value: "검색", label: "검색" },
+  { value: "기타", label: "기타(직접입력)" },
+] as const;
+
 interface FormData {
   businessRegistrationNumber: string;
   company: string;
   email: string;
   inquiry: string;
-  under100Workplace: "" | "yes" | "no";
+  referralSource: string;
+  referralSourceOther: string;
   privacyAgreement: boolean;
 }
 
@@ -24,7 +34,8 @@ interface FormErrors {
   company?: string;
   email?: string;
   inquiry?: string;
-  under100Workplace?: string;
+  referralSource?: string;
+  referralSourceOther?: string;
   privacyAgreement?: string;
 }
 
@@ -35,7 +46,8 @@ export default function FormPage() {
     company: "",
     email: "",
     inquiry: "",
-    under100Workplace: "",
+    referralSource: "",
+    referralSourceOther: "",
     privacyAgreement: false,
   });
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
@@ -124,11 +136,13 @@ export default function FormPage() {
     }
     if (!formData.email.trim()) {
       newErrors.email = "회사 이메일을 입력해주세요";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "올바른 회사 이메일 형식을 입력해주세요";
     }
-    if (formData.under100Workplace !== "yes" && formData.under100Workplace !== "no") {
-      newErrors.under100Workplace = "예 또는 아니오를 선택해주세요";
+    if (!formData.referralSource) {
+      newErrors.referralSource = "어떻게 알게 되셨는지 선택해주세요";
+    } else if (formData.referralSource === "기타" && !formData.referralSourceOther.trim()) {
+      newErrors.referralSourceOther = "기타 내용을 입력해주세요";
     }
     if (!formData.privacyAgreement) {
       newErrors.privacyAgreement = "개인정보 수집 및 처리방침에 동의해주세요";
@@ -147,7 +161,12 @@ export default function FormPage() {
     try {
       const payload = {
         ...formData,
-        under100Workplace: formData.under100Workplace === "yes",
+        referralSourceDisplay:
+          formData.referralSource === "기타"
+            ? `기타(직접입력): ${formData.referralSourceOther.trim()}`
+            : formData.referralSource,
+        // Google Script 호환용 (폼에서는 수집하지 않음)
+        under100Workplace: true,
       };
       const response = await fetch("/api/submit-form", {
         method: "POST",
@@ -201,57 +220,6 @@ export default function FormPage() {
             className="w-full"
           >
             <div className="space-y-8">
-              {/* 100인 이하 사업장 여부 (예/아니오) - 설문 최상단 */}
-              <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200">
-                <p className="block text-[17px] font-semibold text-text-primary mb-3">
-                  귀 사는 100인 이하 사업장이 맞습니까? <span className="text-semantic-error">*</span>
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
-                    <input
-                      type="radio"
-                      name="under100Workplace"
-                      value="yes"
-                      checked={formData.under100Workplace === "yes"}
-                      onChange={handleInputChange}
-                      className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
-                    />
-                    <span className="text-[17px] font-medium text-text-primary">예</span>
-                  </label>
-                  <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
-                    <input
-                      type="radio"
-                      name="under100Workplace"
-                      value="no"
-                      checked={formData.under100Workplace === "no"}
-                      onChange={handleInputChange}
-                      className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
-                    />
-                    <span className="text-[17px] font-medium text-text-primary">아니오</span>
-                  </label>
-                </div>
-                {errors.under100Workplace && (
-                  <p className="mt-3 text-[14px] text-semantic-error">
-                    {errors.under100Workplace}
-                  </p>
-                )}
-                {formData.under100Workplace === "no" && (
-                  <div className="mt-4 w-full rounded-[20px] bg-brand-blue-light border-l-4 border-[#5541f6] p-5 md:p-6 text-left">
-                    <p className="text-[16px] md:text-[17px] font-semibold text-text-primary leading-relaxed">
-                      이 서비스는 100인 이하 사업장을 대상으로 무료로 제공하고 있습니다.
-                    </p>
-                    <p className="mt-3 text-[16px] md:text-[17px] font-bold text-[#5541f6] leading-relaxed">
-                      100인 이하 사업장이 아니신 경우는 담당자 배정 후 별도 연락을 드리도록 하겠습니다.
-                    </p>
-                    <p className="mt-3 text-[16px] md:text-[17px] font-medium text-text-primary leading-relaxed">
-                      당장 지원 대상에 해당하지 않더라도 신청서를 남겨주시면,
-                      <br />
-                      귀사 환경에 최적화된 솔루션 제안 및 상담을 우선적으로 진행해 드리겠습니다.
-                    </p>
-                  </div>
-                )}
-              </div>
-
               {/* 사업자등록번호 (3-2-5 양식) */}
               <div>
                 <label htmlFor="businessRegPart1" className="block text-[18px] font-semibold text-text-primary mb-3">
@@ -382,6 +350,55 @@ export default function FormPage() {
                   rows={5}
                   className="w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all resize-none"
                 />
+              </div>
+
+              {/* 어떻게 이 서비스를 알게 되셨나요? - 하단 */}
+              <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200">
+                <p className="block text-[17px] font-semibold text-text-primary mb-3">
+                  어떻게 이 서비스를 알게 되셨나요? <span className="text-semantic-error">*</span>
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  {REFERRAL_SOURCE_OPTIONS.map((opt) => (
+                    <label
+                      key={opt.value}
+                      className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20"
+                    >
+                      <input
+                        type="radio"
+                        name="referralSource"
+                        value={opt.value}
+                        checked={formData.referralSource === opt.value}
+                        onChange={handleInputChange}
+                        className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer shrink-0"
+                      />
+                      <span className="text-[17px] font-medium text-text-primary truncate">
+                        {opt.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                {formData.referralSource === "기타" && (
+                  <input
+                    type="text"
+                    name="referralSourceOther"
+                    value={formData.referralSourceOther}
+                    onChange={handleInputChange}
+                    placeholder="어떤 경로인지 직접 입력해주세요"
+                    className={`mt-4 w-full bg-white text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue transition-all ${
+                      errors.referralSourceOther ? "border-semantic-error bg-red-50" : ""
+                    }`}
+                  />
+                )}
+                {errors.referralSource && (
+                  <p className="mt-3 text-[14px] text-semantic-error">
+                    {errors.referralSource}
+                  </p>
+                )}
+                {errors.referralSourceOther && (
+                  <p className="mt-2 text-[14px] text-semantic-error">
+                    {errors.referralSourceOther}
+                  </p>
+                )}
               </div>
 
               {/* 개인정보 수집 및 이용 동의 */}

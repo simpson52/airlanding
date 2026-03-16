@@ -2,7 +2,8 @@ export interface NewSignupSlackMessageData {
   company: string;
   businessRegistrationNumber: string;
   email: string;
-  under100Workplace: boolean;
+  /** 유입 경로 표시 문자열 (예: 수도권 중방센터, 기타(직접입력): 블로그) */
+  referralSourceDisplay: string;
   inquiry: string;
 }
 
@@ -31,7 +32,6 @@ export function formatNewSignupSlackMessage(
   now: Date = new Date()
 ): string {
   const timestamp = formatKstTimestamp(now);
-  const under100Text = data.under100Workplace ? "맞음" : "아님";
 
   return [
     `신규 가입신청이 있습니다. (${timestamp})`,
@@ -39,7 +39,7 @@ export function formatNewSignupSlackMessage(
     `회사명 : ${data.company || "-"}`,
     `사업자등록번호 : ${data.businessRegistrationNumber || "-"}`,
     `이메일 : ${data.email || "-"}`,
-    `100인 이하 사업장 : ${under100Text}`,
+    `어떻게 이 서비스를 알게 되셨나요? : ${data.referralSourceDisplay || "-"}`,
     `문의사항 : ${data.inquiry || "-"}`,
     "",
     `링크 : ${DEFAULT_SHEET_URL}`,

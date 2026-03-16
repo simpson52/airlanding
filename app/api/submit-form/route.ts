@@ -11,6 +11,8 @@ interface FormSubmissionData {
   under100Workplace: boolean;
   privacyAgreement: boolean;
   businessRegistrationNumber: string;
+  /** 유입 경로 표시용 (수도권 중방센터, 보도자료(기사), 유튜브, 지인 소개, 기타(직접입력): xxx) */
+  referralSourceDisplay?: string;
 }
 
 async function sendSlackNotification(data: FormSubmissionData) {
@@ -23,7 +25,7 @@ async function sendSlackNotification(data: FormSubmissionData) {
     company: data.company,
     businessRegistrationNumber: data.businessRegistrationNumber,
     email: data.email,
-    under100Workplace: data.under100Workplace,
+    referralSourceDisplay: data.referralSourceDisplay ?? "-",
     inquiry: data.inquiry,
   };
 
@@ -49,13 +51,17 @@ export async function POST(request: NextRequest) {
   try {
     const data: FormSubmissionData = await request.json();
 
-    // 필수 필드 검증 (under100Workplace는 예/아니오 중 선택된 boolean)
+    // Google 시트 5열용: 유입 경로 문자열 전달 (같은 열에 그대로 표시)
+    const under100WorkplaceCellValue =
+      typeof data.referralSourceDisplay === "string" && data.referralSourceDisplay.trim() !== ""
+        ? data.referralSourceDisplay.trim()
+        : "미입력";
+
     const regNoDigits = (data.businessRegistrationNumber ?? "").replaceAll(/\D/g, "");
     if (
       !data.company ||
       !data.email ||
       regNoDigits.length !== 10 ||
-      typeof data.under100Workplace !== "boolean" ||
       !data.privacyAgreement
     ) {
       return NextResponse.json(
@@ -91,7 +97,7 @@ export async function POST(request: NextRequest) {
         company: data.company,
         email: data.email,
         inquiry: data.inquiry || "",
-        under100Workplace: data.under100Workplace,
+        under100Workplace: under100WorkplaceCellValue,
         privacyAgreement: data.privacyAgreement,
         businessRegistrationNumber: data.businessRegistrationNumber || "",
       }),
