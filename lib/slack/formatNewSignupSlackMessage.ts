@@ -42,7 +42,7 @@ export function formatNewSignupSlackMessage(
     `사업자등록번호 : ${data.businessRegistrationNumber || "-"}`,
     `이메일 : ${data.email || "-"}`,
     `100인 이하 사업장 : ${under100Text}`,
-    `어떻게 이 서비스를 알게 되셨나요? : ${data.referralSourceDisplay || "-"}`,
+    `유입경로 : ${data.referralSourceDisplay || "-"}`,
     `문의사항 : ${data.inquiry || "-"}`,
     "",
     `링크 : ${DEFAULT_SHEET_URL}`,

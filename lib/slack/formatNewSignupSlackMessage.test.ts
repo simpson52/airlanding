@@ -25,7 +25,7 @@ describe("formatNewSignupSlackMessage", () => {
         "사업자등록번호 : 123-45-67890",
         "이메일 : jejun0504@naver.com",
         "100인 이하 사업장 : 맞음",
-        "어떻게 이 서비스를 알게 되셨나요? : 수도권 중방센터",
+        "유입경로 : 수도권 중방센터",
         "문의사항 : 잘 쓰겠습니다.",
         "",
         "링크 : https://docs.google.com/spreadsheets/d/17M0c0eMz1x2ZIS9bzgc8sy9OJrneZ0WhEgsbM9Ggzc0/edit?usp=sharing",
