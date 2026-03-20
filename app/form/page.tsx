@@ -24,6 +24,7 @@ interface FormData {
   company: string;
   email: string;
   inquiry: string;
+  under100Workplace: "" | "yes" | "no";
   referralSource: string;
   referralSourceOther: string;
   privacyAgreement: boolean;
@@ -34,6 +35,7 @@ interface FormErrors {
   company?: string;
   email?: string;
   inquiry?: string;
+  under100Workplace?: string;
   referralSource?: string;
   referralSourceOther?: string;
   privacyAgreement?: string;
@@ -46,6 +48,7 @@ export default function FormPage() {
     company: "",
     email: "",
     inquiry: "",
+    under100Workplace: "",
     referralSource: "",
     referralSourceOther: "",
     privacyAgreement: false,
@@ -136,8 +139,11 @@ export default function FormPage() {
     }
     if (!formData.email.trim()) {
       newErrors.email = "회사 이메일을 입력해주세요";
-    } else     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "올바른 회사 이메일 형식을 입력해주세요";
+    }
+    if (formData.under100Workplace !== "yes" && formData.under100Workplace !== "no") {
+      newErrors.under100Workplace = "예 또는 아니오를 선택해주세요";
     }
     if (!formData.referralSource) {
       newErrors.referralSource = "어떻게 알게 되셨는지 선택해주세요";
@@ -165,8 +171,7 @@ export default function FormPage() {
           formData.referralSource === "기타"
             ? `기타(직접입력): ${formData.referralSourceOther.trim()}`
             : formData.referralSource,
-        // Google Script 호환용 (폼에서는 수집하지 않음)
-        under100Workplace: true,
+        under100Workplace: formData.under100Workplace === "yes",
       };
       const response = await fetch("/api/submit-form", {
         method: "POST",
@@ -350,6 +355,42 @@ export default function FormPage() {
                   rows={5}
                   className="w-full bg-gray-50 text-text-primary rounded-[16px] px-5 py-4 text-[17px] font-medium border-2 border-gray-300 focus:outline-none focus:border-brand-blue focus:bg-white focus:shadow-sm transition-all resize-none"
                 />
+              </div>
+
+              {/* 100인 이하 사업장 여부 */}
+              <div className="bg-gray-50 rounded-[16px] p-6 border-2 border-gray-200">
+                <p className="block text-[17px] font-semibold text-text-primary mb-3">
+                  귀 사는 100인 이하 사업장이 맞습니까? <span className="text-semantic-error">*</span>
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
+                    <input
+                      type="radio"
+                      name="under100Workplace"
+                      value="yes"
+                      checked={formData.under100Workplace === "yes"}
+                      onChange={handleInputChange}
+                      className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                    />
+                    <span className="text-[17px] font-medium text-text-primary">예</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 bg-white rounded-[16px] border-2 border-gray-300 hover:border-brand-blue/50 focus-within:border-brand-blue cursor-pointer transition-all flex-1 min-w-[120px] has-[:checked]:border-brand-blue has-[:checked]:ring-2 has-[:checked]:ring-brand-blue/20">
+                    <input
+                      type="radio"
+                      name="under100Workplace"
+                      value="no"
+                      checked={formData.under100Workplace === "no"}
+                      onChange={handleInputChange}
+                      className="w-5 h-5 border-2 border-gray-300 text-brand-blue focus:ring-2 focus:ring-brand-blue/20 cursor-pointer"
+                    />
+                    <span className="text-[17px] font-medium text-text-primary">아니오</span>
+                  </label>
+                </div>
+                {errors.under100Workplace && (
+                  <p className="mt-3 text-[14px] text-semantic-error">
+                    {errors.under100Workplace}
+                  </p>
+                )}
               </div>
 
               {/* 어떻게 이 서비스를 알게 되셨나요? - 하단 */}

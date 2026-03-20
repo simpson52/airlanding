@@ -2,7 +2,7 @@
  * AIR 가입 신청 폼 → Google Sheet 웹훅 (현재 폼 구조용)
  * 사용: Apps Script 편집기에서 기존 코드 전부 삭제 후 이 파일 전체 붙여넣기 → 저장 → 배포(웹 앱)
  *
- * 시트 1행 헤더: 작성시간 | 회사명 | 회사 이메일 | 기타 문의사항 | 유입 경로(알게 된 경로) | 개인정보처리방침 동의 | 사업자등록번호
+ * 시트 1행 헤더: 작성시간 | 회사명 | 회사 이메일 | 기타 문의사항 | 100인 이하 사업장 여부 | 개인정보처리방침 동의 | 사업자등록번호 | 유입 경로(알게 된 경로)
  */
 
 function pad2(n) {
@@ -29,24 +29,28 @@ function doPost(e) {
       pad2(now.getMinutes()) + ":" +
       pad2(now.getSeconds());
 
-    // 5열: 문자열이면 유입 경로로 그대로 사용, boolean이면 예전 호환(맞음/아님)
-    var fifthColumn =
-      typeof data.under100Workplace === "string"
-        ? data.under100Workplace
-        : data.under100Workplace === true
-          ? "맞음"
-          : "아님";
+    // 5열: 100인 이하 사업장 (boolean 또는 예전 단일 문자열 페이로드 호환)
+    var under100Text;
+    if (typeof data.under100Workplace === "string") {
+      under100Text = data.under100Workplace;
+    } else {
+      under100Text = data.under100Workplace === true ? "맞음" : "아님";
+    }
+    // 마지막 열: 유입 경로 (없으면 빈 칸 — 구버전 API는 referralSourceDisplay 미전송)
+    var referralText =
+      typeof data.referralSourceDisplay === "string" ? data.referralSourceDisplay : "";
     var privacyText = data.privacyAgreement === true ? "동의" : "미동의";
 
-    // 시트 열 순서: 작성시간 | 회사명 | 회사 이메일 | 기타 문의사항 | 유입 경로 | 개인정보처리방침 동의 | 사업자등록번호
+    // 시트 열 순서: 작성시간 | 회사명 | 회사 이메일 | 기타 문의사항 | 100인 이하 | 개인정보처리방침 동의 | 사업자등록번호 | 유입 경로
     var row = [
       timestamp,
       data.company || "",
       data.email || "",
       data.inquiry || "",
-      fifthColumn,
+      under100Text,
       privacyText,
-      data.businessRegistrationNumber || ""
+      data.businessRegistrationNumber || "",
+      referralText
     ];
 
     sheet.appendRow(row);

@@ -25,6 +25,7 @@ async function sendSlackNotification(data: FormSubmissionData) {
     company: data.company,
     businessRegistrationNumber: data.businessRegistrationNumber,
     email: data.email,
+    under100Workplace: data.under100Workplace,
     referralSourceDisplay: data.referralSourceDisplay ?? "-",
     inquiry: data.inquiry,
   };
@@ -51,8 +52,7 @@ export async function POST(request: NextRequest) {
   try {
     const data: FormSubmissionData = await request.json();
 
-    // Google 시트 5열용: 유입 경로 문자열 전달 (같은 열에 그대로 표시)
-    const under100WorkplaceCellValue =
+    const referralSourceDisplay =
       typeof data.referralSourceDisplay === "string" && data.referralSourceDisplay.trim() !== ""
         ? data.referralSourceDisplay.trim()
         : "미입력";
@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
       !data.company ||
       !data.email ||
       regNoDigits.length !== 10 ||
+      typeof data.under100Workplace !== "boolean" ||
       !data.privacyAgreement
     ) {
       return NextResponse.json(
@@ -97,7 +98,8 @@ export async function POST(request: NextRequest) {
         company: data.company,
         email: data.email,
         inquiry: data.inquiry || "",
-        under100Workplace: under100WorkplaceCellValue,
+        under100Workplace: data.under100Workplace,
+        referralSourceDisplay,
         privacyAgreement: data.privacyAgreement,
         businessRegistrationNumber: data.businessRegistrationNumber || "",
       }),
