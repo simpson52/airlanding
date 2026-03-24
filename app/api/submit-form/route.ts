@@ -88,21 +88,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Google Apps Script 웹훅으로 데이터 전송
+    // Google Apps Script: referralSourceDisplay는 항상 문자열로 전달 (시트 마지막 열)
+    const googleSheetsPayload = {
+      company: data.company,
+      email: data.email,
+      inquiry: data.inquiry || "",
+      under100Workplace: data.under100Workplace,
+      referralSourceDisplay,
+      privacyAgreement: data.privacyAgreement,
+      businessRegistrationNumber: data.businessRegistrationNumber || "",
+    };
+
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        company: data.company,
-        email: data.email,
-        inquiry: data.inquiry || "",
-        under100Workplace: data.under100Workplace,
-        referralSourceDisplay,
-        privacyAgreement: data.privacyAgreement,
-        businessRegistrationNumber: data.businessRegistrationNumber || "",
-      }),
+      body: JSON.stringify(googleSheetsPayload),
     });
 
     if (!response.ok) {
@@ -115,8 +117,13 @@ export async function POST(request: NextRequest) {
       throw new Error(result.error || "웹훅 처리 실패");
     }
 
-    // Google Sheets 저장 성공 후 Slack 알림 전송 (완료 후 응답 반환 — 서버리스에서 전송 보장)
-    await sendSlackNotification(data).catch((error) => {
+    // Google과 동일한 유입 경로 문자열로 Slack 알림 (trim·미입력 반영)
+    const dataForSlack: FormSubmissionData = {
+      ...data,
+      referralSourceDisplay,
+    };
+
+    await sendSlackNotification(dataForSlack).catch((error) => {
       console.error("Slack 알림 전송 실패:", error);
     });
 

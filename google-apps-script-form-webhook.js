@@ -36,9 +36,13 @@ function doPost(e) {
     } else {
       under100Text = data.under100Workplace === true ? "맞음" : "아님";
     }
-    // 마지막 열: 유입 경로 (없으면 빈 칸 — 구버전 API는 referralSourceDisplay 미전송)
+    // 마지막 열: 유입 경로 (Next API는 referralSourceDisplay 문자열로 전송)
+    // typeof만 쓰면 일부 환경에서 누락될 수 있어 null/undefined 후 String() 처리
+    var referralRaw = data.referralSourceDisplay;
     var referralText =
-      typeof data.referralSourceDisplay === "string" ? data.referralSourceDisplay : "";
+      referralRaw === undefined || referralRaw === null
+        ? ""
+        : String(referralRaw).trim();
     var privacyText = data.privacyAgreement === true ? "동의" : "미동의";
 
     // 시트 열 순서: 작성시간 | 회사명 | 회사 이메일 | 기타 문의사항 | 100인 이하 | 개인정보처리방침 동의 | 사업자등록번호 | 유입 경로
@@ -52,6 +56,11 @@ function doPost(e) {
       data.businessRegistrationNumber || "",
       referralText
     ];
+
+    // 8열 구조(유입 경로 맨 끝). 예전 7열만 append 하던 스크립트를 쓰면 마지막 열이 비어 보임 → 배포 갱신 필요
+    if (row.length !== 8) {
+      throw new Error("row length must be 8, got " + row.length);
+    }
 
     sheet.appendRow(row);
 
