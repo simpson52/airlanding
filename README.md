@@ -819,6 +819,8 @@ npm run dev
 
 ### ✅ 가입 신청 폼 페이지 (`/form`) 개선
 
+- **유입경로**: 선택지에 `AWS 파트너 컨퍼런스` 추가 (`app/form/page.tsx`의 `REFERRAL_SOURCE_OPTIONS`)
+
 - **페이지 제목**: "서비스 가입 신청하기" → "사용 신청하기"
 - **상단 문구**: 서비스 소개·무상 배포 대상·이번 차수 무상 보급·지원 대상 외 신청 시 상담 안내 반영
 - **[무상 배포 대상] 콜아웃**:
@@ -910,4 +912,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2026-02-06 (CTA·폼·연락처·보도자료 정리 및 ServiceIntroCardSection 추가)
+**Last Updated**: 2026-03-26 (폼 유입경로에 AWS 파트너 컨퍼런스 추가)
