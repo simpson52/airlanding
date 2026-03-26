@@ -231,7 +231,7 @@ export default function FormPage() {
                 <label htmlFor="businessRegPart1" className="block text-[18px] font-semibold text-text-primary mb-3">
                   사업자등록번호 <span className="text-semantic-error">*</span>
                 </label>
-                <div className="flex items-center gap-2 w-full">
+                <div className="flex items-center gap-2 w-full flex-wrap">
                   <input
                     ref={businessRegPart1Ref}
                     id="businessRegPart1"
@@ -285,6 +285,15 @@ export default function FormPage() {
                       errors.businessRegistrationNumber ? "border-semantic-error bg-red-50" : "border-gray-300"
                     }`}
                   />
+                  <a
+                    href="https://bizno.net/#google_vignette"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex shrink-0 items-center justify-center rounded-[16px] px-4 py-4 text-[17px] font-semibold bg-[#5542F6] text-white transition-all hover:bg-[#5542F6]/90 focus:outline-none focus:ring-2 focus:ring-[#5542F6]/40"
+                    aria-label="비즈노 사업자등록번호 조회 사이트로 이동 (새 탭)"
+                  >
+                    조회
+                  </a>
                 </div>
                 {errors.businessRegistrationNumber && (
                   <p className="mt-2 text-[14px] text-semantic-error">
