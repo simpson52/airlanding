@@ -14,6 +14,10 @@ const REFERRAL_SOURCE_OPTIONS = [
   { value: "수도권 중방센터", label: "수도권 중방센터" },
   { value: "보도자료(기사)", label: "보도자료(기사)" },
   { value: "유튜브", label: "유튜브" },
+  {
+    value: "SNS (링크드인, 인스타그램 등)",
+    label: "SNS (링크드인, 인스타그램 등)",
+  },
   { value: "AWS 파트너 컨퍼런스", label: "AWS 파트너 컨퍼런스" },
   { value: "지인 소개", label: "지인 소개" },
   { value: "검색", label: "검색" },

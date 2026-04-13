@@ -819,7 +819,7 @@ npm run dev
 
 ### ✅ 가입 신청 폼 페이지 (`/form`) 개선
 
-- **유입경로**: 선택지에 `AWS 파트너 컨퍼런스` 추가 (`app/form/page.tsx`의 `REFERRAL_SOURCE_OPTIONS`)
+- **유입경로**: 선택지에 `AWS 파트너 컨퍼런스`, `SNS (링크드인, 인스타그램 등)` 추가 (`app/form/page.tsx`의 `REFERRAL_SOURCE_OPTIONS`)
 - **사업자등록번호**: 입력칸 오른쪽에 `조회` 링크(배경 `#5542F6`, 흰색 텍스트) — [비즈노](https://bizno.net/) 사업자등록번호 조회(새 탭, `https://bizno.net/#google_vignette`)
 
 - **페이지 제목**: "서비스 가입 신청하기" → "사용 신청하기"
@@ -913,4 +913,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2026-03-26 (폼 유입경로 AWS 파트너 컨퍼런스, 사업자번호 조회 링크)
+**Last Updated**: 2026-04-13 (폼 유입경로 SNS 옵션 추가)
