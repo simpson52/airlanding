@@ -393,6 +393,7 @@ AIR_Landing/
 │   └── index.ts
 ├── .env.example                  # 환경 변수 예시 파일
 ├── research.md                   # 설문조사 관리 문서
+├── seo.md                        # SEO 실행 계획 (기술·콘텐츠·링크)
 ├── package.json
 ├── tsconfig.json
 ├── tailwind.config.ts           # Tailwind CSS 설정 (디자인 시스템)
@@ -429,6 +430,7 @@ npm run dev
 ## 📚 참고 문서
 
 - **Survey Design**: `survey.md` - 설문조사 기능 설계 문서
+- **SEO Plan**: `seo.md` - 기술 SEO·콘텐츠·링크 실행 계획 (2·3·4)
 - **Development Guide**: `guide.md` - 개발 환경 설정 가이드
 - **Design System**: `.cursor/rules/design.mdc` - Toss 스타일 디자인 시스템 가이드
 - **Page Guide**: `.cursor/rules/page.mdc` - 랜딩페이지 설계 가이드라인
@@ -436,6 +438,9 @@ npm run dev
 ---
 
 ## 🔄 업데이트 로그
+
+### 2026-04-13 (SEO 계획 문서)
+- ✅ **문서**: `seo.md` 추가 — 구글 검색 대응을 위한 기술 SEO(2)·콘텐츠·키워드(3)·링크·신뢰(4) 실행 계획 정리
 
 ### 2026-01-26 (브랜드 문구 통일: 시스템 → 솔루션)
 - ✅ **텍스트 전역 변경**
@@ -913,4 +918,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2026-04-13 (폼 유입경로 SNS 옵션 추가)
+**Last Updated**: 2026-04-13 (seo.md SEO 계획 문서 추가)
