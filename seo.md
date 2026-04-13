@@ -26,6 +26,24 @@
 
 **코드베이스 참고**: 루트 `app/layout.tsx`에 기본 `metadata`와 GA가 있음. 전용 `sitemap` / `robots` 라우트는 추가 시 이 문서의 2-2·2-3과 연동.
 
+### 코드 반영 현황 (기술 SEO 일부)
+
+| 단계 | 상태 | 구현 요약 |
+|------|--------|-----------|
+| 2-2 `robots.txt` | ✅ | `app/robots.ts` — 전역 허용, `sitemap` URL은 `getSiteOrigin()` 기준 |
+| 2-3 `sitemap.xml` | ✅ | `app/sitemap.ts` — `/`, `/form`, `/page/contact`, `/page/miso` |
+| 2-4 페이지별 메타 | ✅ | 경로별 `layout.tsx`에서 `title`·`description` (홈은 `app/(home)/layout.tsx`) |
+| 2-5 OG / Twitter | ✅ | 각 레이아웃에 `openGraph`·`twitter` (이미지 없음 → `summary` 카드) |
+| 2-6 canonical | ✅ | 공개 페이지 레이아웃에 `alternates.canonical` |
+| 2-7 성능·모바일 | ⏳ | 별도 측정·최적화 과제 |
+| 2-8 구조화 데이터 | ✅ | `components/seo/SiteJsonLd.tsx` — WebSite, Organization, SoftwareApplication |
+
+**환경 변수**: 프로덕션·미리보기에서 canonical/sitemap 도메인을 고정하려면 `NEXT_PUBLIC_SITE_URL` 설정 (`.env.local.example` 참고). 미설정 시 Vercel은 `VERCEL_URL`, 로컬은 `http://localhost:3000`을 사용합니다.
+
+**색인 제외**: `/form/thank-you`, `/page/form`, `/page/form/thank-you` — `robots: { index: false, follow: false }`.
+
+**추가 권장**: `public/og.png`(1200×630) 추가 후 루트·주요 `openGraph.images`·Twitter `summary_large_image` 연동 (`seo.md` 2-5).
+
 ---
 
 ## 3. 콘텐츠·키워드 — 계획 (지속, 첫 달 집중)
@@ -69,11 +87,9 @@
 
 ## 다음 구현 단계 (선택)
 
-프로덕션 URL이 정해지면 저장소에 다음을 추가할 수 있음:
-
-- `app/sitemap.ts`
-- `app/robots.ts`
-- 경로별 `metadata` / `openGraph` / `alternates.canonical` 초안
+- 프로덕션 도메인 확정 후 Vercel·Search Console에 **`NEXT_PUBLIC_SITE_URL`** 과 동일한 URL 사용
+- **`public/og.png`** (1200×630) 및 메타 `openGraph.images` 연동
+- Lighthouse 기반 **2-7** 성능 개선
 
 ---
 

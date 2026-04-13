@@ -355,14 +355,19 @@
 
 ```
 AIR_Landing/
-├── app/                          # Next.js App Router
-│   ├── layout.tsx               # 루트 레이아웃
-│   ├── page.tsx                 # 메인 페이지
-│   ├── page/                    # 추가 페이지
-│   │   └── contact/            # Contact 페이지
-│   │       └── page.tsx        # Contact 페이지 컴포넌트
-│   └── globals.css              # 전역 스타일
-├── components/                  # 재사용 가능한 컴포넌트
+├── app/
+│   ├── layout.tsx               # 루트 레이아웃 (metadataBase, JSON-LD, GA)
+│   ├── sitemap.ts               # sitemap.xml (SEO)
+│   ├── robots.ts                # robots.txt (SEO)
+│   ├── (home)/                  # 라우트 그룹: 메인 `/`
+│   │   ├── layout.tsx           # 홈 전용 metadata·canonical·OG
+│   │   └── page.tsx
+│   ├── form/                    # `/form`, thank-you
+│   ├── page/                    # `/page/contact`, `/page/miso` 등
+│   └── globals.css
+├── components/
+│   ├── seo/
+│   │   └── SiteJsonLd.tsx      # 구조화 데이터(JSON-LD)
 │   ├── layout/                 # 레이아웃 컴포넌트
 │   │   ├── NavigationBar.tsx   # 네비게이션 바
 │   │   └── Footer.tsx          # 푸터
@@ -386,12 +391,15 @@ AIR_Landing/
 │   ├── FeaturesShowcaseSection.tsx # Section 3: 시스템 강점 카드
 │   ├── FAQContactSection.tsx   # Section 4: FAQ & 데모 신청
 │   └── index.ts                # Export
+├── lib/
+│   ├── site.ts                 # 사이트 절대 URL (NEXT_PUBLIC_SITE_URL 등)
+│   └── site.test.ts
 ├── utils/                        # 유틸리티 함수
 │   ├── animations.ts           # Framer Motion 애니메이션
 │   └── youtube.ts              # YouTube URL 파싱 유틸리티
 ├── types/                        # TypeScript 타입 정의
 │   └── index.ts
-├── .env.example                  # 환경 변수 예시 파일
+├── .env.local.example            # 환경 변수 예시 (웹훅, NEXT_PUBLIC_SITE_URL)
 ├── research.md                   # 설문조사 관리 문서
 ├── seo.md                        # SEO 실행 계획 (기술·콘텐츠·링크)
 ├── package.json
@@ -439,8 +447,13 @@ npm run dev
 
 ## 🔄 업데이트 로그
 
-### 2026-04-13 (SEO 계획 문서)
-- ✅ **문서**: `seo.md` 추가 — 구글 검색 대응을 위한 기술 SEO(2)·콘텐츠·키워드(3)·링크·신뢰(4) 실행 계획 정리
+### 2026-04-13 (SEO)
+- ✅ **문서**: `seo.md` — 기술 SEO(2)·콘텐츠·키워드(3)·링크·신뢰(4) 실행 계획 및 구현 현황 표
+- ✅ **기술 SEO**: `app/sitemap.ts`, `app/robots.ts`, `lib/site.ts`, 경로별 `layout.tsx` 메타·canonical·OG/Twitter
+- ✅ **구조화 데이터**: `components/seo/SiteJsonLd.tsx` (루트)
+- ✅ **홈 라우트**: `app/page.tsx` → `app/(home)/page.tsx` (URL `/` 유지)
+- ✅ **색인 제외**: `/form/thank-you`, 레거시 `/page/form`·`/page/form/thank-you`
+- ✅ **환경 변수**: `.env.local.example`에 `NEXT_PUBLIC_SITE_URL` 안내
 
 ### 2026-01-26 (브랜드 문구 통일: 시스템 → 솔루션)
 - ✅ **텍스트 전역 변경**
@@ -918,4 +931,4 @@ npm run dev
 
 ---
 
-**Last Updated**: 2026-04-13 (seo.md SEO 계획 문서 추가)
+**Last Updated**: 2026-04-13 (seo.md 기준 기술 SEO: sitemap·robots·메타·JSON-LD)

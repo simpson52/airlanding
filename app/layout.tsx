@@ -1,17 +1,36 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import SiteJsonLd from "@/components/seo/SiteJsonLd";
+import { getSiteOrigin } from "@/lib/site";
 import "./globals.css";
 
+const siteOrigin = getSiteOrigin();
+const defaultDescription =
+  "JSA + KRAS + SIF를 결합한 국내 유일의 현장 데이터 기반 지능형 안전관리 시스템";
+
 export const metadata: Metadata = {
-  title: "AIR - AI기반 위험성 평가 솔루션 Made by MISO",
-  description:
-    "JSA + KRAS + SIF를 결합한 국내 유일의 현장 데이터 기반 지능형 안전관리 시스템",
+  metadataBase: new URL(siteOrigin),
+  title: {
+    default: "AIR - AI기반 위험성 평가 솔루션 Made by MISO",
+    template: "%s | AIR",
+  },
+  description: defaultDescription,
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },
-    ],
+    icon: [{ url: "/favicon.png", type: "image/png" }],
     shortcut: "/favicon.png",
     apple: "/favicon.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: "AIR",
+  },
+  twitter: {
+    card: "summary",
   },
 };
 
@@ -23,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="antialiased">
+        <SiteJsonLd />
         {/* Google tag (gtag.js) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-T2DNF5ZKS0"
